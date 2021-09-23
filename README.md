@@ -1,4 +1,3 @@
 # COMP8551-ProjectOsiris
-Simple Dungeon Crawler built in a custom C++ Hybrid ECS engine
-
+A custom Hybrid ECS engine to facilitate a Simple Dungeon Crawler, written in C++
 TODO: Setup VS environment :)
