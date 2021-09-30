@@ -1,0 +1,2 @@
+C:/Users/kurti/source/repos/COMP8551-ProjectOsiris/_dependencies/includes/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/kurti/source/repos/COMP8551-ProjectOsiris/_dependencies/includes/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
