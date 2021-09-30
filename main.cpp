@@ -38,6 +38,7 @@ int main() {
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW Window", NULL, NULL);
 
+
 	// 1. If the window failed to create, return -1.
 	if (window == NULL)
 	{
