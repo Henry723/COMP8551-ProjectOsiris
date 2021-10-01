@@ -1,9 +1,8 @@
 #pragma once
 #include "../components.hpp"
 
-class Render : public System<Render>
+class InputSystem : public System<InputSystem>
 {
 public:
   void update(EntityManager&, EventManager&, TimeDelta) override;
 };
-

@@ -1,6 +1,6 @@
-#include "Render.h"
+#include "RenderSystem.h"
 
-void Render::update(EntityManager& es, EventManager& ev, TimeDelta dt)
+void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
   // Create component handles to filter components
   ComponentHandle<Color> hcolor;

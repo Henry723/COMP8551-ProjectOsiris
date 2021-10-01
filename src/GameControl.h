@@ -1,7 +1,7 @@
 #pragma once
 #include "components.hpp"
-#include "Input/Input.h"
-#include "Render/Render.h"
+#include "Input/InputSystem.h"
+#include "Renderer3D/RenderSystem.h"
 
 // TODO Create Game Control for menus & game
 class GameControl : public EntityX

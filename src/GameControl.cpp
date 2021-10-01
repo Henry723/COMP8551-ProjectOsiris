@@ -3,8 +3,8 @@
 GameControl::GameControl(GLFWwindow* window, string filename)
 {
   // Create systems
-  systems.add<Input>();
-  systems.add<Render>();
+  systems.add<InputSystem>();
+  systems.add<RenderSystem>();
   systems.configure();
 
   // TODO make it easier to create entities
@@ -16,6 +16,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
 void GameControl::Update(TimeDelta dt)
 {
-  systems.update<Input>(dt);
-  systems.update<Render>(dt);
+  systems.update<InputSystem>(dt);
+  systems.update<RenderSystem>(dt);
 }

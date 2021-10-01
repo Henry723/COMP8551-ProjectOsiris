@@ -1,6 +1,6 @@
-#include "Input.h"
+#include "InputSystem.h"
 
-void Input::update(EntityManager& es, EventManager& ev, TimeDelta dt)
+void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
   // Create component handles to filter components
   ComponentHandle<Window> hwindow;

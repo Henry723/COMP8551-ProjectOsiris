@@ -109,16 +109,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
-    <ClCompile Include="src\Input\Input.cpp" />
-    <ClCompile Include="src\Render\Render.cpp" />
+    <ClCompile Include="src\Input\InputSystem.cpp" />
+    <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
-    <ClInclude Include="src\Input\Input.h" />
-    <ClInclude Include="src\Render\Render.h" />
+    <ClInclude Include="src\Input\InputSystem.h" />
+    <ClInclude Include="src\Renderer3D\RenderSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

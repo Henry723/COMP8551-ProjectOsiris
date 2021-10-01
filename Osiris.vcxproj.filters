@@ -22,11 +22,8 @@
     <Filter Include="Header Files\Input">
       <UniqueIdentifier>{8340e55a-ca48-4c95-a693-c8f889de7ec7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Render">
+    <Filter Include="Header Files\Renderer">
       <UniqueIdentifier>{790047cc-96cc-42d2-8551-63b747bc69dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Render">
-      <UniqueIdentifier>{19c8ea6c-011b-4576-8a0d-d18868dd59c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,14 +33,14 @@
     <ClCompile Include="_dependencies\sources\glad\glad.c">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input\Input.cpp">
+    <ClCompile Include="src\Input\InputSystem.cpp">
       <Filter>Source Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Render\Render.cpp">
-      <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\GameControl.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\RenderSystem.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,14 +50,14 @@
     <ClInclude Include="src\components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input\Input.h">
+    <ClInclude Include="src\Input\InputSystem.h">
       <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Render\Render.h">
-      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\GameControl.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\RenderSystem.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
