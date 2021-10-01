@@ -1,22 +1,10 @@
-// OpenGL Includes
-#include <glad/glad.h> // Always include glad first to get the OpenGL headers required by glfw
-#include <GLFW/glfw3.h>
-#include <entityx/entityx.h>
-
-// Standard Library Includes
-#include <iostream>
-
-// Namespaces
-using namespace std;
+#include "src/GameControl.h"
 
 // ---
 // (TEMP) Global Properties
 // ---
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-
-//		test entity
-entityx::EntityX ex;
 
 // ---
 // Function declarations / prototypes.
@@ -74,6 +62,8 @@ int main() {
 	//		We link these AFTER the window is created, but BEFORE the render loop is initiated.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// Create game control
+	GameControl gamecontrol(window, "filename");
 
 	// ---
 	// This is our Render Loop!
@@ -81,6 +71,11 @@ int main() {
 	// --- 
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
+		// TODO allow for new "scene"
+		gamecontrol.Update(0.1f);
+
+		/* Previous code
+		
 		// input
 		processInput(window);
 
@@ -92,7 +87,8 @@ int main() {
 		// call events and swap the buffers
 		glfwSwapBuffers(window); //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
 		glfwPollEvents(); // checks if any events are triggered, updates the window state, and calls the corresponding functions (which we can register via callback methods)
-
+		
+		*/
 	}
 
 	// Once we exit the Render Loop, we clean-up & return.
