@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Renderer">
       <UniqueIdentifier>{790047cc-96cc-42d2-8551-63b747bc69dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{3de30773-605f-4b1e-bbc4-a79b981dfbb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{ffc6d8b4-45ce-4250-b08f-67da2e534376}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,9 @@
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">
@@ -58,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="src\Renderer3D\RenderSystem.h">
       <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsEngine.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

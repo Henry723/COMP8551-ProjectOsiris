@@ -103,13 +103,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;entityx-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;entityx-d.lib;box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
@@ -118,6 +119,7 @@
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />
+    <ClInclude Include="src\Physics\PhysicsEngine.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
