@@ -56,7 +56,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "Failed to load texture at " << texPath << std::endl;
 	}
 
 	// Once we've generated the texture and mipmaps, we free the image memory

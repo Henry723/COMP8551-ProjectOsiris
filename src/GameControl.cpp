@@ -1,10 +1,10 @@
 #include "GameControl.h"
 
-// TEMP - Handled by Asset System?
-const char* modelSource = "./Models/Wayfarer.obj";
-const char* vertSource = "./Shaders/Default.vert";
-const char* fragSource = "./Shaders/Default.frag";
-const char* texSource = "./Textures/container.jpg";
+// TEMP - These will likely be adapted into an asset system?
+const char* modelSource = "./src/Renderer3D/Models/wayfarer.obj";
+const char* vertSource = "./src/Renderer3D/Shaders/Default.vert";
+const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
+const char* texSource = "./src/Renderer3D/Textures/container.jpg";
 
 GameControl::GameControl(GLFWwindow* window, string filename)
 {

@@ -130,6 +130,9 @@
     <None Include="src\Renderer3D\Shaders\Default.frag" />
     <None Include="src\Renderer3D\Shaders\Default.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\Renderer3D\Textures\container.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Renderer\Shaders">
       <UniqueIdentifier>{5ef8923e-e4c1-4c32-a537-e30066663092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Renderer\Textures">
+      <UniqueIdentifier>{8f32fb49-ec02-4424-a060-537980aff700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Models">
+      <UniqueIdentifier>{29f31eb5-ff17-48e6-ae92-0e84c917e32a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,5 +94,10 @@
     <None Include="src\Renderer3D\Shaders\Default.vert">
       <Filter>Source Files\Renderer\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\Renderer3D\Textures\container.jpg">
+      <Filter>Source Files\Renderer\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
