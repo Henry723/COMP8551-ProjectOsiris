@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg" />
+    <ClInclude Include="src\SceneManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

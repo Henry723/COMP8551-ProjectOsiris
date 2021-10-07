@@ -13,6 +13,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<RenderSystem>();
   systems.configure();
 
+  //Testing Scene Manager
+  glfwSetWindowTitle(window, filename.c_str());
+
   // TODO make it easier to create entities
   // Create entities
   entityx::Entity entity = entities.create();

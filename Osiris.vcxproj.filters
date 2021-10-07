@@ -105,5 +105,8 @@
     <Image Include="src\Renderer3D\Textures\container.jpg">
       <Filter>Source Files\Renderer\Textures</Filter>
     </Image>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
