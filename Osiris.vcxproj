@@ -111,6 +111,7 @@
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
+    <ClCompile Include="src\Renderer3D\ModelImporter.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Shader.cpp" />
     <ClCompile Include="src\Renderer3D\stb_image.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
+    <ClInclude Include="src\Renderer3D\ModelImporter.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
     <ClInclude Include="src\Renderer3D\stb_image.h" />
