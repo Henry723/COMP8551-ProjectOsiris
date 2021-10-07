@@ -59,5 +59,8 @@
     <ClInclude Include="src\Renderer3D\RenderSystem.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
