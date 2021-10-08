@@ -74,21 +74,6 @@ int main() {
 		// TODO allow for new "scene"
 		gamecontrol.Update(0.1f);
 
-		/* Previous code
-		
-		// input
-		processInput(window);
-
-		// rendering commands
-		// ...
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // state-setting function of OpenGL
-		glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
-
-		// call events and swap the buffers
-		glfwSwapBuffers(window); //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
-		glfwPollEvents(); // checks if any events are triggered, updates the window state, and calls the corresponding functions (which we can register via callback methods)
-		
-		*/
 	}
 
 	// Once we exit the Render Loop, we clean-up & return.
