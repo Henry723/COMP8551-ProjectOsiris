@@ -5,6 +5,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create systems
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
+  systems.add<PhysicsEngine>();
   systems.configure();
 
   //Testing Scene Manager
@@ -21,4 +22,5 @@ void GameControl::Update(TimeDelta dt)
 {
   systems.update<InputSystem>(dt);
   systems.update<RenderSystem>(dt);
+  systems.update<PhysicsEngine>(dt);
 }
