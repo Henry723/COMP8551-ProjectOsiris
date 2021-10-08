@@ -121,6 +121,7 @@
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
+    <ClInclude Include="src\SceneManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
