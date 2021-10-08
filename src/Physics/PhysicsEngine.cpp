@@ -27,12 +27,12 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
             world->Step(dt, NUM_VEL_ITERATIONS, NUM_POS_ITERATIONS);
         }
     }
-    /**
+    
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
     {
         std::cout << b->GetPosition().x << std::endl;
     }
-    */
+    
 }
 
 void PhysicsEngine::test()
@@ -58,7 +58,7 @@ void PhysicsEngine::test()
         theBall->CreateFixture(&circleFixtureDef);
         //Other initial setup
         theBall->SetAwake(true);
-        theBall->SetLinearVelocity(b2Vec2(0.5f, 0.0f));
+        theBall->SetLinearVelocity(b2Vec2(0.005f, 0.0f));
     }
 
 }
