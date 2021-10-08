@@ -62,8 +62,10 @@ int main() {
 	//		We link these AFTER the window is created, but BEFORE the render loop is initiated.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	// Create game control
-	GameControl gamecontrol(window, "filename");
+	// Use scene manager to Create game control
+	SceneManager& scene = SceneManager::getInstance();
+	scene.setScene("filename");
+	GameControl* gamecontrol = new GameControl(window, scene.getScene());
 
 	// ---
 	// This is our Render Loop!
@@ -72,10 +74,13 @@ int main() {
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
 		// TODO allow for new "scene"
-		gamecontrol.Update(0.1f);
+		gamecontrol->Update(0.1f);
+
+		if (scene.isNewScene())
+			gamecontrol = new GameControl(window, scene.getScene());
 
 	}
-
+	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.
 	glfwTerminate();
 
