@@ -12,24 +12,32 @@ struct ExampleEvent {
 	int a, b;
 };
 
-class ExampleEmitterSystem {
-	EventManager em;
+class ExampleEmitterSystem : public System<ExampleEmitterSystem> {
+		bool emitted = false;
+
 public:
-	void emitSample() {
-		em.emit<ExampleEvent>(1, 2);
+		void update(EntityManager& es, EventManager& events, TimeDelta dt) override {
+				emitSample(events);
+		};
+
+	void emitSample(EventManager& em) {
+		if(!emitted)
+				em.emit<ExampleEvent>(1, 2);
+		emitted = true;
 	}
 };
 
-class ExampleListenerSystem : public Receiver<ExampleListenerSystem> {
-	EventManager em;
-	int total;
-
-	ExampleListenerSystem() {
+struct ExampleListenerSystem : public System<ExampleListenerSystem>, public Receiver<ExampleListenerSystem> {
+	int total = 0;
+	
+	void configure(EventManager &em) override{
 		em.subscribe<ExampleEvent>(*this);
 	}
 
-	void recieve(const ExampleEvent &ee) {
-		total += ee.a * ee.b;
-		cout << total << endl;
+	void update(EntityManager& es, EventManager& events, TimeDelta dt) override {};
+
+	void receive(const ExampleEvent& event) {
+		total += event.a * event.b;
+		cerr << "Event system" + total << endl;
 	}
 };

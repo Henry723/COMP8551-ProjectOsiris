@@ -5,6 +5,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create systems
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
+  systems.add<ExampleEmitterSystem>();
+  systems.add<ExampleListenerSystem>();
   systems.configure();
 
   //Testing Scene Manager
@@ -19,6 +21,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
 void GameControl::Update(TimeDelta dt)
 {
-  systems.update<InputSystem>(dt);
-  systems.update<RenderSystem>(dt);
+  //systems.update<InputSystem>(dt);
+  //systems.update<RenderSystem>(dt);
+  //systems.update<ExampleListenerSystem>(dt);
+    systems.update_all(dt);
 }

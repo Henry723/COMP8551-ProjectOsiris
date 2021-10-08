@@ -68,12 +68,6 @@ int main() {
 	GameControl* gamecontrol = new GameControl(window, scene.getScene());
 
 	// ---
-	// Example event handling here
-	// ---
-	ExampleEmitterSystem ees;
-	ees.emitSample();
-
-	// ---
 	// This is our Render Loop!
 	//		We want the application to keep looping until explicitly being told to stop.
 	// --- 
