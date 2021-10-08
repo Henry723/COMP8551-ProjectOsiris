@@ -11,7 +11,11 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create systems
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
+  systems.add<PhysicsEngine>();
   systems.configure();
+
+  //Testing Scene Manager
+  glfwSetWindowTitle(window, filename.c_str());
 
   // TODO make it easier to create entities
   // Create entities
@@ -28,4 +32,5 @@ void GameControl::Update(TimeDelta dt)
 {
   systems.update<InputSystem>(dt);
   systems.update<RenderSystem>(dt);
+  systems.update<PhysicsEngine>(dt);
 }

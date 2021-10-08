@@ -33,6 +33,12 @@
     </Filter>
     <Filter Include="Source Files\Renderer\Models">
       <UniqueIdentifier>{29f31eb5-ff17-48e6-ae92-0e84c917e32a}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{3de30773-605f-4b1e-bbc4-a79b981dfbb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{ffc6d8b4-45ce-4250-b08f-67da2e534376}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\stb_image.cpp">
       <Filter>Source Files\Renderer</Filter>
+	</ClCompile>
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,5 +108,12 @@
     <Image Include="src\Renderer3D\Textures\container.jpg">
       <Filter>Source Files\Renderer\Textures</Filter>
     </Image>
+    <ClInclude Include="src\Physics\PhysicsEngine.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+
   </ItemGroup>
 </Project>

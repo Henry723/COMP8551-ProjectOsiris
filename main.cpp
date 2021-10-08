@@ -62,8 +62,10 @@ int main() {
 	//		We link these AFTER the window is created, but BEFORE the render loop is initiated.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	// Create game control
-	GameControl gamecontrol(window, "filename");
+	// Use scene manager to Create game control
+	SceneManager& scene = SceneManager::getInstance();
+	scene.setScene("filename");
+	GameControl* gamecontrol = new GameControl(window, scene.getScene());
 
 	// ---
 	// This is our Render Loop!
@@ -72,25 +74,13 @@ int main() {
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
 		// TODO allow for new "scene"
-		gamecontrol.Update(0.1f);
+		gamecontrol->Update(0.1f);
 
-		/* Previous code
-		
-		// input
-		processInput(window);
+		if (scene.isNewScene())
+			gamecontrol = new GameControl(window, scene.getScene());
 
-		// rendering commands
-		// ...
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // state-setting function of OpenGL
-		glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
-
-		// call events and swap the buffers
-		glfwSwapBuffers(window); //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
-		glfwPollEvents(); // checks if any events are triggered, updates the window state, and calls the corresponding functions (which we can register via callback methods)
-		
-		*/
 	}
-
+	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.
 	glfwTerminate();
 
