@@ -33,12 +33,18 @@
     </Filter>
     <Filter Include="Source Files\Renderer\Models">
       <UniqueIdentifier>{29f31eb5-ff17-48e6-ae92-0e84c917e32a}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{3de30773-605f-4b1e-bbc4-a79b981dfbb1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{ffc6d8b4-45ce-4250-b08f-67da2e534376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Configuration">
+      <UniqueIdentifier>{c0b86da6-d185-4403-9a00-b8d5f747854e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Configuration">
+      <UniqueIdentifier>{c6657139-630f-48ea-ba38-c7d8c9f98def}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +71,15 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\stb_image.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Physics\PhysicsEngine.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\TinyXMLWrapper.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\tinyxml2.cpp">
+      <Filter>Source Files\Configuration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +107,9 @@
     <ClInclude Include="src\Renderer3D\stb_image.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Configuration\TinyXMLWrapper.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -114,6 +129,5 @@
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-
   </ItemGroup>
 </Project>

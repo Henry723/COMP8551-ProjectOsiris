@@ -108,6 +108,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Configuration\tinyxml2.cpp" />
+    <ClCompile Include="src\Configuration\TinyXMLWrapper.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
@@ -119,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components.hpp" />
+    <ClInclude Include="src\Configuration\TinyXMLWrapper.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />

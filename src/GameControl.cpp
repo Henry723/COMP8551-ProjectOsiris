@@ -26,6 +26,11 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // TEST - Create a 3D model entity for the RenderSystem to use
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
+
+  //TEST - Load up configuration file, run the test function, grab position data of specified object
+  TinyXMLWrapper txml("./src/Configuration/gameobjects.xml");
+  txml.test();
+  cout << txml.getAttribute("Cube 2", "position") << endl;
 }
 
 void GameControl::Update(TimeDelta dt)
