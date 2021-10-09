@@ -36,5 +36,5 @@ void GameControl::Update(TimeDelta dt)
   systems.update<RenderSystem>(dt);
   systems.update<PhysicsEngine>(dt);
   systems.update<ExampleEmitterSystem>(dt);
-  //systems.update<ExampleListenerSystem>(dt);
+  
 }

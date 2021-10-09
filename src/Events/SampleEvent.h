@@ -6,13 +6,6 @@ using entityx::EventManager;
 using entityx::Event;
 using entityx::Receiver;
 
-class SampleEvent {
-public:
-	SampleEvent();
-	//void update(EntityManager&, EventManager&, TimeDelta) override;
-	void test();
-};
-
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) :a(a), b(b) {}
 	int a, b;
