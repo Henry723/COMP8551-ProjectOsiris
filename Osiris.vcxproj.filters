@@ -33,12 +33,18 @@
     </Filter>
     <Filter Include="Source Files\Renderer\Models">
       <UniqueIdentifier>{29f31eb5-ff17-48e6-ae92-0e84c917e32a}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{3de30773-605f-4b1e-bbc4-a79b981dfbb1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{ffc6d8b4-45ce-4250-b08f-67da2e534376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Events">
+      <UniqueIdentifier>{88cb8a4e-4df4-45e7-877b-cc5dd4c29032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{12f81ac6-d9fa-4d27-989e-ff830180d01b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +71,12 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\stb_image.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Physics\PhysicsEngine.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\SampleEvent.cpp">
+      <Filter>Source Files\Renderer\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +104,9 @@
     <ClInclude Include="src\Renderer3D\stb_image.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Events\SampleEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -114,6 +126,5 @@
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-
   </ItemGroup>
 </Project>
