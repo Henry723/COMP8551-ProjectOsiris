@@ -46,6 +46,12 @@
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{12f81ac6-d9fa-4d27-989e-ff830180d01b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MemoryManager">
+      <UniqueIdentifier>{48ec83cb-b7a2-4436-a43d-1d70696d0fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MemoryManager">
+      <UniqueIdentifier>{498e6fa7-ac06-4ee4-b13c-e9c692e5b508}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +84,12 @@
     <ClCompile Include="src\Events\SampleEvent.cpp">
       <Filter>Source Files\Renderer\Events</Filter>
     </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">
@@ -106,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="src\Events\SampleEvent.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
+      <Filter>Header Files\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMMPoolTester.h">
+      <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
