@@ -30,7 +30,7 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
     {
-        std::cout << b->GetPosition().x << std::endl;
+        //std::cout << b->GetPosition().x << std::endl;
     }
     
 }

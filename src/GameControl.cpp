@@ -1,7 +1,8 @@
 #include "GameControl.h"
 
 // TEMP - These will likely be adapted into an asset system?
-const char* modelSource = "./src/Renderer3D/Models/wayfarer.obj";
+//const char* modelSource = "./src/Renderer3D/Models/wayfarer.obj";
+const char* modelSource = "./src/Renderer3D/Models/doohicky.obj";
 const char* vertSource = "./src/Renderer3D/Shaders/Default.vert";
 const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
 const char* texSource = "./src/Renderer3D/Textures/container.jpg";

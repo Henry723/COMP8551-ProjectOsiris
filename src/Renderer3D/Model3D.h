@@ -11,6 +11,7 @@
 
 // Local Library Includes
 #include "Shader.h"
+#include "ModelImporter.h"
 #include "stb_image.h"
 
 // Standard Library Includes

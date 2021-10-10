@@ -1,6 +1,6 @@
 #include "ModelImporter.h"
 
-void ModelImporter::loadModel(const char* modelSource) {
+void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
 	Assimp::Importer import;
 	const aiScene *scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -11,18 +11,27 @@ void ModelImporter::loadModel(const char* modelSource) {
     }
     //directory = path.substr(0, path.find_last_of('/'));
 
-    if (isAttributes) {
-        processNodeAttributes(scene->mRootNode, scene);
-        isAttributes = false;
-    }
-    if (isIndices) {
-        processNodeIndices(scene->mRootNode, scene);
-        isIndices = false;
-    }
-    
+    cout << "In ModelImporter: Assigning " << modelSource << endl;
+    cout << "Attributes assigned to vector ID #0x" << &attribArray << endl;
+    cout << "Indices assigned to vector ID #0x" << &indexArray << endl;
+
+    // Attribute loading / assigning
+    cout << "=====================================" << endl;
+    cout << "In Importer: BEFORE attrib load: " << attribArray.size() << endl;
+    processNodeAttributes(scene->mRootNode, scene, attribArray);
+    cout << "In Importer: AFTER load complete: " << attribArray.size() << endl;
+
+    // Index loading / assigning
+    cout << "In Importer: BEFORE index load: " << indexArray.size() << endl;
+    processNodeIndices(scene->mRootNode, scene, indexArray);
+    cout << "In Importer: AFTER load complete: " << indexArray.size() << endl;
+    cout << "=====================================" << endl;
+
+
+    //processNodeIndices(scene->mRootNode, scene, indexArray);// vector<unsigned int>& indexArray
 }
 
-void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene)
+void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene, vector<float>& attribArray)
 {
     // process each mesh located at the current node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -33,16 +42,16 @@ void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene)
         //meshes.push_back(processMesh(mesh, scene));
         
         // Here we try to grab all data from all the mesh
-        modelAttributes.push_back(processMeshAttributes(mesh, scene));  
+        processMeshAttributes(mesh, scene, attribArray);
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        processNodeAttributes(node->mChildren[i], scene);
+        processNodeAttributes(node->mChildren[i], scene, attribArray);
     }
 }
 
-void ModelImporter::processNodeIndices(aiNode* node, const aiScene* scene)
+void ModelImporter::processNodeIndices(aiNode* node, const aiScene* scene, vector<unsigned int>& indexArray)
 {
     // process each mesh located at the current node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -53,19 +62,19 @@ void ModelImporter::processNodeIndices(aiNode* node, const aiScene* scene)
         //meshes.push_back(processMesh(mesh, scene));
 
         // Here we try to grab all data from all the mesh
-        modelIndices.push_back(processMeshIndices(mesh, scene));
+        processMeshIndices(mesh, scene, indexArray);
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)
     {
-        processNodeIndices(node->mChildren[i], scene);
+        processNodeIndices(node->mChildren[i], scene, indexArray);
     }
 }
 
-vector<float> ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene)
+void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, vector<float>& attributes)
 {
     // data to fill
-    vector<float> attributes;//contain position, texture coordiates
+    //vector<float> attributes;//contain position, texture coordiates
     //vector<Texture> textures;
 
     // walk through each of the mesh's vertices
@@ -151,11 +160,10 @@ vector<float> ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* 
 
     //// return a mesh object created from the extracted mesh data
     //return Mesh(vertices, indices, textures);
-    return attributes;
+    //return attributes;
 }
 
-vector<unsigned int> ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene) {
-    vector<unsigned int> indices;
+void ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene, vector<unsigned int>& indexArray) {
 
     // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -163,21 +171,6 @@ vector<unsigned int> ModelImporter::processMeshIndices(aiMesh* mesh, const aiSce
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
         for (unsigned int j = 0; j < face.mNumIndices; j++)
-            indices.push_back(face.mIndices[j]);
+            indexArray.push_back(face.mIndices[j]);
     }
-    return indices;
-}
-
-//later we will pass by reference with 2 arrays
-void ModelImporter::getModelAttributes(const char* filePath, float &attributesPointer) {
-    isAttributes = true;
-    loadModel(filePath);
-    attributesPointer = modelAttributes[0][0];
-
-}
-
-void ModelImporter::getModelIndices(const char* filePath, unsigned int &indicesPointer) {
-    isIndices = true;
-    loadModel(filePath);
-    indicesPointer = modelIndices[0][0];
 }

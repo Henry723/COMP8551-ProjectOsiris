@@ -12,6 +12,9 @@
 *.o
 *.obj
 
+#Include renderer obj
+!/src/Renderer3D/Models/*.obj
+
 # Precompiled Headers
 *.gch
 *.pch

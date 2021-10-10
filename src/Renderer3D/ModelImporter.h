@@ -21,20 +21,16 @@ using namespace std;
 struct ModelImporter {
 
 private:
-	bool isAttributes = false;
-	bool isIndices = false;
-	void loadModel(const char* modelSource);
-	void processNodeAttributes(aiNode* node, const aiScene* scene);
-	vector<float> processMeshAttributes(aiMesh* mesh, const aiScene* scene);
-	void processNodeIndices(aiNode* node, const aiScene* scene);
-	vector<unsigned int> processMeshIndices(aiMesh* mesh, const aiScene* scene);
+
+	// Attribute processing
+	void processNodeAttributes(aiNode* node, const aiScene* scene, vector<float>& attribArray);
+	void processMeshAttributes(aiMesh* mesh, const aiScene* scene, vector<float>& attributes);
+
+	// Index processing
+	void processNodeIndices(aiNode* node, const aiScene* scene, vector<unsigned int>& indexArray);
+	void processMeshIndices(aiMesh* mesh, const aiScene* scene, vector<unsigned int>& indexArray);
 
 public:
-	// model data
-	vector<vector<float>>modelAttributes;
-	vector<vector<unsigned int>>modelIndices;
-	// export model attributess
-	void getModelAttributes(const char* filePath, float &attributesPointer);
-	// export model indices
-	void getModelIndices(const char* filePath, unsigned int &indicesPointer);
+	void loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray);
+
 };

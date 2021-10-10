@@ -3,7 +3,7 @@
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
 	cout << "Model3D is being created" << endl;
-
+	
 	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
 	float squareVerts[] = {
 		// positions			// colors				// tex co-ords
@@ -13,14 +13,48 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 		-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f
 	};
 
+	ModelImporter importer = ModelImporter();
+	vector<float> attributes;
+	vector<unsigned int> indices;
+	
+	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
+	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
+	cout << "=====================================" << endl;
+
+	importer.loadModel(modelSource, attributes, indices);
+
+	// print attrib array in model3D
+	cout << "In Model3D: AFTER attrib load: " << attributes.size() << endl;
+	int numPrinted = 0;
+	for (auto i : attributes) {
+		cout << i << ' '; // will print: "a b c"
+		numPrinted++;
+		if (numPrinted % 8 == 0) {
+			cout << endl;
+		}
+	}
+	cout << endl;
+
+	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
+	numPrinted = 0;
+	for (auto i : indices) {
+		cout << i << ' '; // will print: "a b c"
+		numPrinted++;
+		if (numPrinted % 3 == 0) {
+			cout << endl;
+		}
+	}
+	cout << endl;
+
+
 	numIndices = 6; // We'll need the index count for DrawElements function! For now it's hard-coded.
 	unsigned int squareIndices[] = { // note that we start from 0.
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
 	};
 
-	float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
-	unsigned int* indexArray = &squareIndices[0];
+	//float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
+	//unsigned int* indexArray = &squareIndices[0];
 
 	// ..:: Initialization code (done once (unless your object frequently changes)) ::..
 	unsigned int VBO, EBO, VAO;
