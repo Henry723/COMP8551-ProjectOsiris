@@ -11,14 +11,19 @@ void ModelImporter::loadModel(const char* modelSource) {
     }
     //directory = path.substr(0, path.find_last_of('/'));
 
-    processNode(scene->mRootNode, scene);
+    if (isAttributes) {
+        processNodeAttributes(scene->mRootNode, scene);
+        isAttributes = false;
+    }
+    if (isIndices) {
+        processNodeIndices(scene->mRootNode, scene);
+        isIndices = false;
+    }
+    
 }
 
-void ModelImporter::processNode(aiNode* node, const aiScene* scene)
+void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene)
 {
-    //vector<vector<float>>modelAttributes;
-    //vector<vector<unsigned int>>modelIndices;
-    
     // process each mesh located at the current node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
     {
@@ -28,20 +33,36 @@ void ModelImporter::processNode(aiNode* node, const aiScene* scene)
         //meshes.push_back(processMesh(mesh, scene));
         
         // Here we try to grab all data from all the mesh
-        //modelAttributes.push_back(processMeshAttributes(mesh, scene));  
-        //modelIndices.push_back(processMeshIndices(mesh, scene));
-
-        processMeshAttributes(mesh, scene);
-        processMeshIndices(mesh, scene);
+        modelAttributes.push_back(processMeshAttributes(mesh, scene));  
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
-    //for (unsigned int i = 0; i < node->mNumChildren; i++)
-    //{
-    //    processNode(node->mChildren[i], scene);
-    //}
+    for (unsigned int i = 0; i < node->mNumChildren; i++)
+    {
+        processNodeAttributes(node->mChildren[i], scene);
+    }
 }
 
-float* ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene)
+void ModelImporter::processNodeIndices(aiNode* node, const aiScene* scene)
+{
+    // process each mesh located at the current node
+    for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    {
+        // the node object only contains indices to index the actual objects in the scene. 
+        // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+        //meshes.push_back(processMesh(mesh, scene));
+
+        // Here we try to grab all data from all the mesh
+        modelIndices.push_back(processMeshIndices(mesh, scene));
+    }
+    // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+    for (unsigned int i = 0; i < node->mNumChildren; i++)
+    {
+        processNodeIndices(node->mChildren[i], scene);
+    }
+}
+
+vector<float> ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene)
 {
     // data to fill
     vector<float> attributes;//contain position, texture coordiates
@@ -130,10 +151,10 @@ float* ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene)
 
     //// return a mesh object created from the extracted mesh data
     //return Mesh(vertices, indices, textures);
-    return attributes.data();
+    return attributes;
 }
 
-unsigned int* ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene) {
+vector<unsigned int> ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene) {
     vector<unsigned int> indices;
 
     // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
@@ -144,12 +165,19 @@ unsigned int* ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* sce
         for (unsigned int j = 0; j < face.mNumIndices; j++)
             indices.push_back(face.mIndices[j]);
     }
-    return indices.data();
+    return indices;
 }
 
 //later we will pass by reference with 2 arrays
-float* ModelImporter::getModelAttributes(const char* filePath) {
+void ModelImporter::getModelAttributes(const char* filePath, float &attributesPointer) {
+    isAttributes = true;
     loadModel(filePath);
+    attributesPointer = modelAttributes[0][0];
 
-    return 0;
+}
+
+void ModelImporter::getModelIndices(const char* filePath, unsigned int &indicesPointer) {
+    isIndices = true;
+    loadModel(filePath);
+    indicesPointer = modelIndices[0][0];
 }
