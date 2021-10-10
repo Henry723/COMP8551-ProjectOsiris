@@ -42,7 +42,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   playerEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
 
   //TEST - Load up configuration file, run the test function, grab position data of specified object
-  TinyXMLWrapper txml("./src/Configuration/gameobjects.xml");
+  CCfgMgrPhysical txml("./src/Configuration/gameobjects.xml");
   txml.test();
   cout << txml.getAttribute("Cube 2", "position") << endl;
 }

@@ -108,8 +108,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrData.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp" />
     <ClCompile Include="src\Configuration\tinyxml2.cpp" />
-    <ClCompile Include="src\Configuration\TinyXMLWrapper.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
@@ -123,7 +126,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components.hpp" />
-    <ClInclude Include="src\Configuration\TinyXMLWrapper.h" />
+    <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
+    <ClInclude Include="src\Configuration\CfgMgrData.h" />
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h" />
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />

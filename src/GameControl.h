@@ -3,7 +3,7 @@
 #include "Input/InputSystem.h"
 #include "Renderer3D/RenderSystem.h"
 #include "Physics/PhysicsEngine.h"
-#include "Configuration/TinyXMLWrapper.h"
+#include "Configuration/CfgMgrPhysical.h"
 
 // TODO Create Game Control for menus & game
 class GameControl : public EntityX

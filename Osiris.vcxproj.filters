@@ -81,7 +81,7 @@
     <ClCompile Include="src\Physics\PhysicsEngine.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Configuration\TinyXMLWrapper.cpp">
+    <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="src\Configuration\tinyxml2.cpp">
@@ -92,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp">
       <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrApplication.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrData.cpp">
+      <Filter>Source Files\Configuration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,7 +128,7 @@
     <ClInclude Include="src\Renderer3D\stb_image.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Configuration\TinyXMLWrapper.h">
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
@@ -127,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h">
       <Filter>Header Files\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrApplication.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
