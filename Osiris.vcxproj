@@ -110,6 +110,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
+    <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
+    <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
@@ -122,6 +124,8 @@
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />
+    <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
+    <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
