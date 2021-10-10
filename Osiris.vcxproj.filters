@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Renderer">
       <UniqueIdentifier>{790047cc-96cc-42d2-8551-63b747bc69dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MemoryManager">
+      <UniqueIdentifier>{b190a2e0-f353-44f9-88dc-6bc15f447e7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MemoryManager">
+      <UniqueIdentifier>{433bd8d4-3507-4fed-ad8c-9d6af5080b74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
+      <Filter>Header Files\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMMPoolTester.h">
+      <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
