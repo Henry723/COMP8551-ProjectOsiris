@@ -23,6 +23,8 @@
 *.so
 *.dylib
 *.dll
+
+# .dll Rule Exclusions
 !assimp-vc142-mtd.dll
 
 # Fortran module files
