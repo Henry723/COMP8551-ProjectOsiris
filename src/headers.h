@@ -6,6 +6,7 @@
 
 // Standard Library Includes
 #include <iostream>
+#include <algorithm>
 
 // Namespaces
 using namespace std;
