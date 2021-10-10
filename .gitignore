@@ -20,6 +20,7 @@
 *.so
 *.dylib
 *.dll
+!assimp-vc142-mtd.dll
 
 # Fortran module files
 *.mod
