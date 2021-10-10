@@ -1,5 +1,6 @@
 #pragma once
 #include "headers.h"
+#include "Renderer3D/Model3D.h"
 
 struct Window
 {

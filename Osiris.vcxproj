@@ -103,16 +103,18 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;entityx-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;entityx-d.lib;box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
-    <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
-    <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
+    <ClCompile Include="src\Renderer3D\Model3D.cpp" />
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
+    <ClCompile Include="src\Renderer3D\Shader.cpp" />
+    <ClCompile Include="src\Renderer3D\stb_image.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +122,18 @@
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />
-    <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
-    <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
+    <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
+    <ClInclude Include="src\Renderer3D\Shader.h" />
+    <ClInclude Include="src\Renderer3D\stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Renderer3D\Shaders\Default.frag" />
+    <None Include="src\Renderer3D\Shaders\Default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\Renderer3D\Textures\container.jpg" />
+    <ClInclude Include="src\Physics\PhysicsEngine.h" />
     <ClInclude Include="src\SceneManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,7 @@
 #include "components.hpp"
 #include "Input/InputSystem.h"
 #include "Renderer3D/RenderSystem.h"
+#include "Physics/PhysicsEngine.h"
 
 // TODO Create Game Control for menus & game
 class GameControl : public EntityX
