@@ -16,6 +16,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
+  systems.add<ExampleEmitterSystem>();
+  systems.add<ExampleListenerSystem>();
   systems.configure();
 
   //Testing Scene Manager
@@ -47,4 +49,6 @@ void GameControl::Update(TimeDelta dt)
   systems.update<InputSystem>(dt);
   systems.update<RenderSystem>(dt);
   systems.update<PhysicsEngine>(dt);
+  systems.update<ExampleEmitterSystem>(dt);
+  
 }
