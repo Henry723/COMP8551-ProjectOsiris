@@ -6,6 +6,10 @@
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/SampleEvent.h"
 
+// TESTING -- Start --
+#include "MemoryManager/CMMPoolTester.h"
+// TESTING -- End --
+
 // TODO Create Game Control for menus & game
 class GameControl : public EntityX
 {

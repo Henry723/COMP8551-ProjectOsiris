@@ -139,7 +139,7 @@
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="src\Events\SampleEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
