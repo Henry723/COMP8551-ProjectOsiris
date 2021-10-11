@@ -2,25 +2,65 @@
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	cout << "Model3D is being created" << endl;
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
+	cout << endl << "Model3D is being created." << endl;
+
+	ModelImporter importer = ModelImporter();
+	/*vector<float> attributes;
+	vector<unsigned int> indices;*/
+	
+	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
+	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
+	cout << "=====================================" << endl;
+
+	importer.loadModel(modelSource, attributes, indices);
+
+	// print attrib array in model3D
+	cout << "In Model3D: AFTER attrib load: " << attributes.size() << endl;
+	int numPrinted = 0;
+	for (auto i : attributes) {
+		cout << i << ' '; // will print: "a b c"
+		numPrinted++;
+		if (numPrinted % 8 == 0) {
+			cout << endl;
+		}
+	}
+	cout << endl;
 
 	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
-	float squareVerts[] = {
-		// positions			// colors				// tex co-ords
-		0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f
+	float squareAttribs[] = {
+		// positions			// normals				// tex co-ords
+		0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+		0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
 	};
 
-	numIndices = 6; // We'll need the index count for DrawElements function! For now it's hard-coded.
+	// float* squareVerts = &attributes[0];
+
+	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
+	numPrinted = 0;
+	for (auto i : indices) {
+		cout << i << ' '; // will print: "a b c"
+		numPrinted++;
+		if (numPrinted % 3 == 0) {
+			cout << endl;
+		}
+	}
+	cout << endl;
+
+	numIndices = indices.size(); // We'll need the index count for DrawElements function! For now it's hard-coded.
 	unsigned int squareIndices[] = { // note that we start from 0.
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
 	};
 
-	float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
-	unsigned int* indexArray = &squareIndices[0];
+	
+
+	// unsigned int* squareIndices = &indices[0];
+
+	//float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
+	//unsigned int* indexArray = &squareIndices[0];
 
 	// ..:: Initialization code (done once (unless your object frequently changes)) ::..
 	unsigned int VBO, EBO, VAO;
@@ -48,7 +88,8 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	stbi_set_flip_vertically_on_load(true); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
 	unsigned char* textureData = stbi_load(texPath, &imgWidth, &imgHeight, &nrChannels, 0);
 
-	if (textureData) {
+	if (textureData)
+	{
 		// This function call applies the image to the currently bound texture object.
 		// After the image is loaded, we generate the mipmaps to account for distant objects.
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
@@ -75,7 +116,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	//			GL_STREAM_DRAW: the data is set only once, and used by the GPU at most a few times.
 	//			GL_STATIC_DRAW: the data is set only once, and used many times.
 	//			GL_DYNAMIC_DRAW : the data is changed a lot, and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(squareVerts), squareVerts, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(squareAttribs), squareAttribs, GL_STATIC_DRAW);
 
 	// Next, we bind our index array in the same way as our VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -122,64 +163,20 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	vao = VAO;
 	vbo = VBO;
 	ebo = EBO;
-	transformation_vector = glm::vec4(0.0, 0.0, 0.0, 1.0);
+	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
+
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 }
 
 void Model3D::translate(glm::vec3 translation) {
-	glm::mat4 translationVector = glm::mat4(1.0f); // Identity matrix
-
-	// Apply translation matrix
-	translationVector = glm::translate(translationVector, translation);
-	transformation_vector = translationVector * transformation_vector;
-
-	std::cout << transformation_vector.x << ", " << transformation_vector.y << ", " << transformation_vector.z << std::endl;
+	transformation_matrix = glm::translate(transformation_matrix, translation);
 }
 
-void Model3D::rotate(glm::vec3 rotation) {
-	glm::vec4 startingVec(1.0f, 0.0f, 0.0f, 1.0f);
-	glm::mat4 identityVector = glm::mat4(1.0f); // Identity matrix
-
+void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
+	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
 }
 
 void Model3D::scale(glm::vec3 scale) {
-	glm::vec4 startingVec(1.0f, 0.0f, 0.0f, 1.0f);
-	glm::mat4 scaleVector = glm::mat4(1.0f); // Identity matrix
-
-	// Apply translation matrix
-	scaleVector = glm::scale(scaleVector, scale);
-	startingVec = scaleVector * startingVec;
-
-	std::cout << startingVec.x << ", " << startingVec.y << ", " << startingVec.z << std::endl;
-}
-
-void Model3D::Draw() {
-
-	// TEST - Changing uniforms over time.
-	float timeValue = glfwGetTime();
-	float green = (sin(timeValue) / 2.0f) + 0.5f;
-
-	int vertColorLocation = glGetUniformLocation(shader_program.ID, "ourColor"); // Get the location of the uniform
-
-	// ..:: Drawing code (called in render loop) :: ..
-	//		This is called FOR EACH object we want to draw this frame.
-	// 1. Choose the shader to use
-	shader_program.use();
-
-	// Now we have the location, we can set the shaders uniform globally.
-	// This must be done AFTER "using" the program.
-	glUniform4f(vertColorLocation, 0.0f, green, 0.0f, 1.0f);
-
-	// 2. Bind the VAO of the object we want to draw.
-	glBindVertexArray(vao);
-
-	// 3. Bind the texture to the object
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	// 4. Draw the object.
-	//		Use DrawArrays for ordered, and DrawElements for indexed.
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
-	// 5. Unbind the VAO
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	transformation_matrix = glm::scale(transformation_matrix, scale);
 }

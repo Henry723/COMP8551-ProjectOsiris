@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<!DOCTYPE PLAY SYSTEM "play.dtd">
+
+<!--
+ Simple textured cube with specular, diffuse and ambient lighting in perspective projection
+ -->
+<gameobject>
+    <name>Cube</name>
+    <shader>Textured cube shader</shader>
+    <lightsources>
+        <light>SpecularLight</light>
+        <light>DiffuseLight</light>
+        <light>AmbientLight</light>
+    </lightsources>
+    <attributes>
+        <attrib>
+            <name>position</name>
+            <numele>4</numele>
+            <data>
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5,  0.5, 1.0,
+                0.5, -0.5,  0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                -0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5, 0.5, 1.0,
+                -0.5,  0.5, 0.5, 1.0,
+                0.5,  0.5, 0.5, 1.0,
+                0.5, -0.5, 0.5, 1.0,
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5,  0.5, 1.0,
+                -0.5,  0.5,  0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                0.5, -0.5,  0.5, 1.0,
+                0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+            </data>
+        </attrib>
+        <attrib>
+            <name>normal</name>
+            <numele>3</numele>
+            <data>
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+            </data>
+        </attrib>
+        <attrib>
+            <name>texCoordIn</name>
+            <numele>2</numele>
+            <data>
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0,
+                1.0, 0.0,
+                1.0, 0.0,
+                1.0, 1.0,
+                0.0, 1.0,
+                0.0, 0.0,
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0,
+                1.0, 0.0,
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0,
+                1.0, 0.0,
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0,
+                1.0, 0.0,
+                0.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0,
+                1.0, 0.0,
+            </data>
+        </attrib>
+        <vertexindices>
+            0, 2, 1,
+            0, 3, 2,
+            4, 5, 6,
+            4, 6, 7,
+            8, 9, 10,
+            8, 10, 11,
+            12, 15, 14,
+            12, 14, 13,
+            16, 17, 18,
+            16, 18, 19,
+            20, 23, 22,
+            20, 22, 21,
+        </vertexindices>
+    </attributes>
+    <transform>
+        <position>0 0 -4</position>
+        <orientation>30 30 0</orientation>
+        <scale>1 1 1</scale>
+    </transform>
+    <projection>
+        <fovy>65</fovy>
+        <nearz>0.1</nearz>
+        <farz>100</farz>
+    </projection>
+</gameobject>
+
+
+<!--
+ Smaller untextured cube with specular, diffuse and ambient lighting in perspective projection
+ -->
+<gameobject>
+    <name>Cube 2</name>
+    <shader>Cube shader</shader>
+    <lightsources>
+        <light>DiffuseLight</light>
+        <light>AmbientLight</light>
+    </lightsources>
+    <attributes>
+        <attrib>
+            <name>position</name>
+            <numele>4</numele>
+            <data>
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5,  0.5, 1.0,
+                0.5, -0.5,  0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                -0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5, 0.5, 1.0,
+                -0.5,  0.5, 0.5, 1.0,
+                0.5,  0.5, 0.5, 1.0,
+                0.5, -0.5, 0.5, 1.0,
+                -0.5, -0.5, -0.5, 1.0,
+                -0.5, -0.5,  0.5, 1.0,
+                -0.5,  0.5,  0.5, 1.0,
+                -0.5,  0.5, -0.5, 1.0,
+                0.5, -0.5, -0.5, 1.0,
+                0.5, -0.5,  0.5, 1.0,
+                0.5,  0.5,  0.5, 1.0,
+                0.5,  0.5, -0.5, 1.0,
+            </data>
+        </attrib>
+        <attrib>
+            <name>normal</name>
+            <numele>3</numele>
+            <data>
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, -1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 1.0, 0.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, -1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                0.0, 0.0, 1.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                -1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+                1.0, 0.0, 0.0,
+            </data>
+        </attrib>
+        <vertexindices>
+            0, 2, 1,
+            0, 3, 2,
+            4, 5, 6,
+            4, 6, 7,
+            8, 9, 10,
+            8, 10, 11,
+            12, 15, 14,
+            12, 14, 13,
+            16, 17, 18,
+            16, 18, 19,
+            20, 23, 22,
+            20, 22, 21,
+        </vertexindices>
+    </attributes>
+    <transform>
+        <position>1 0 -4</position>
+        <orientation>30 30 0</orientation>
+        <scale>.5 .5 .5</scale>
+    </transform>
+    <projection>
+        <fovy>65</fovy>
+        <nearz>0.1</nearz>
+        <farz>100</farz>
+    </projection>
+</gameobject>
+
+
+<!--
+ 3D text
+ -->
+<gameobject>
+    <name>Text 3D</name>
+    <shader>Text shader</shader>
+    <text>
+        <value>Hello World!</value>
+        <font>times</font>
+        <fontsize>24</fontsize>
+        <dpi>100</dpi>
+        <alignment>left</alignment>
+    </text>
+    <lightsources>
+        <light>TextAmbientLight</light>
+    </lightsources>
+    <transform>
+        <position>0.5 0.25 -4</position>
+        <orientation>0 0 0</orientation>
+        <scale>2 2 2</scale>
+    </transform>
+    <projection>
+        <fovy>65</fovy>
+        <nearz>0.1</nearz>
+        <farz>100</farz>
+    </projection>
+</gameobject>
+
+
+
+<!--
+ Light sources
+ -->
+
+<!-- Specular -->
+<light>
+    <name>SpecularLight</name>
+    <color>
+        <name>specularComponent</name>
+        <value>0.8 0.1 0.1 1.0</value>
+    </color>
+    <position>
+        <name>flashlightPosition</name>
+        <value>0 0 1 1</value>
+    </position>
+    <shininess>
+        <name>shininess</name>
+        <value>200</value>
+    </shininess>
+</light>
+<!-- Diffuse -->
+<light>
+    <name>DiffuseLight</name>
+    <color>
+        <name>diffuseComponent</name>
+        <value>0.1 0.8 0.1 1.0</value>
+    </color>
+    <position>
+        <name>diffuseLightPosition</name>
+        <value>0 1 0 1</value>
+    </position>
+</light>
+<!-- Ambient -->
+<light>
+    <name>AmbientLight</name>
+    <color>
+        <name>ambientComponent</name>
+        <value>0.2 0.2 0.2 1.0</value>
+    </color>
+</light>
+<!-- Text Ambient -->
+<light>
+    <name>TextAmbientLight</name>
+    <color>
+        <name>ambientComponent</name>
+        <value>0.0 0.0 1.0 1.0</value>
+    </color>
+</light>
+
+
+
+
+<!--
+ Shaders
+ -->
+
+<shader>
+    <name>Textured cube shader</name>
+    <vertexshader>Shader.vsh</vertexshader>
+    <fragmentshader>Shader.fsh</fragmentshader>
+    <texture>crate.jpg</texture>
+    <mvpmatrix>modelViewProjectionMatrix</mvpmatrix>
+    <normmatrix>normalMatrix</normmatrix>
+    <mvmatrix>modelViewMatrix</mvmatrix>
+    <texturevar>texture</texturevar>
+</shader>
+
+<shader>
+    <name>Cube shader</name>
+    <vertexshader>ShaderNoTex.vsh</vertexshader>
+    <fragmentshader>ShaderNoTex.fsh</fragmentshader>
+    <mvpmatrix>modelViewProjectionMatrix</mvpmatrix>
+    <normmatrix>normalMatrix</normmatrix>
+    <mvmatrix>modelViewMatrix</mvmatrix>
+</shader>
+
+<shader>
+    <name>Text shader</name>
+    <vertexshader>ShaderText.vsh</vertexshader>
+    <fragmentshader>ShaderText.fsh</fragmentshader>
+    <mvpmatrix>modelViewProjectionMatrix</mvpmatrix>
+    <texturevar>texture</texturevar>
+</shader>
+
+
