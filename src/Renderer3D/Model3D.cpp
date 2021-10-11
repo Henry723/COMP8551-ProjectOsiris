@@ -27,15 +27,15 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	cout << endl;
 
 	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
-	//float squareVerts[] = {
-	//	// positions			// colors				// tex co-ords
-	//	0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 1.0f,
-	//	0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 0.0f,
-	//	-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 0.0f,
-	//	-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f
-	//};
+	float squareAttribs[] = {
+		// positions			// normals				// tex co-ords
+		0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+		0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
+	};
 
-	float* squareVerts = &attributes[0];
+	// float* squareVerts = &attributes[0];
 
 	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
 	numPrinted = 0;
@@ -49,12 +49,12 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	cout << endl;
 
 	numIndices = indices.size(); // We'll need the index count for DrawElements function! For now it's hard-coded.
-	//unsigned int squareIndices[] = { // note that we start from 0.
-	//	0, 1, 3,   // first triangle
-	//	1, 2, 3    // second triangle
-	//};
+	unsigned int squareIndices[] = { // note that we start from 0.
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
 
-	unsigned int* squareIndices = &indices[0];
+	// unsigned int* squareIndices = &indices[0];
 
 	//float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
 	//unsigned int* indexArray = &squareIndices[0];
@@ -113,7 +113,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	//			GL_STREAM_DRAW: the data is set only once, and used by the GPU at most a few times.
 	//			GL_STATIC_DRAW: the data is set only once, and used many times.
 	//			GL_DYNAMIC_DRAW : the data is changed a lot, and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(attributes.data()), attributes.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(squareAttribs), squareAttribs, GL_STATIC_DRAW);
 
 	// Next, we bind our index array in the same way as our VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
