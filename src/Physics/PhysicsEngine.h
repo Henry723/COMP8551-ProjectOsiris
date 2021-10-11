@@ -23,3 +23,14 @@ private:
 	b2World* world;
 };
 
+class Body : public b2Body {
+public:
+	//b2Body* b2World::CreateBody(const b2BodyDef* def)
+	//b2Fixture* b2Body::CreateFixture(const b2FixtureDef* def)
+	//void b2World::DestroyBody(b2Body* body)
+	//void b2Body::DestroyFixture(b2Fixture* fixture)
+private:
+	b2World* world;
+};
+
+
