@@ -46,6 +46,12 @@
     <Filter Include="Header Files\Configuration">
       <UniqueIdentifier>{c6657139-630f-48ea-ba38-c7d8c9f98def}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Renderer\Events">
+      <UniqueIdentifier>{88cb8a4e-4df4-45e7-877b-cc5dd4c29032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{12f81ac6-d9fa-4d27-989e-ff830180d01b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\MemoryManager">
       <UniqueIdentifier>{48ec83cb-b7a2-4436-a43d-1d70696d0fa8}</UniqueIdentifier>
     </Filter>
@@ -86,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="src\Configuration\tinyxml2.cpp">
       <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\SampleEvent.cpp">
+      <Filter>Source Files\Renderer\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp">
       <Filter>Source Files\MemoryManager</Filter>
@@ -130,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
+    </ClCompile>
+    <ClInclude Include="src\Events\SampleEvent.h">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
       <Filter>Header Files\MemoryManager</Filter>
