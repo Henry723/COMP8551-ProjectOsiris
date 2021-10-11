@@ -17,6 +17,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
   systems.add<UISystem>();
+  systems.add<ExampleEmitterSystem>();
+  systems.add<ExampleListenerSystem>();
   systems.configure();
 
   //Testing Scene Manager
@@ -49,4 +51,6 @@ void GameControl::Update(TimeDelta dt)
   systems.update<RenderSystem>(dt);
   //systems.update<UISystem>(dt); Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
+  systems.update<ExampleEmitterSystem>(dt);
+  
 }
