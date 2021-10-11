@@ -90,6 +90,9 @@
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp">
       <Filter>Source Files\MemoryManager</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">
@@ -125,6 +128,12 @@
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h">
       <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
+    <ClInclude Include="src\UI\TextShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -133,6 +142,8 @@
     <None Include="src\Renderer3D\Shaders\Default.vert">
       <Filter>Source Files\Renderer\Shaders</Filter>
     </None>
+    <None Include="src\UI\shaders\Default.frag" />
+    <None Include="src\UI\shaders\Default.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg">
@@ -144,5 +155,16 @@
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\UI\fonts\arial.ttf" />
+    <Font Include="src\UI\fonts\arialbd.ttf" />
+    <Font Include="src\UI\fonts\arialbi.ttf" />
+    <Font Include="src\UI\fonts\ariali.ttf" />
+    <Font Include="src\UI\fonts\ARIALN.TTF" />
+    <Font Include="src\UI\fonts\ARIALNB.TTF" />
+    <Font Include="src\UI\fonts\ARIALNBI.TTF" />
+    <Font Include="src\UI\fonts\ARIALNI.TTF" />
+    <Font Include="src\UI\fonts\ariblk.ttf" />
   </ItemGroup>
 </Project>
