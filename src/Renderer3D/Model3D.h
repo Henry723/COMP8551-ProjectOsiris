@@ -24,7 +24,7 @@ struct Model3D {
 
 private:
 	unsigned int vbo, ebo;
-	glm::vec4 transformation_vector;
+	glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
 	vector<unsigned int> indices;
@@ -41,7 +41,7 @@ public:
 
 	// Tranformation Functions (for editing data)
 	void translate(glm::vec3 translation);
-	void rotate(glm::vec3 rotation);
+	void rotate(glm::vec3 rotationAxis, float degrees);
 	void scale(glm::vec3 scale);
 
 	// Draw Function: TODO move to RenderSystem?

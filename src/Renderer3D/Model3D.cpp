@@ -160,64 +160,18 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	vao = VAO;
 	vbo = VBO;
 	ebo = EBO;
-	transformation_vector = glm::vec4(0.0, 0.0, 0.0, 1.0);
+	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 }
 
 void Model3D::translate(glm::vec3 translation) {
-	glm::mat4 translationVector = glm::mat4(1.0f); // Identity matrix
-
-	// Apply translation matrix
-	translationVector = glm::translate(translationVector, translation);
-	transformation_vector = translationVector * transformation_vector;
-
-	std::cout << transformation_vector.x << ", " << transformation_vector.y << ", " << transformation_vector.z << std::endl;
+	transformation_matrix = glm::translate(transformation_matrix, translation);
 }
 
-void Model3D::rotate(glm::vec3 rotation) {
-	glm::vec4 startingVec(1.0f, 0.0f, 0.0f, 1.0f);
-	glm::mat4 identityVector = glm::mat4(1.0f); // Identity matrix
-
+void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
+	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
 }
 
 void Model3D::scale(glm::vec3 scale) {
-	glm::vec4 startingVec(1.0f, 0.0f, 0.0f, 1.0f);
-	glm::mat4 scaleVector = glm::mat4(1.0f); // Identity matrix
-
-	// Apply translation matrix
-	scaleVector = glm::scale(scaleVector, scale);
-	startingVec = scaleVector * startingVec;
-
-	std::cout << startingVec.x << ", " << startingVec.y << ", " << startingVec.z << std::endl;
-}
-
-void Model3D::Draw() {
-
-	// TEST - Changing uniforms over time.
-	float timeValue = glfwGetTime();
-	float green = (sin(timeValue) / 2.0f) + 0.5f;
-
-	int vertColorLocation = glGetUniformLocation(shader_program.ID, "ourColor"); // Get the location of the uniform
-
-	// ..:: Drawing code (called in render loop) :: ..
-	//		This is called FOR EACH object we want to draw this frame.
-	// 1. Choose the shader to use
-	shader_program.use();
-
-	// Now we have the location, we can set the shaders uniform globally.
-	// This must be done AFTER "using" the program.
-	glUniform4f(vertColorLocation, 0.0f, green, 0.0f, 1.0f);
-
-	// 2. Bind the VAO of the object we want to draw.
-	glBindVertexArray(vao);
-
-	// 3. Bind the texture to the object
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	// 4. Draw the object.
-	//		Use DrawArrays for ordered, and DrawElements for indexed.
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
-	// 5. Unbind the VAO
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	transformation_matrix = glm::scale(transformation_matrix, scale);
 }
