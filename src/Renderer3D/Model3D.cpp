@@ -3,19 +3,10 @@
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
 	cout << "Model3D is being created" << endl;
-	
-	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
-	float squareVerts[] = {
-		// positions			// colors				// tex co-ords
-		0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f
-	};
 
 	ModelImporter importer = ModelImporter();
-	vector<float> attributes;
-	vector<unsigned int> indices;
+	/*vector<float> attributes;
+	vector<unsigned int> indices;*/
 	
 	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
 	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
@@ -35,6 +26,17 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	}
 	cout << endl;
 
+	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
+	//float squareVerts[] = {
+	//	// positions			// colors				// tex co-ords
+	//	0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 1.0f,
+	//	0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		1.0f, 0.0f,
+	//	-0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 0.0f,
+	//	-0.5f,  0.5f, 0.0f,		1.0f, 1.0f, 1.0f,		0.0f, 1.0f
+	//};
+
+	float* squareVerts = &attributes[0];
+
 	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
 	numPrinted = 0;
 	for (auto i : indices) {
@@ -46,12 +48,13 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	}
 	cout << endl;
 
+	numIndices = indices.size(); // We'll need the index count for DrawElements function! For now it's hard-coded.
+	//unsigned int squareIndices[] = { // note that we start from 0.
+	//	0, 1, 3,   // first triangle
+	//	1, 2, 3    // second triangle
+	//};
 
-	numIndices = 6; // We'll need the index count for DrawElements function! For now it's hard-coded.
-	unsigned int squareIndices[] = { // note that we start from 0.
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
+	unsigned int* squareIndices = &indices[0];
 
 	//float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
 	//unsigned int* indexArray = &squareIndices[0];
@@ -82,7 +85,8 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	stbi_set_flip_vertically_on_load(true); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
 	unsigned char* textureData = stbi_load(texPath, &imgWidth, &imgHeight, &nrChannels, 0);
 
-	if (textureData) {
+	if (textureData)
+	{
 		// This function call applies the image to the currently bound texture object.
 		// After the image is loaded, we generate the mipmaps to account for distant objects.
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imgWidth, imgHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
@@ -109,7 +113,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	//			GL_STREAM_DRAW: the data is set only once, and used by the GPU at most a few times.
 	//			GL_STATIC_DRAW: the data is set only once, and used many times.
 	//			GL_DYNAMIC_DRAW : the data is changed a lot, and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(squareVerts), squareVerts, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(attributes.data()), attributes.data(), GL_STATIC_DRAW);
 
 	// Next, we bind our index array in the same way as our VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

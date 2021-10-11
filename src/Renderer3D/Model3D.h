@@ -28,8 +28,8 @@ private:
 	Shader shader_program;
 	glm::vec4 transformation_vector;
 
-	/*vector<float>* vertices;
-	vector<int>* indices;*/
+	vector<float> attributes;
+	vector<unsigned int> indices;
 
 	unsigned int numIndices;
 

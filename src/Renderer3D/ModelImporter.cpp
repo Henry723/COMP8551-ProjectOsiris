@@ -87,9 +87,10 @@ void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, ve
         position.y = mesh->mVertices[i].y;
         position.z = mesh->mVertices[i].z;
 
-        attributes.push_back(position.x);
         attributes.push_back(position.y);
         attributes.push_back(position.z);
+        attributes.push_back(position.x);
+        
 
         //normals
         if (mesh->HasNormals())
@@ -99,9 +100,10 @@ void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, ve
             normals.y = mesh->mNormals[i].y;
             normals.z = mesh->mNormals[i].z;
             
-            attributes.push_back(normals.x);
             attributes.push_back(normals.y);
             attributes.push_back(normals.z);
+            attributes.push_back(normals.x);
+            
         }
 
         // texture coordinates
