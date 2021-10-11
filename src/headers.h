@@ -7,6 +7,10 @@
 // Standard Library Includes
 #include <iostream>
 
+// FreeType includes
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 // Namespaces
 using namespace std;
 using namespace entityx;
