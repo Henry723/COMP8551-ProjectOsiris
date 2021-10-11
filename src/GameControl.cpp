@@ -22,10 +22,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // TEST -- Memory Manager Pool Test -- Start --
   {
       CMMPoolTester class_test;
-      class_test.run_test();
-      int fail_count = class_test.failed();
-      int pass_count = class_test.passed();
-      bool CMMPoolTest_success = class_test.tests_all_passed();
+      class_test.run_test(CMMPoolTester::report::verbose);
   }
   // TESTING -- Memory Manager Pool Test -- End --
 

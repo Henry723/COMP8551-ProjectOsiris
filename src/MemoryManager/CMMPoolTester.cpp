@@ -15,6 +15,7 @@
 
 #include "CMMPoolTester.h"
 #include <stdio.h>
+#include <iostream>
 #include <stack>
 #include <vector>
 #include <time.h>
@@ -24,7 +25,8 @@ const int poolSize_c = 100;
 CMMPoolTester::CMMPoolTester()
     : m_Rslt_Linear_Alloc_Free(false), m_Rslt_Random_Alloc_Free(false), 
       m_Rslt_size(false), m_Rslt_max_size(false), m_Rslt_block_size(false),
-      m_Rslt_empty(false), m_Rslt_full(false), m_Rslt_InPoolOut_Alloc(false)
+      m_Rslt_empty(false), m_Rslt_full(false), m_Rslt_InPoolOut_Alloc(false),
+      m_NumOfTest(8)
 {
     pool_p = new CMemMgrPool(poolSize_c, sizeof(int));
 }
@@ -35,7 +37,7 @@ CMMPoolTester::~CMMPoolTester()
         delete pool_p;
 }
 
-void CMMPoolTester::run_test()
+void CMMPoolTester::run_test(report type)
 {
     // Run Tests storing results in object
     m_Rslt_Linear_Alloc_Free = Test_Linear_Alloc_Free();
@@ -46,6 +48,17 @@ void CMMPoolTester::run_test()
     m_Rslt_empty = Test_empty();
     m_Rslt_full = Test_full();
     m_Rslt_InPoolOut_Alloc = Test_InPoolOut_Alloc();
+
+    if (type == report::verbose)
+    {
+        std::cout << std::endl << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Memory Manager Test START >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
+        std::cout << "Pool Test" << std::endl;
+        std::cout << "\tfailed: " << failed() << "/" << num_tests() << std::endl;
+        std::cout << "\tpassed: " << passed() << "/" << num_tests() << std::endl;
+        std::string rslt = tests_all_passed() ? std::string("OK") : std::string("ERROR");
+        std::cout << "\tPool Test = " << rslt << std::endl;
+        std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Memory Manager Test END >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << std::endl;
+    }
 }
 
 int CMMPoolTester::passed()
