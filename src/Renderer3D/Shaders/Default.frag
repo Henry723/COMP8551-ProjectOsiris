@@ -10,5 +10,5 @@ uniform sampler2D texture1; // This uniform allows us to assign our texture as o
 
 void main()
 {
-	FragColor = texture(texture1, TexCoord) * vec4(vertexColor, 1.0f);
+	FragColor = texture(texture1, TexCoord) * vec4(1.0f);
 }

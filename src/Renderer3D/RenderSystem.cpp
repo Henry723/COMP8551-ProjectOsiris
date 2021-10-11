@@ -29,7 +29,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		Model3D* model = (*entity).component<Model3D>().get();
 
 		//cout << "Drawing model " << model.name << endl;
-		model->Draw();
+		//model->Draw();
+		draw(model);
 	}
 
 	// Text rendering using the UI System
@@ -56,4 +57,35 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		//update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
 		glfwSwapBuffers((*entity).component<Window>().get()->window);
 	}
+}
+
+void RenderSystem::draw(Model3D* modelComponent)
+{
+	// TEST - Changing uniforms over time.
+	float timeValue = glfwGetTime();
+	float green = (sin(timeValue) / 2.0f) + 0.5f;
+
+	int vertColorLocation = glGetUniformLocation(modelComponent->shader_program.ID, "ourColor"); // Get the location of the uniform
+
+	// ..:: Drawing code (called in render loop) :: ..
+	//		This is called FOR EACH object we want to draw this frame.
+	// 1. Choose the shader to use
+	modelComponent->shader_program.use();
+
+	// Now we have the location, we can set the shaders uniform globally.
+	// This must be done AFTER "using" the program.
+	glUniform4f(vertColorLocation, 0.0f, green, 0.0f, 1.0f);
+
+	// 2. Bind the VAO of the object we want to draw.
+	glBindVertexArray(modelComponent->vao);
+
+	// 3. Bind the texture to the object
+	glBindTexture(GL_TEXTURE_2D, modelComponent->texture);
+
+	// 4. Draw the object.
+	//		Use DrawArrays for ordered, and DrawElements for indexed.
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, modelComponent->numIndices, GL_UNSIGNED_INT, 0);
+	// 5. Unbind the VAO
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

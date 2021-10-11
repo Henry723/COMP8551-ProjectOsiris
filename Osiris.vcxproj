@@ -103,11 +103,16 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrData.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp" />
+    <ClCompile Include="src\Configuration\tinyxml2.cpp" />
+    <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp" />
     <ClCompile Include="src\Events\SampleEvent.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
@@ -115,6 +120,7 @@
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="src\Renderer3D\ModelImporter.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Shader.cpp" />
     <ClCompile Include="src\Renderer3D\stb_image.cpp" />
@@ -123,6 +129,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components.hpp" />
+    <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
+    <ClInclude Include="src\Configuration\CfgMgrData.h" />
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h" />
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\Events\SampleEvent.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
@@ -130,6 +140,7 @@
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
+    <ClInclude Include="src\Renderer3D\ModelImporter.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
     <ClInclude Include="src\Renderer3D\stb_image.h" />
