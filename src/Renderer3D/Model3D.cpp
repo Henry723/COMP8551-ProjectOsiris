@@ -2,7 +2,8 @@
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	cout << endl << "<<<<<<<<<<<<<<<<<<< RenderSystem Test: Creating Model3D >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
+	cout << endl << "Model3D is being created." << endl;
 
 	ModelImporter importer = ModelImporter();
 	/*vector<float> attributes;
@@ -165,7 +166,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
-	cout << endl << "<<<<<<<<<<<<<<<<<<< RenderSystem Test Complete: Model Created >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 }
 
 void Model3D::translate(glm::vec3 translation) {
