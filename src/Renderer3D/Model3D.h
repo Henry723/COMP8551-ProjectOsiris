@@ -23,17 +23,18 @@ using namespace std;
 struct Model3D {
 
 private:
-	unsigned int vao, vbo, ebo;
-	unsigned int texture;
-	Shader shader_program;
+	unsigned int vbo, ebo;
 	glm::vec4 transformation_vector;
 
 	vector<float> attributes;
 	vector<unsigned int> indices;
 
+public:
+	unsigned int vao;
+	unsigned int texture;
+	Shader shader_program;
 	unsigned int numIndices;
 
-public:
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
 	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath);
