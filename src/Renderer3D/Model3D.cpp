@@ -2,7 +2,7 @@
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	cout << "Model3D is being created" << endl;
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RenderSystem Test: Creating Model3D >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 
 	ModelImporter importer = ModelImporter();
 	/*vector<float> attributes;
@@ -53,6 +53,8 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 		0, 1, 3,   // first triangle
 		1, 2, 3    // second triangle
 	};
+
+	
 
 	// unsigned int* squareIndices = &indices[0];
 
@@ -162,6 +164,8 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	ebo = EBO;
 	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
+
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RenderSystem Test Complete: Model Created >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 }
 
 void Model3D::translate(glm::vec3 translation) {
