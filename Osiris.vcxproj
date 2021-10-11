@@ -108,7 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Events\SampleEvent.cpp" />
+    <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components.hpp" />
-    <ClInclude Include="src\Events\SampleEvent.h" />
+    <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputSystem.h" />

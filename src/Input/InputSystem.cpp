@@ -1,12 +1,12 @@
 #include "InputSystem.h"
 
 // Set up the 'groups' of keys using the keycodes
-std::vector<int> movementKeys = { 87, 65, 83, 68 }; // W A S D
-std::vector<int> attackKeys = { 263, 265, 262, 264 }; // Left Up Right Down arrow keys
+vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
+vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
 
-// Set up variables to assign the type of action taken
-bool isMovement = false;
-bool isAttack = false;
+void InputSystem::configure(EventManager& events) {
+  
+}
 
 void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -18,6 +18,7 @@ void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
   for (auto entity = en.begin(); entity != en.end(); ++entity)
   {
     Window* window = (*entity).component<Window>().get();
+    glfwSetWindowUserPointer(window->window, (void*)&ev);
     glfwSetKeyCallback(window->window, keyCallback); // set the function to be run when a keyboard event occurs
 
     // If Escape key is pressed, send the "Close Window" signal to GLFW and break the Render Loop.
@@ -39,31 +40,39 @@ void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) // function is called whenever a keyboard input is detected
 {
-    // reset values to false at function start
-    isMovement = false;
-    isAttack = false;
+  EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window);
 
-    // Identify which type of action was taken
-    if (std::find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) {
-        isMovement = true;
+  if (find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) {
+    switch (action) {
+    case GLFW_PRESS: // decide what to do when the key is pressed
+      if (key == movementKeys[UP])
+        eve->emit<MoveInput>(MoveInput::UP);
+      else if (key == movementKeys[LEFT])
+        eve->emit<MoveInput>(MoveInput::LEFT);
+      else if (key == movementKeys[DOWN])
+        eve->emit<MoveInput>(MoveInput::DOWN);
+      else if (key == movementKeys[RIGHT])
+        eve->emit<MoveInput>(MoveInput::RIGHT);
+      break;
+    case GLFW_RELEASE: // decide what to do when the key is released
+      break;
     }
+  }
 
-    if (std::find(attackKeys.begin(), attackKeys.end(), key) != attackKeys.end()) {
-        isAttack = true;
+  if (find(attackKeys.begin(), attackKeys.end(), key) != attackKeys.end()) {
+    switch (action) {
+    case GLFW_PRESS: // decide what to do when the key is pressed
+      if (key == attackKeys[UP])
+        eve->emit<AttackInput>(AttackInput::UP);
+      else if (key == attackKeys[LEFT])
+        eve->emit<AttackInput>(AttackInput::LEFT);
+      else if (key == attackKeys[DOWN])
+        eve->emit<AttackInput>(AttackInput::DOWN);
+      else if (key == attackKeys[RIGHT])
+        eve->emit<AttackInput>(AttackInput::RIGHT);
+      break;
+    case GLFW_RELEASE: // decide what to do when the key is released
+      break;
     }
-
-    // Determine what to do based on the type of action
-    if (!isMovement && !isAttack) { // currently only care about movement and attack types (will add more as required)
-        return;
-    }
-    else {
-        switch (action)
-        {
-        case GLFW_PRESS: // decide what to do when the key is pressed
-            cout << (isMovement ? "Movement: " : "") << (isAttack ? "Attack: " : "") << key << " pressed" << endl;
-            break;
-        case GLFW_RELEASE: // decide what to do when the key is released
-            cout << (isMovement ? "Movement: " : "") << (isAttack ? "Attack: " : "") << key << " released" << endl;
-        }
-    }
+  }
 }
