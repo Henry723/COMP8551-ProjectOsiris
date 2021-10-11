@@ -41,3 +41,87 @@ CCfgMgrApplication::~CCfgMgrApplication()
 {
     // TODO : Finish Implementation
 }
+
+bool CCfgMgrApplication::loadConfig()
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+void* CCfgMgrApplication::getGameObjByType(CMGameObjType type, int index)
+{
+    // TODO : Finish Implementation
+    return nullptr;
+}
+
+bool CCfgMgrApplication::getAllGameObjByType(CMGameObjType type, std::vector<void*>& emptyList)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+int CCfgMgrApplication::loadCustomData(std::string filename)
+{
+    // TODO : Finish Implementation
+    return 0;
+}
+
+bool CCfgMgrApplication::saveCustomData(int fileHandle)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::getDataKeys(int fileHandle, std::vector<std::pair<std::string, CKVType>>& emptyList)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& theValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& theValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue <std::string> & theValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& theValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& newValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& newValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<std::string>& newValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
+
+bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& newValue)
+{
+    // TODO : Finish Implementation
+    return false;
+}
