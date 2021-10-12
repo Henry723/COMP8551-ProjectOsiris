@@ -16,6 +16,5 @@ private:
 	};
 public:
 	void update(EntityManager&, EventManager&, TimeDelta) override;
-	void configure(EventManager&) override;
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 };

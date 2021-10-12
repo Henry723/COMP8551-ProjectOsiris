@@ -1,6 +1,7 @@
 #pragma once
 #include "components.hpp"
 #include "Input/InputSystem.h"
+#include "Input/InputEventTester.h"
 #include "Renderer3D/RenderSystem.h"
 #include "Physics/PhysicsEngine.h"
 #include "Configuration/CfgMgrPhysical.h"

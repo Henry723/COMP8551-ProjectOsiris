@@ -164,6 +164,9 @@
     <ClInclude Include="src\Events\EventSystem.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Input\InputEventTester.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">

@@ -4,10 +4,6 @@
 vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
 vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
 
-void InputSystem::configure(EventManager& events) {
-  
-}
-
 void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
   // Create component handles to filter components
@@ -18,7 +14,7 @@ void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
   for (auto entity = en.begin(); entity != en.end(); ++entity)
   {
     Window* window = (*entity).component<Window>().get();
-    glfwSetWindowUserPointer(window->window, (void*)&ev);
+    glfwSetWindowUserPointer(window->window, (void*)&ev); // Pass a pointer to EventManager to enable emition of events
     glfwSetKeyCallback(window->window, keyCallback); // set the function to be run when a keyboard event occurs
 
     // If Escape key is pressed, send the "Close Window" signal to GLFW and break the Render Loop.
@@ -40,10 +36,10 @@ void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) // function is called whenever a keyboard input is detected
 {
-  EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window);
+  EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window); // Reference to Event Manager to emit input events.
 
-  if (find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) {
-    switch (action) {
+  if (find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) { // Handle movement input group
+    switch (action) { // Will emit movement event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
       if (key == movementKeys[UP])
         eve->emit<MoveInput>(MoveInput::UP);
@@ -59,8 +55,8 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
     }
   }
 
-  if (find(attackKeys.begin(), attackKeys.end(), key) != attackKeys.end()) {
-    switch (action) {
+  if (find(attackKeys.begin(), attackKeys.end(), key) != attackKeys.end()) { // Handle attack input group
+    switch (action) { // Will emit attack event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
       if (key == attackKeys[UP])
         eve->emit<AttackInput>(AttackInput::UP);

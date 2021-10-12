@@ -13,6 +13,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
+  systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
   systems.configure();
