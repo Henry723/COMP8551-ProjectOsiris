@@ -103,11 +103,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;OpenAL32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Audio\AudioSystem.cpp" />
     <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrData.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audio\AudioSystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
