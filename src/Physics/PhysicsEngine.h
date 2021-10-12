@@ -33,4 +33,8 @@ private:
 	b2World* world;
 };
 
+class vec2D
+{
+	public float x, y;
+};
 
