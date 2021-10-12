@@ -6,6 +6,11 @@
 
 // Standard Library Includes
 #include <iostream>
+#include <algorithm>
+
+// FreeType includes
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 // Namespaces
 using namespace std;
