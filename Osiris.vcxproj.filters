@@ -107,6 +107,7 @@
     </ClCompile>
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
@@ -162,6 +163,7 @@
     </ClInclude>
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrApplication.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
