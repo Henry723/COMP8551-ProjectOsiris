@@ -70,6 +70,9 @@
     <Filter Include="Header Files\UI">
       <UniqueIdentifier>{4a563ad7-deb3-4afc-8228-550e7a8f12f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SceneManager">
+      <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -191,6 +194,9 @@
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -212,9 +218,6 @@
     </Image>
     <ClInclude Include="src\Physics\PhysicsEngine.h">
       <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SceneManager.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
