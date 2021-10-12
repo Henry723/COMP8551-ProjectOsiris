@@ -6,6 +6,7 @@
 
 // Standard Library Includes
 #include <iostream>
+#include <algorithm>
 
 // FreeType includes
 #include <ft2build.h>
