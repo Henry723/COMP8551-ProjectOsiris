@@ -46,9 +46,6 @@
     <Filter Include="Header Files\Configuration">
       <UniqueIdentifier>{c6657139-630f-48ea-ba38-c7d8c9f98def}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Renderer\Events">
-      <UniqueIdentifier>{88cb8a4e-4df4-45e7-877b-cc5dd4c29032}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{12f81ac6-d9fa-4d27-989e-ff830180d01b}</UniqueIdentifier>
     </Filter>
