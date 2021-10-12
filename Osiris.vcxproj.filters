@@ -114,6 +114,9 @@
     <ClCompile Include="src\Configuration\CfgMgrData.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="src\Input\InputEventTester.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">

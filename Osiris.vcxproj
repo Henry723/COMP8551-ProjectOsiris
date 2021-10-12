@@ -115,6 +115,7 @@
     <ClCompile Include="src\Configuration\tinyxml2.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp" />
     <ClCompile Include="src\GameControl.cpp" />
+    <ClCompile Include="src\Input\InputEventTester.cpp" />
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
