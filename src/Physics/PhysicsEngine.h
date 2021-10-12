@@ -35,6 +35,7 @@ private:
 
 class vec2D
 {
-	public float x, y;
+public:
+	float x, y;
 };
 
