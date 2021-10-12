@@ -30,7 +30,6 @@ int main() {
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW Window", NULL, NULL);
 
-
 	// 1. If the window failed to create, return -1.
 	if (window == NULL)
 	{
@@ -38,6 +37,8 @@ int main() {
 		glfwTerminate();
 		return -1;
 	}
+
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1); // ensure that key press events do not go unhandled in certain cases where many events are happening
 
 	// 2. Set the context to our new window.
 	glfwMakeContextCurrent(window);

@@ -11,6 +11,7 @@
 
 // Local Library Includes
 #include "Shader.h"
+#include "ModelImporter.h"
 #include "stb_image.h"
 
 // Standard Library Includes
@@ -22,24 +23,25 @@ using namespace std;
 struct Model3D {
 
 private:
-	unsigned int vao, vbo, ebo;
-	unsigned int texture;
-	Shader shader_program;
-	glm::vec4 transformation_vector;
+	unsigned int vbo, ebo;
+	glm::mat4 transformation_matrix;
 
-	/*vector<float>* vertices;
-	vector<int>* indices;*/
-
-	unsigned int numIndices;
+	vector<float> attributes;
+	vector<unsigned int> indices;
 
 public:
+	unsigned int vao;
+	unsigned int texture;
+	Shader shader_program;
+	unsigned int numIndices;
+
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
 	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath);
 
 	// Tranformation Functions (for editing data)
 	void translate(glm::vec3 translation);
-	void rotate(glm::vec3 rotation);
+	void rotate(glm::vec3 rotationAxis, float degrees);
 	void scale(glm::vec3 scale);
 
 	// Draw Function: TODO move to RenderSystem?
