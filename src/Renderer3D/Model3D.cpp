@@ -180,3 +180,8 @@ void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
 void Model3D::scale(glm::vec3 scale) {
 	transformation_matrix = glm::scale(transformation_matrix, scale);
 }
+
+glm::mat4 Model3D::getModelMatrix()
+{
+	return transformation_matrix;
+}

@@ -52,6 +52,18 @@ void RenderSystem::draw(Model3D* modelComponent)
 	// 1. Choose the shader to use
 	modelComponent->shader_program.use();
 
+	//create perspective matrix and set it in shader
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
+	modelComponent->shader_program.setMat4("projection", projection);
+
+	//get view matrix from camera and set it in shader
+	//glm::mat4 view = camera.GetViewMatrix();
+	//modelComponent->shader_program.setMat4("view", view);
+
+	//get model matrix and set in shader
+	glm::mat4 model = modelComponent->getModelMatrix();
+	modelComponent->shader_program.setMat4("model", model);
+
 	// Now we have the location, we can set the shaders uniform globally.
 	// This must be done AFTER "using" the program.
 	glUniform4f(vertColorLocation, 0.0f, green, 0.0f, 1.0f);
