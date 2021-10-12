@@ -92,7 +92,7 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\ModelImporter.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
@@ -143,16 +143,11 @@
     <ClInclude Include="src\Renderer3D\stb_image.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Events\EventSystem.h">
-    </ClInclude>
     <ClInclude Include="src\Renderer3D\ModelImporter.h">
       <Filter>Header Files\Renderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Events\SampleEvent.h">
-      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
       <Filter>Header Files\MemoryManager</Filter>
@@ -168,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrData.h">
       <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventSystem.h">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
