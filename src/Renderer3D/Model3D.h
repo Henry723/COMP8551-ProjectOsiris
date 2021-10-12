@@ -19,6 +19,7 @@
 #include <vector>
 
 using namespace std;
+using std::copy;
 
 struct Model3D {
 
@@ -43,9 +44,6 @@ public:
 	void translate(glm::vec3 translation);
 	void rotate(glm::vec3 rotationAxis, float degrees);
 	void scale(glm::vec3 scale);
-
-	// Draw Function: TODO move to RenderSystem?
-	void Draw();
 
 };
 

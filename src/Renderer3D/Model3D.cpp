@@ -35,6 +35,9 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
 		-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
 	};
+	
+	// copy(attributes.begin(), attributes.end(), std::ostream_iterator<double>(cout, "; "));
+	
 
 	// float* squareVerts = &attributes[0];
 
