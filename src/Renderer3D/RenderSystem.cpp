@@ -1,5 +1,7 @@
 #include "RenderSystem.h"
 
+UISystem ui;
+
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
 	// Create component handles to filter components
@@ -31,9 +33,27 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		draw(model);
 	}
 
+	// Text rendering using the UI System
+	// Enable these properties so text can be properly rendered
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
+		ui.setup();
+		ui.NewTextElement("text 1", 200.0f, 100.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f), true);
+		ui.NewTextElement("text 2", 500.0f, 550.0f, 0.8f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		ui.configured = true;
+	}
+
+	ui.RenderAll();
+
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
 	for (auto entity = en.begin(); entity != en.end(); ++entity)
 	{
+		// Disable these properties once finished rendering text so models can be properly rendered
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_BLEND);
 		//update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
 		glfwSwapBuffers((*entity).component<Window>().get()->window);
 	}

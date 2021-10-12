@@ -4,6 +4,7 @@
 #include "Input/InputEventTester.h"
 #include "Renderer3D/RenderSystem.h"
 #include "Physics/PhysicsEngine.h"
+#include "UI/UI.h"
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
 

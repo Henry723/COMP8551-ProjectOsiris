@@ -58,6 +58,18 @@
     <Filter Include="Source Files\Events">
       <UniqueIdentifier>{88cb8a4e-4df4-45e7-877b-cc5dd4c29032}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{c1c9b563-81ae-4ddc-9f0f-6b10c6553a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\fonts">
+      <UniqueIdentifier>{37f39620-f0ae-4c41-a366-b1659aa15299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\shaders">
+      <UniqueIdentifier>{e80674ae-6462-4375-8902-3f6430ab196b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{4a563ad7-deb3-4afc-8228-550e7a8f12f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,6 +129,9 @@
     <ClCompile Include="src\Input\InputEventTester.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">
@@ -170,6 +185,12 @@
     <ClInclude Include="src\Input\InputEventTester.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\UI\TextShader.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -177,6 +198,12 @@
     </None>
     <None Include="src\Renderer3D\Shaders\Default.vert">
       <Filter>Source Files\Renderer\Shaders</Filter>
+    </None>
+    <None Include="src\UI\shaders\Default.frag">
+      <Filter>Source Files\UI\shaders</Filter>
+    </None>
+    <None Include="src\UI\shaders\Default.vert">
+      <Filter>Source Files\UI\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -189,5 +216,34 @@
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\UI\fonts\ariblk.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arial.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arialbd.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arialbi.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ariali.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALN.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNB.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNBI.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNI.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>
