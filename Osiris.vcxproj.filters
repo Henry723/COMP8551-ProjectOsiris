@@ -89,7 +89,7 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\ModelImporter.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
@@ -113,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrData.cpp">
       <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Camera.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +145,7 @@
     </ClInclude>
     <ClInclude Include="src\Renderer3D\ModelImporter.h">
       <Filter>Header Files\Renderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrData.h">
       <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Camera.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
