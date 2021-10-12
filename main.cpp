@@ -77,9 +77,10 @@ int main() {
 		// TODO allow for new "scene"
 		gamecontrol->Update(0.1f);
 
-		if (scene.isNewScene())
+		if (scene.isNewScene()) {
+			delete gamecontrol;
 			gamecontrol = new GameControl(window, scene.getScene());
-
+		}
 	}
 	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.
