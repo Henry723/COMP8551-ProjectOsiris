@@ -6,10 +6,24 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
 	ComponentHandle<Model3D> hmodel;
+	ComponentHandle<Transform> htransform;
+	ComponentHandle<Camera> hCamera;
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
 
+	//the main camera
+	Camera* camera;
+
+	//loop through camera entities. This only works with one camera.
+	auto cameraEntities = es.entities_with_components(hCamera, htransform);
+	for (auto entity = cameraEntities.begin(); entity != cameraEntities.end(); ++entity)
+	{
+		camera = (*entity).component<Camera>().get();
+		Transform* transform = (*entity).component<Transform>().get();
+		camera->Position = transform->position;
+	}
+	
 	// Loop through window components (there will likely only be one.)
 	auto en = es.entities_with_components(hwindow, hcolor);
 	for (auto entity = en.begin(); entity != en.end(); ++entity)
@@ -22,13 +36,17 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 
 	// Loop through Model3D components
-	auto modelEntities = es.entities_with_components(hmodel);
+	auto modelEntities = es.entities_with_components(hmodel, htransform);
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
 		Model3D* model = (*entity).component<Model3D>().get();
-
+		Transform* transform = (*entity).component<Transform>().get();
+		model->translate(transform->position);
+		model->scale(transform->scale);
+		model->rotate(glm::vec3(transform->rotation.r, transform->rotation.g, transform->rotation.b), transform->rotation.a);
+		
 		//cout << "Drawing model " << model.name << endl;
 		//model->Draw();
-		draw(model);
+		draw(model, camera);	
 	}
 
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
@@ -39,7 +57,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 }
 
-void RenderSystem::draw(Model3D* modelComponent)
+void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 {
 	// TEST - Changing uniforms over time.
 	float timeValue = glfwGetTime();
@@ -57,8 +75,8 @@ void RenderSystem::draw(Model3D* modelComponent)
 	modelComponent->shader_program.setMat4("projection", projection);
 
 	//get view matrix from camera and set it in shader
-	//glm::mat4 view = camera.GetViewMatrix();
-	//modelComponent->shader_program.setMat4("view", view);
+	glm::mat4 view = cameraComponent->GetViewMatrix();
+	modelComponent->shader_program.setMat4("view", view);
 
 	//get model matrix and set in shader
 	glm::mat4 model = modelComponent->getModelMatrix();
@@ -80,4 +98,5 @@ void RenderSystem::draw(Model3D* modelComponent)
 	glDrawElements(GL_TRIANGLES, modelComponent->numIndices, GL_UNSIGNED_INT, 0);
 	// 5. Unbind the VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	modelComponent->resetModelMatrix();
 }

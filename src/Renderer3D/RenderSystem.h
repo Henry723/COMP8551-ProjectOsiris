@@ -11,6 +11,6 @@ public:
   
 
 private:
-  void draw(Model3D* modelComponent);
+  void draw(Model3D* modelComponent, Camera* cameraComponent);
 };
 

@@ -181,6 +181,10 @@ void Model3D::scale(glm::vec3 scale) {
 	transformation_matrix = glm::scale(transformation_matrix, scale);
 }
 
+void Model3D::resetModelMatrix() {
+	transformation_matrix = glm::mat4(1.0f);
+}
+
 glm::mat4 Model3D::getModelMatrix()
 {
 	return transformation_matrix;

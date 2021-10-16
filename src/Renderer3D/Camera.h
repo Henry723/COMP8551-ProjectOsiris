@@ -20,7 +20,7 @@ const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
-class Camera
+struct Camera
 {
 public:
     // camera Attributes
@@ -32,16 +32,11 @@ public:
     // euler Angles
     float Yaw;
     float Pitch;
+    Camera();
 
-    Camera(glm::vec3 position , glm::vec3 up , float yaw = YAW, float pitch = PITCH)
-    {
-       
-    }
+    Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch);
 
-    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
-    {
- 
-    }
+    Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
 
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix()
