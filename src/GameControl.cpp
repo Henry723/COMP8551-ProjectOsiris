@@ -36,6 +36,19 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // TEST - Create a 3D model entity for the RenderSystem to use
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
+  playerEntity.assign<Transform>(glm::vec3(1.0f), glm::vec4(1.0f), glm::vec3(1.0f));
+  // Second Entity for reference
+  entityx::Entity nemesisEntity = entities.create();
+  nemesisEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
+  nemesisEntity.assign<Transform>(glm::vec3(-3.0f, 0, 0), glm::vec4(0, 1.0, 0, 20), glm::vec3(3.0f));
+
+  entityx::Entity cameraEntity = entities.create();
+  //change the YAW and PITCH here in the 3rd and 4th argument
+  cameraEntity.assign<Camera>(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
+  //change the camera's position here in the first argument
+  cameraEntity.assign<Transform>(glm::vec3(0, 0.0f, -8.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
+
+
 
   //TEST - Load up configuration file, run the test function, grab position data of specified object
   CCfgMgrPhysical txml("./src/Configuration/gameobjects.xml");
