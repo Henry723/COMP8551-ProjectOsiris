@@ -28,16 +28,19 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	cout << endl;
 
 	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
-	float squareAttribs[] = {
-		// positions			// normals				// tex co-ords
-		0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
-	};
+	//float squareAttribs[] = {
+	//	// positions			// normals				// tex co-ords
+	//	0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+	//	0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
+	//	-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
+	//	-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
+	//};
 	
-	// copy(attributes.begin(), attributes.end(), std::ostream_iterator<double>(cout, "; "));
-	
+	float* squareAttribs = attributes.data();
+	for (size_t i = 0; i < attributes.size(); ++i) {
+		cout << squareAttribs[i] << "; ";
+	}
+	cout << endl;
 
 	// float* squareVerts = &attributes[0];
 
@@ -53,12 +56,11 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	cout << endl;
 
 	numIndices = indices.size(); // We'll need the index count for DrawElements function! For now it's hard-coded.
-	unsigned int squareIndices[] = { // note that we start from 0.
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
-
-	
+	//unsigned int squareIndices[] = { // note that we start from 0.
+	//	0, 1, 3,   // first triangle
+	//	1, 2, 3    // second triangle
+	//};
+	unsigned int* squareIndices = indices.data();
 
 	// unsigned int* squareIndices = &indices[0];
 
