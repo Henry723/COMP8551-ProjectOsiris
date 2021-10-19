@@ -1,11 +1,14 @@
 #include "GameControl.h"
 
 // TEMP - These will likely be adapted into an asset system?
-//const char* modelSource = "./src/Renderer3D/Models/wayfarer.obj";
-const char* modelSource = "./src/Renderer3D/Models/plane.obj";
+const char* src_playerModel = "./src/Renderer3D/Models/wayfarer.obj";
+const char* src_playerTexture = "./src/Renderer3D/Textures/tex_wayfarer.jpg";
+
+const char* src_floorTileModel = "./src/Renderer3D/Models/stone_tile_1.obj";
+const char* src_floorTileTexture = "./src/Renderer3D/Textures/tex_crate.jpg";
+
 const char* vertSource = "./src/Renderer3D/Shaders/Default.vert";
 const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
-const char* texSource = "./src/Renderer3D/Textures/container.jpg";
 
 GameControl::GameControl(GLFWwindow* window, string filename)
 {
@@ -35,12 +38,13 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
   // TEST - Create a 3D model entity for the RenderSystem to use
   entityx::Entity playerEntity = entities.create();
-  playerEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
-  playerEntity.assign<Transform>(glm::vec3(1.0f), glm::vec4(1.0f), glm::vec3(1.0f));
+  playerEntity.assign<Model3D>(src_playerModel, vertSource, fragSource, src_playerTexture);
+  playerEntity.assign<Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec4(1.0, 0, 0, 0), glm::vec3(1.0f));
+
   // Second Entity for reference
-  entityx::Entity nemesisEntity = entities.create();
-  nemesisEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
-  nemesisEntity.assign<Transform>(glm::vec3(-3.0f, 0, 0), glm::vec4(0, 1.0, 0, 20), glm::vec3(3.0f));
+  entityx::Entity floorTileEntity = entities.create();
+  floorTileEntity.assign<Model3D>(src_floorTileModel, vertSource, fragSource, src_floorTileTexture);
+  floorTileEntity.assign<Transform>(glm::vec3(-3.0f, 0, 0), glm::vec4(1.0, 0, 0, 90), glm::vec3(1.0f));
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument

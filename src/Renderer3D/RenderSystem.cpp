@@ -11,6 +11,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
+	glEnable(GL_DEPTH_TEST);
+
 
 	//the main camera
 	Camera* camera;
@@ -29,10 +31,10 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	for (auto entity = en.begin(); entity != en.end(); ++entity)
 	{
 		Color *col = (*entity).component<Color>().get();
-		// rendering commands
+		// rendering commands`
 		// ...
 		glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
-		glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
 	}
 
 	// Loop through Model3D components
