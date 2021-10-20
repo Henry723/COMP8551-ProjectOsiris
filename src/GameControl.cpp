@@ -39,12 +39,12 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // TEST - Create a 3D model entity for the RenderSystem to use
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(src_playerModel, vertSource, fragSource, src_playerTexture);
-  playerEntity.assign<Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec4(1.0, 0, 0, 0), glm::vec3(1.0f));
+  playerEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0.0f), glm::vec4(1.0, 0, 0, 0), glm::vec3(1.0f));
 
   // Second Entity for reference
   entityx::Entity floorTileEntity = entities.create();
   floorTileEntity.assign<Model3D>(src_floorTileModel, vertSource, fragSource, src_floorTileTexture);
-  floorTileEntity.assign<Transform>(glm::vec3(-3.0f, 0, 0), glm::vec4(1.0, 0, 0, 90), glm::vec3(1.0f));
+  floorTileEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 90), glm::vec3(1.0f));
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
