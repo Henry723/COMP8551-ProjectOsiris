@@ -72,6 +72,9 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	// 1. Choose the shader to use
 	modelComponent->shader_program.use();
 
+	//set ambient light value in shader
+	modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
+
 	//create perspective matrix and set it in shader
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 	modelComponent->shader_program.setMat4("projection", projection);
