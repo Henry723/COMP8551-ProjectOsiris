@@ -21,6 +21,17 @@
 using namespace std;
 using std::copy;
 
+struct Vertex {
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec3 TexCoord;
+};
+
+struct Texture {
+	unsigned int id;
+	string type;
+};
+
 struct Model3D {
 
 private:
@@ -28,7 +39,10 @@ private:
 	glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
+	
+	vector<Vertex> vertices;
 	vector<unsigned int> indices;
+	vector<Texture> textures;
 
 public:
 	unsigned int vao;
