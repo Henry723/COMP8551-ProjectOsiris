@@ -1,5 +1,5 @@
 #include "RenderSystem.h"
-
+// lighting
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
 	// Create component handles to filter components
@@ -71,9 +71,16 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//		This is called FOR EACH object we want to draw this frame.
 	// 1. Choose the shader to use
 	modelComponent->shader_program.use();
-
-	//set ambient light value in shader
+	
+	//Ambient lights
+	//sets ambient light value in shader (r, g, b)
 	modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
+
+	//Diffuse lights
+	//sets position of the diffuse lighting
+	modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
+	//sets diffuse light value in shader (r, g, b)
+	modelComponent->shader_program.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
 
 	//create perspective matrix and set it in shader
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
