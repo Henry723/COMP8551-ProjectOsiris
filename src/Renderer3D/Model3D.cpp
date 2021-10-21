@@ -101,10 +101,6 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	int texAttributeSize = 2; // 2 - Only need a 2D coord for UV's
 	int texOffset = (posAttributeSize + colAttributeSize);
 
-	//int normalAttributeID = 3;
-	//int normAttributeSize = 3; // 3
-	//int normOffset = (posAttributeSize + colAttributeSize + normAttributeSize);
-
 	int attributeOffset = (posAttributeSize + colAttributeSize + texAttributeSize); // The sum of all attribute sizes
 
 	// Vertex Position Attribute
@@ -118,9 +114,6 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	// Texture Coordinate Attribute
 	glVertexAttribPointer(textureAttributeID, texAttributeSize, GL_FLOAT, GL_FALSE, attributeOffset * sizeof(float), (void*)(texOffset * sizeof(float)));
 	glEnableVertexAttribArray(textureAttributeID);
-
-	//glVertexAttribPointer(normalAttributeID, normAttributeSize, GL_FLOAT, GL_FALSE, attributeOffset * sizeof(float), (void*)(normOffset * sizeof(float))); // Start at the END of texture attribute
-	//glEnableVertexAttribArray(normalAttributeID);
 
 	vao = VAO;
 	vbo = VBO;
