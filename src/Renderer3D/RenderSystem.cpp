@@ -1,5 +1,5 @@
 #include "RenderSystem.h"
-// lighting
+
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
 	// Create component handles to filter components
@@ -71,16 +71,28 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//		This is called FOR EACH object we want to draw this frame.
 	// 1. Choose the shader to use
 	modelComponent->shader_program.use();
-	
-	//Ambient lights
-	//sets ambient light value in shader (r, g, b)
+
+	//Camera
+	//sets the camera location which calculates the camera position relative to the models
+	modelComponent->shader_program.setVec3("positionOffset", cameraComponent->Position.x, cameraComponent->Position.y, cameraComponent->Position.z);
+
+	//Default ambient lights
+	//sets the ambient light value in shader (r, g, b)
 	modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
 
-	//Diffuse lights
-	//sets position of the diffuse lighting
+	// Default diffuse lights
+	//sets the position of the diffuse lighting
 	modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
-	//sets diffuse light value in shader (r, g, b)
+	//sets the diffuse light value in shader (r, g, b)
 	modelComponent->shader_program.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+	//sets the specular light value of light in shader (r, g, b)
+	modelComponent->shader_program.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+	// Default material properties
+	//sets the specular light value of the material in shader (r, g, b)
+	modelComponent->shader_program.setVec3("material.specular", 1.0f, 1.0f, 1.0f);
+	//sets the material shininess value in shader, the higher the value the less "shiny" it is.
+	modelComponent->shader_program.setFloat("material.shininess", 10.0f);
 
 	//create perspective matrix and set it in shader
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
