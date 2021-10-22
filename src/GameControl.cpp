@@ -7,8 +7,20 @@ const char* src_playerTexture = "./src/Renderer3D/Textures/tex_wayfarer.jpg";
 const char* src_enemyModel = "./src/Renderer3D/Models/scarab.obj";
 const char* src_enemyTexture = "./src/Renderer3D/Textures/tex_scarab.jpg";
 
-const char* src_floorTileModel = "./src/Renderer3D/Models/stone_tile_1.obj";
-const char* src_floorTileTexture = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
+const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
+const char* src_keyTexture = "./src/Renderer3D/Textures/tex_key_totem.jpg";
+
+const char* src_treasureModel = "./src/Renderer3D/Models/treasure_pile.obj";
+const char* src_treasureTexture = "./src/Renderer3D/Textures/tex_treasurePile.jpg";
+
+const char* src_floorTile1Model = "./src/Renderer3D/Models/stone_tile_1.obj";
+const char* src_floorTile1Texture = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
+
+const char* src_floorTile2Model = "./src/Renderer3D/Models/stone_tile_2.obj";
+const char* src_floorTile2Texture = "./src/Renderer3D/Textures/tex_floorTile2.jpg";
+
+const char* src_floorTile3Model = "./src/Renderer3D/Models/stone_tile_3.obj";
+const char* src_floorTile3Texture = "./src/Renderer3D/Textures/tex_floorTile3.jpg";
 
 const char* vertSource = "./src/Renderer3D/Shaders/Default.vert";
 const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
@@ -39,19 +51,39 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entity.assign<Window>(window);
   entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
 
-  // TEST - Create a 3D model entity for the RenderSystem to use
+  // Create a 3D model entity for the RenderSystem to use
+  // Player
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(src_playerModel, vertSource, fragSource, src_playerTexture);
   playerEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0.0f), glm::vec4(0, 1.0, 0, 0), glm::vec3(1.0f));
 
-  // Floor tile
-  entityx::Entity floorTileEntity = entities.create();
-  floorTileEntity.assign<Model3D>(src_floorTileModel, vertSource, fragSource, src_floorTileTexture);
-  floorTileEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
-
+  // Enemy
   entityx::Entity enemyEntity = entities.create();
   enemyEntity.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
+
+  // Treasure Pile
+  entityx::Entity treasureEntity = entities.create();
+  treasureEntity.assign<Model3D>(src_treasureModel, vertSource, fragSource, src_treasureTexture);
+  treasureEntity.assign<Transform>(glm::vec3(2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+
+  // Key
+  entityx::Entity keyEntity = entities.create();
+  keyEntity.assign<Model3D>(src_keyModel, vertSource, fragSource, src_keyTexture);
+  keyEntity.assign<Transform>(glm::vec3(0.0f, 0.5f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+
+  // Floor tiles
+  entityx::Entity floorTile1Entity = entities.create();
+  floorTile1Entity.assign<Model3D>(src_floorTile1Model, vertSource, fragSource, src_floorTile1Texture);
+  floorTile1Entity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
+
+  entityx::Entity floorTile2Entity = entities.create();
+  floorTile2Entity.assign<Model3D>(src_floorTile2Model, vertSource, fragSource, src_floorTile2Texture);
+  floorTile2Entity.assign<Transform>(glm::vec3(2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 110), glm::vec3(1.0f, 1.0f, 1.0f));
+
+  entityx::Entity floorTile3Entity = entities.create();
+  floorTile3Entity.assign<Model3D>(src_floorTile3Model, vertSource, fragSource, src_floorTile3Texture);
+  floorTile3Entity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -110), glm::vec3(1.0f, 1.0f, 1.0f));
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
