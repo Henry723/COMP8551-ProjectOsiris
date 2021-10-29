@@ -16,7 +16,6 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	importer.loadModel(modelSource, attributes, indices);
 
 	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
-
 	numIndices = indices.size();
 
 	// ..:: Initialization code (done once (unless your object frequently changes)) ::..

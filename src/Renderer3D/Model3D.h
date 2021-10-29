@@ -19,6 +19,7 @@
 #include <vector>
 
 using namespace std;
+using std::copy;
 
 struct Vertex {
 	glm::vec3 Position;
@@ -59,9 +60,6 @@ public:
 	void scale(glm::vec3 scale);
 	glm::mat4 getModelMatrix();
 	void resetModelMatrix();
-
-	// Draw Function: TODO move to RenderSystem?
-	void Draw();
 
 };
 
