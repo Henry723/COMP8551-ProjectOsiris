@@ -19,6 +19,18 @@
 #include <vector>
 
 using namespace std;
+using std::copy;
+
+struct Vertex {
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec3 TexCoord;
+};
+
+struct Texture {
+	unsigned int id;
+	string type;
+};
 
 struct Model3D {
 
@@ -27,7 +39,10 @@ private:
 	glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
+	
+	vector<Vertex> vertices;
 	vector<unsigned int> indices;
+	vector<Texture> textures;
 
 public:
 	unsigned int vao;
@@ -43,9 +58,8 @@ public:
 	void translate(glm::vec3 translation);
 	void rotate(glm::vec3 rotationAxis, float degrees);
 	void scale(glm::vec3 scale);
-
-	// Draw Function: TODO move to RenderSystem?
-	void Draw();
+	glm::mat4 getModelMatrix();
+	void resetModelMatrix();
 
 };
 
