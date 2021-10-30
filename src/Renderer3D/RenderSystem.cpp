@@ -15,7 +15,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 
 	//the main camera
-	Camera* camera;
+	Camera* camera = &Camera();
 
 	//loop through camera entities. This only works with one camera.
 	auto cameraEntities = es.entities_with_components(hCamera, htransform);
@@ -84,13 +84,13 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//sets the position of the diffuse lighting
 	modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
 	//sets the diffuse light value in shader (r, g, b)
-	modelComponent->shader_program.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+	modelComponent->shader_program.setVec3("light.diffuse", 0.2f + 171.0/255, 0.2f + 138.0/255, 0.2f + 126.0/255);
 	//sets the specular light value of light in shader (r, g, b)
-	modelComponent->shader_program.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 
 	// Default material properties
 	//sets the specular light value of the material in shader (r, g, b)
-	modelComponent->shader_program.setVec3("material.specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setVec3("material.specular", 0.0f, 0.0f, 0.0f);
 	//sets the material shininess value in shader, the higher the value the less "shiny" it is.
 	modelComponent->shader_program.setFloat("material.shininess", 10.0f);
 
