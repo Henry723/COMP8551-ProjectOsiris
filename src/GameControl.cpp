@@ -13,8 +13,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
+  systems.add<PhysicsTest>();
   systems.add<UISystem>();
-  systems.add<InputEventTester>();
+  //systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
   systems.configure();
@@ -34,10 +35,21 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entityx::Entity entity = entities.create();
   entity.assign<Window>(window);
   entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
-
+  
   // TEST - Create a 3D model entity for the RenderSystem to use
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
+  playerEntity.assign<Transform>(glm::vec3(0, 0, 0), glm::vec4(0, 0, 0, 0), glm::vec3(1, 1, 1));
+  playerEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, 
+                                Rigidbody::ColliderType::PLAYER, 
+                                1, glm::vec2(5,0));
+
+  entityx::Entity enemyEntity = entities.create();
+  enemyEntity.assign<Model3D>(modelSource, vertSource, fragSource, texSource);
+  enemyEntity.assign<Transform>(glm::vec3(5, 0, 0), glm::vec4(0, 0, 0, 0), glm::vec3(1, 1, 1));
+  enemyEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE,
+      Rigidbody::ColliderType::PLAYER,
+      1, glm::vec2(5, 0));
 
   //TEST - Load up configuration file, run the test function, grab position data of specified object
   CCfgMgrPhysical txml("./src/Configuration/gameobjects.xml");
@@ -51,6 +63,8 @@ void GameControl::Update(TimeDelta dt)
   systems.update<RenderSystem>(dt);
   //systems.update<UISystem>(dt); Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
+  systems.update<PhysicsTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
+
   
 }
