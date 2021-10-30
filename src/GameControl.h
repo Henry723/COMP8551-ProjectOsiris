@@ -1,10 +1,12 @@
 #pragma once
 #include "components.hpp"
 #include "Input/InputSystem.h"
+#include "Input/InputEventTester.h"
 #include "Renderer3D/RenderSystem.h"
 #include "Physics/PhysicsEngine.h"
+#include "UI/UI.h"
 #include "Configuration/CfgMgrPhysical.h"
-#include "Events/SampleEvent.h"
+#include "Events/EventSystem.h"
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"

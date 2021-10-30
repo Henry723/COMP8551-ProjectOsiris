@@ -30,7 +30,6 @@ int main() {
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW Window", NULL, NULL);
 
-
 	// 1. If the window failed to create, return -1.
 	if (window == NULL)
 	{
@@ -38,6 +37,8 @@ int main() {
 		glfwTerminate();
 		return -1;
 	}
+
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1); // ensure that key press events do not go unhandled in certain cases where many events are happening
 
 	// 2. Set the context to our new window.
 	glfwMakeContextCurrent(window);
@@ -76,9 +77,10 @@ int main() {
 		// TODO allow for new "scene"
 		gamecontrol->Update(0.1f);
 
-		if (scene.isNewScene())
+		if (scene.isNewScene()) {
+			delete gamecontrol;
 			gamecontrol = new GameControl(window, scene.getScene());
-
+		}
 	}
 	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.

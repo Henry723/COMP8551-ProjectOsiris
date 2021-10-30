@@ -13,6 +13,11 @@ PhysicsEngine::PhysicsEngine()
     test();
 }
 
+PhysicsEngine::~PhysicsEngine()
+{
+    if (world) delete world;
+}
+
 void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
     if (world)
@@ -35,6 +40,57 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     //}
 }
 
+/**
+PhysicsBody addBody(float size)
+{
+
+}
+
+bool removeBody(PhysicsBody body)
+{
+
+}
+
+void setBodyPosition(PhysicsBody body, Vector Position)
+{
+
+}
+
+void setBodyVelocity(PhysicsBody body, Vector velocity)
+{
+
+}
+
+void setBodyImpulse(PhysicsBody body, Vector force)
+{
+
+}
+
+void setBodyTransform(PhysicsBody body, Vector transform)
+{
+
+}
+
+Vector getBodyPosition(PhysicsBody body)
+{
+
+}
+
+Vector getBodyVelocity(PhysicsBody body)
+{
+
+}
+
+Vector getBodyImpulse(PhysicsBody body)
+{
+
+}
+
+Vector getBodyTransform(PhysicsBody body)
+{
+
+}
+*/
 void PhysicsEngine::test()
 {
 	b2BodyDef ballBodyDef;

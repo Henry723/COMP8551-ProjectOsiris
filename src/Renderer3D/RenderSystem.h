@@ -2,6 +2,8 @@
 #include "../components.hpp"
 #include "Camera.h"
 #include <glm/glm.hpp>
+#include "../UI/UI.h"
+
 
 class RenderSystem : public System<RenderSystem>
 {

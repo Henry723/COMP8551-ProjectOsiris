@@ -6,9 +6,35 @@ using entityx::EventManager;
 using entityx::Event;
 using entityx::Receiver;
 
+// Custom event for Movement Inputs
+// InpDir - Enum used to indicate which direction input was detected
+struct MoveInput {
+	enum InpDir {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT
+	};
+	explicit MoveInput(InpDir dir) : dir(dir){}
+	InpDir dir;
+};
+
+// Custom event for Attack Inputs
+// InpDir - Enum used to indicate which direction input was detected
+struct AttackInput {
+	enum InpDir {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT
+	};
+	explicit AttackInput(InpDir dir) : dir(dir) {}
+	InpDir dir;
+};
+
 //Create the custom events as such
 struct ExampleEvent {
-	explicit ExampleEvent(int a, int b) :a(a), b(b) {}
+	explicit ExampleEvent(int a, int b) : a(a), b(b) {}
 	int a, b;
 };
 
