@@ -147,8 +147,8 @@ void UISystem::RenderAll()
 
 int UISystem::NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active)
 {
-    TextElement* text = new TextElement{ value, posX, posY, scale, color, active };
-    textElements.push_back(*text);
+    TextElement text = { value, posX, posY, scale, color, active };
+    textElements.push_back(text);
     numElements += 1;
     //std::cout << "UISystem: " << value << ": numElements = " << numElements << std::endl;
     return numElements - 1; // returns element "ID" used to access the element in textElements
