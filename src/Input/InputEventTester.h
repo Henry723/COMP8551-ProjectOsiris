@@ -2,6 +2,7 @@
 #include "../components.hpp"
 #include "../Events/EventSystem.h"
 #include <entityx/Event.h>
+#include "../UI/UI.h"
 
 using entityx::EventManager;
 using entityx::Event;

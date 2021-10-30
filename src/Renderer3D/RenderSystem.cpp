@@ -1,6 +1,7 @@
 #include "RenderSystem.h"
 
-UISystem ui;
+UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
+int bottomText, topText, leftText, rightText; // Create int IDs for each of the text elements you want to render
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -41,12 +42,15 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
-		ui.NewTextElement("text 1", 200.0f, 100.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f), true);
-		ui.NewTextElement("text 2", 500.0f, 550.0f, 0.8f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		bottomText = ui.NewTextElement("BOTTOM TEXT", 300.0f, 100.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		topText = ui.NewTextElement("TOP TEXT", 300.0f, 550.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		leftText = ui.NewTextElement("LEFT TEXT", 25.0f, 250.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		rightText = ui.NewTextElement("RIGHT TEXT", 610.0f, 250.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
 		ui.configured = true;
 	}
-
-	ui.RenderAll();
+	else {
+		ui.RenderAll(); // Render all text elements which are set as active
+	}
 
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
 	for (auto entity = en.begin(); entity != en.end(); ++entity)
