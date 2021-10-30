@@ -119,6 +119,7 @@
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
+    <ClCompile Include="src\Renderer3D\Camera.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\ModelImporter.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ModelSource.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
@@ -141,6 +143,7 @@
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
+    <ClInclude Include="src\Renderer3D\Camera.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\ModelImporter.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
