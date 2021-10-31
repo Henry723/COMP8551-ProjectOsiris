@@ -9,7 +9,7 @@ public:
 	PhysicsEngine();
 	~PhysicsEngine();
 	void update(EntityManager&, EventManager&, TimeDelta) override;
-	b2Body* CreateBody(Entity* entity, Rigidbody* body);
+	b2Body* CreateBody(Entity entity, Rigidbody* body);
 	void CleanupBodies();
 
 private:

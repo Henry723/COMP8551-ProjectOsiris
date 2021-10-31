@@ -11,6 +11,7 @@ using entityx::Receiver;
 struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, EntityX {
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
+	void receive(const Collision& event);
 	void receive(const MoveInput& event); // Prints Movement Direction to console on event caught
 
 	bool left = false;

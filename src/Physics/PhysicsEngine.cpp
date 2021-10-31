@@ -4,11 +4,52 @@
 const float MAX_TIMESTEP = 1.0f / 60.0f; //Timestep for Box2D (60 FPS)
 const int NUM_VEL_ITERATIONS = 20; //Velocity iterations
 const int NUM_POS_ITERATIONS = 3; //Position iterations
+stack<Collision> collisions;
+
+struct CollisionData
+{
+    Entity e;
+};
+
+class CollisionListener : public b2ContactListener
+{
+public: 
+    void BeginContact(b2Contact* contact) {};
+    void EndContact(b2Contact* contact) {};
+    void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+    {
+        b2WorldManifold worldManifold;
+        contact->GetWorldManifold(&worldManifold);
+        b2PointState state1[2], state2[2];
+        b2GetPointStates(state1, state2, oldManifold, contact->GetManifold());
+        if (state2[0] == b2_addState)
+        {
+            //Grab the bodies from the collision
+            CollisionData* entityA = (CollisionData*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
+            CollisionData* entityB = (CollisionData*)contact->GetFixtureB()->GetBody()->GetUserData().pointer;
+
+            //If two bodies exist...
+            if (entityA && entityB)
+            {
+                Entity entity = entityA->e;
+                ComponentHandle<GameObject> obj = entity.component<GameObject>();
+                if (obj) cout << "anem sutf " << obj->name;
+                Entity entityb = entityB->e;
+                ComponentHandle<GameObject> objb = entityb.component<GameObject>();
+                if (objb) cout << "anem bbbb " << objb->name;
+                collisions.push(Collision(&entityA->e, &entityB->e));
+            }
+        }
+    }
+    void PostSolve(b2Contact* contact, const b2Manifold* oldManifold) {};
+};
 
 PhysicsEngine::PhysicsEngine()
 {
 	b2Vec2* gravity = new b2Vec2(0.0f, 0.0f);
 	world = new b2World(*gravity);
+    CollisionListener* collisionListener = new CollisionListener();
+    world->SetContactListener(collisionListener);
 }
 
 PhysicsEngine::~PhysicsEngine()
@@ -20,12 +61,12 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
     ComponentHandle<Rigidbody> rigidbody;
     for (Entity entity : es.entities_with_components(rigidbody)) {
+        
         Rigidbody* body = entity.component<Rigidbody>().get();
         if (!body->isCreated)
         {
-            ComponentHandle<GameObject> comp = entity.component<GameObject>();
-            cout << "in update (create): " << comp->name << endl;
-            body->body = CreateBody(&entity, body);
+            body->body = CreateBody(entity, body);
+
         }
         else if (body->toDelete)
         {
@@ -44,15 +85,16 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
     {
         b2Vec2 pos = b->GetPosition();
-        Entity* parent = (Entity*)b->GetUserData().pointer;
-        ComponentHandle<Transform> transform = parent->component<Transform>();
-
-        ComponentHandle<GameObject> comp = parent->component<GameObject>();
-        //cout << "in update (transform): " << comp->name << endl;
-
-        //cout << "body position: " << pos.x << " " << pos.y << endl;
-
+        //Entity* parent = (Entity*)b->GetUserData().pointer;
+        //ComponentHandle<Transform> transform = parent->component<Transform>();
+        //cout << "body at position x=" << pos.x << " y=" << pos.y << endl;
         //if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
+    }
+
+    if (!collisions.empty())
+    {
+        ev.emit(collisions.top());
+        collisions.pop();
     }
 
     if (world)
@@ -80,26 +122,32 @@ void PhysicsEngine::CleanupBodies()
     }
 }
 
-b2Body* PhysicsEngine::CreateBody(Entity* entity, Rigidbody* rb)
+b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
 {
     b2BodyDef bodyDef;
     b2Body* body;
 
     bodyDef.position.Set(rb->position.x, rb->position.y);
 
-    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(entity);
-    ///=========================
-    rb->parentEntity = entity;
-    ///========================
-    ComponentHandle<GameObject> comp = entity->component<GameObject>();
-    cout << "in create: " << comp->name << endl;
 
-    if (rb->type == Rigidbody::ColliderType::PLAYER || rb->type == Rigidbody::ColliderType::ENEMY)
+    CollisionData* data = new CollisionData;
+    data->e = entity;
+    bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(data);
+
+    ///=========================
+    //rb->parentEntity = entity;
+    ///========================
+
+    if (rb->type == Rigidbody::ColliderType::PLAYER || rb->type == Rigidbody::ColliderType::ENEMY) {
         bodyDef.type = b2_dynamicBody;
+    }
     else if (rb->type == Rigidbody::ColliderType::COLLECTIBLE || rb->type == Rigidbody::ColliderType::WALL)
+    {
         bodyDef.type = b2_staticBody;
+    }
     else if (rb->type == Rigidbody::ColliderType::PLAYER_ATTACK || rb->type == Rigidbody::ColliderType::ENEMY_ATTACK)
-        bodyDef.type = b2_kinematicBody;
+    {  bodyDef.type = b2_kinematicBody;
+}
     else {} //No valid collider type
 
     body = world->CreateBody(&bodyDef);
@@ -119,21 +167,13 @@ b2Body* PhysicsEngine::CreateBody(Entity* entity, Rigidbody* rb)
         else if (rb->shape == Rigidbody::BodyShape::CIRCLE)
         {
             b2CircleShape circle;
-            circle.m_p.Set(rb->position.x, rb->position.y);
-            circle.m_radius = rb->size;
+            circle.m_p.Set(0, 0);
+            circle.m_radius = rb->size/2;
             fixture.shape = &circle;
             body->CreateFixture(&fixture);
         }
         else {} //No valid body shape 
     }
     rb->isCreated = true;
-
-    Entity* parent = (Entity*)body->GetUserData().pointer;
-    ComponentHandle<Transform> transform = parent->component<Transform>();
-
-    ComponentHandle<GameObject> comp2 = parent->component<GameObject>();
-    cout << "in create (cast): " << comp2->name << endl;
-
-
     return body;
 }

@@ -66,7 +66,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entityx::Entity enemyEntity = entities.create();
   enemyEntity.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::PLAYER, 1, glm::vec2(-2.0f, 0.0f));
+  enemyEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::ENEMY, 1, glm::vec2(-2.0f, 0.0f));
   enemyEntity.assign<GameObject>("enemy");
 
   // Treasure Pile
