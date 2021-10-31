@@ -119,6 +119,7 @@
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
+    <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
+    <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\ModelImporter.h" />
