@@ -26,13 +26,24 @@ struct Transform
 	Transform(glm::vec3 _position, glm::vec4 _rotation, glm::vec3 _scale) : position(_position), rotation(_rotation), scale(_scale) {}
 };
 
+struct Collider
+{
+	enum class Shape { BOX, CIRCLE };
+
+	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type = "") : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
+	bool isSensor;
+	Shape shape;
+	int size;
+	string type;
+	glm::vec2 position;
+};
+
 struct Rigidbody
 {
 public:
-	enum class BodyShape { BOX, CIRCLE };
 	enum class ColliderType { PLAYER, PLAYER_ATTACK, ENEMY, ENEMY_ATTACK, COLLECTIBLE, WALL };
 
-	Rigidbody(BodyShape _bs, ColliderType _ct, float _size, glm::vec2 _pos) : shape(_bs), type(_ct), position(_pos), dest(_pos), size(_size) {}
+	Rigidbody(vector<Collider> _colliders, ColliderType _ct, glm::vec2 _pos) : colliders(_colliders), type(_ct), position(_pos), dest(_pos) {}
 
 	glm::vec2 GetPosition()
 	{
@@ -83,22 +94,27 @@ public:
 	glm::vec2 dest;
 	bool moveBody = false;
 
-	float size;
 	glm::vec2 position;
-	BodyShape shape;
 	ColliderType type;
 
 	b2Body* body = nullptr;
 	bool isCreated = false;
 	bool toDelete = false;
+	vector<Collider> colliders;
 };
+
+
 
 struct Collision
 {
 	Entity* a;
 	Entity* b;
 
+	string fA = nullptr;
+	string fB = nullptr;
+
 	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(fB) {}
 };
 
 struct GameObject

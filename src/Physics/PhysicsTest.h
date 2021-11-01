@@ -18,4 +18,9 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	bool right = false;
 	bool up = false;
 	bool down = false;
+
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
+	bool canMoveUp = true;
+	bool canMoveDown = true;
 };

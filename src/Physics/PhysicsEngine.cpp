@@ -11,6 +11,11 @@ struct CollisionData
     Entity e;
 };
 
+struct FixtureData
+{
+    string name;
+};
+
 class CollisionListener : public b2ContactListener
 {
 public: 
@@ -20,7 +25,19 @@ public:
         CollisionData* dataA = (CollisionData*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
         CollisionData* dataB = (CollisionData*)contact->GetFixtureB()->GetBody()->GetUserData().pointer;
         //If two bodies exist...
-        if (dataA && dataB) collisions.push(Collision(&dataA->e, &dataB->e));
+        if (dataA && dataB)
+        {
+            if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureB()->IsSensor())
+            {
+                FixtureData* fA = (FixtureData*)contact->GetFixtureA()->GetUserData().pointer;
+                FixtureData* fB = (FixtureData*)contact->GetFixtureB()->GetUserData().pointer;
+                collisions.push(Collision(&dataA->e, &dataB->e, fA->name, fA->name));
+            }
+            else
+            {
+                collisions.push(Collision(&dataA->e, &dataB->e));
+            }
+        }
     };
     void EndContact(b2Contact* contact) {};
     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
@@ -107,8 +124,6 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
     }
 
-
-
     if (!collisions.empty())
     {
         ev.emit(collisions.top());
@@ -144,17 +159,11 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
 {
     b2BodyDef bodyDef;
     b2Body* body;
-    b2FixtureDef fixture;
     bodyDef.position.Set(rb->position.x, rb->position.y);
-
 
     CollisionData* data = new CollisionData;
     data->e = entity;
     bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(data);
-
-    ///=========================
-    //rb->parentEntity = entity;
-    ///========================
 
     if (rb->type == Rigidbody::ColliderType::PLAYER || rb->type == Rigidbody::ColliderType::ENEMY) {
         bodyDef.type = b2_dynamicBody;
@@ -162,7 +171,7 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
     else if (rb->type == Rigidbody::ColliderType::COLLECTIBLE || rb->type == Rigidbody::ColliderType::WALL)
     {
         bodyDef.type = b2_staticBody;
-        fixture.isSensor = true;
+        
     }
     else if (rb->type == Rigidbody::ColliderType::PLAYER_ATTACK || rb->type == Rigidbody::ColliderType::ENEMY_ATTACK)
     {  bodyDef.type = b2_kinematicBody;
@@ -170,27 +179,36 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
     else {} //No valid collider type
 
     body = world->CreateBody(&bodyDef);
+
     if (body)
     {
-        fixture.density = 1.0f;
-        fixture.friction = 0.0f;
-        fixture.restitution = 0.0f;
-        if (rb->shape == Rigidbody::BodyShape::BOX)
+        for (Collider c : rb->colliders)
         {
-            b2PolygonShape box;
-            box.SetAsBox(rb->size, rb->size);
-            fixture.shape = &box;
-            body->CreateFixture(&fixture);
+            b2FixtureDef fixture;
+            fixture.density = 1.0f;
+            fixture.friction = 0.0f;
+            fixture.restitution = 0.0f;
+            fixture.isSensor = c.isSensor;
+            FixtureData* fData = new FixtureData;
+            fData->name = c.type != "" ? c.type : "body";
+            fixture.userData.pointer = reinterpret_cast<uintptr_t>(fData);
+            if (c.shape == Collider::Shape::BOX)
+            {
+                b2PolygonShape box;
+                box.SetAsBox(c.size, c.size);
+                fixture.shape = &box;
+                body->CreateFixture(&fixture);
+            }
+            else if (c.shape == Collider::Shape::CIRCLE)
+            {
+                b2CircleShape circle;
+                circle.m_p.Set(c.position.x, c.position.y);
+                circle.m_radius = c.size;
+                fixture.shape = &circle;
+                body->CreateFixture(&fixture);
+            }
+            else {} //No valid body shape 
         }
-        else if (rb->shape == Rigidbody::BodyShape::CIRCLE)
-        {
-            b2CircleShape circle;
-            circle.m_p.Set(0, 0);
-            circle.m_radius = rb->size/2;
-            fixture.shape = &circle;
-            body->CreateFixture(&fixture);
-        }
-        else {} //No valid body shape 
     }
     rb->isCreated = true;
     return body;

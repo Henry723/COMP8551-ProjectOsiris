@@ -11,36 +11,48 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		if (object && object->name == "player")
 		{
 			glm::vec2 position = rigidbody->GetPosition();
-			if (left)
+			if (left && canMoveLeft)
+
 			{
-				//rigidbody->SetVelocity(glm::vec2(-0.5, 0));
+				canMoveLeft = true;
+				canMoveRight = true;
+				canMoveUp = true;
+				canMoveDown = true;
+				
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), glm::vec2(-0.5, 0));
-				//rigidbody->SetPosition(glm::vec2(position.x - 2, position.y));
-				left = false;
+
 			}
-			if (right)
+			if (right && canMoveRight)
 			{
+				canMoveLeft = true;
+				canMoveRight = true;
+				canMoveUp = true;
+				canMoveDown = true;
+				
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), glm::vec2(0.5, 0));
-				//rigidbody->ApplyForce(glm::vec2(0.5, 0));
-				//rigidbody->SetPosition(glm::vec2(position.x + 2, position.y));
-				right = false;
-
 			}
-			if (up)
+			if (up && canMoveUp)
 			{
+				canMoveLeft = true;
+				canMoveRight = true;
+				canMoveUp = true;
+				canMoveDown = true;
+				
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), glm::vec2(0, -0.5));
-				//rigidbody->ApplyImpulse(glm::vec2(0, -0.5));
-				//rigidbody->SetPosition(glm::vec2(position.x, position.y + 2));
-				up = false;
-
 			}
-			if (down)
+			if (down && canMoveDown)
 			{
+				canMoveLeft = true;
+				canMoveRight = true;
+				canMoveUp = true;
+				canMoveDown = true;
+				
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), glm::vec2(0, 0.5));
-				//rigidbody->SetVelocity(glm::vec2(0, 0.5));
-				//rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), glm::vec2(0, -0.5));
-				down = false;
-			}
+			}	
+			right = false;
+			up = false;
+			down = false;
+			left = false;
 		}
 	}
 }
@@ -52,7 +64,12 @@ void PhysicsTest::configure(EventManager& em) {
 
 void PhysicsTest::receive(const Collision& event)
 {
-	cout << "collision event received" << endl;
+	cout << "collision event received for " << event.fA << " and " << event.fB << endl;
+	
+	if (event.fA == "left" || event.fB == "left") this->canMoveLeft = false;
+	if (event.fA == "right" || event.fB == "right") this->canMoveRight = false;
+	if (event.fA == "top" || event.fB == "top") this->canMoveUp = false;
+	if (event.fA == "bottom" || event.fB == "bottom") this->canMoveDown = false;
 	//if (event.a && event.b)
 	//{
 	//	ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
@@ -78,6 +95,7 @@ void PhysicsTest::receive(const Collision& event)
 	//		}
 	//	}
 	//}
+	cout << "can move left " << canMoveLeft << endl;
 }
 
 void PhysicsTest::receive(const MoveInput& event) {
