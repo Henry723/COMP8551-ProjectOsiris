@@ -32,7 +32,7 @@ public:
 	enum class BodyShape { BOX, CIRCLE };
 	enum class ColliderType { PLAYER, PLAYER_ATTACK, ENEMY, ENEMY_ATTACK, COLLECTIBLE, WALL };
 
-	Rigidbody(BodyShape _bs, ColliderType _ct, float _size, glm::vec2 _pos) : shape(_bs), type(_ct), position(_pos), size(_size) {}
+	Rigidbody(BodyShape _bs, ColliderType _ct, float _size, glm::vec2 _pos) : shape(_bs), type(_ct), position(_pos), dest(_pos), size(_size) {}
 
 	glm::vec2 GetPosition()
 	{
@@ -61,10 +61,27 @@ public:
 		body->ApplyForce(b2Vec2(f.x, f.y), body->GetLocalCenter(), true);
 	}
 
+	void ApplyImpulse(glm::vec2 i)
+	{
+		body->ApplyForce(b2Vec2(i.x, i.y), body->GetPosition(), true);
+	}
+
 	void DeleteBody()
 	{
 		toDelete = true;
 	}
+
+	void MoveToPosition(glm::vec2 newPos, glm::vec2 speed)
+	{
+		moveBody = true;
+		dest = newPos;
+		glm::vec2 a = this->GetPosition();
+		glm::vec2 b = newPos;
+		this->SetVelocity(speed);
+	}
+
+	glm::vec2 dest;
+	bool moveBody = false;
 
 	float size;
 	glm::vec2 position;
@@ -74,8 +91,6 @@ public:
 	b2Body* body = nullptr;
 	bool isCreated = false;
 	bool toDelete = false;
-
-	Entity* parentEntity;
 };
 
 struct Collision

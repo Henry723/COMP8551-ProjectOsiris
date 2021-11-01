@@ -14,7 +14,14 @@ struct CollisionData
 class CollisionListener : public b2ContactListener
 {
 public: 
-    void BeginContact(b2Contact* contact) {};
+    void BeginContact(b2Contact* contact) 
+    {
+        //Grab the bodies from the collision
+        CollisionData* dataA = (CollisionData*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
+        CollisionData* dataB = (CollisionData*)contact->GetFixtureB()->GetBody()->GetUserData().pointer;
+        //If two bodies exist...
+        if (dataA && dataB) collisions.push(Collision(&dataA->e, &dataB->e));
+    };
     void EndContact(b2Contact* contact) {};
     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
     {
@@ -33,10 +40,8 @@ public:
             {
                 Entity entity = entityA->e;
                 ComponentHandle<GameObject> obj = entity.component<GameObject>();
-                if (obj) cout << "anem sutf " << obj->name;
                 Entity entityb = entityB->e;
                 ComponentHandle<GameObject> objb = entityb.component<GameObject>();
-                if (objb) cout << "anem bbbb " << objb->name;
                 collisions.push(Collision(&entityA->e, &entityB->e));
             }
         }
@@ -75,21 +80,34 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         } ///=========================
         else
         {
-            b2Vec2 pos = body->body->GetPosition();
-            ComponentHandle<Transform> transform = entity.component<Transform>();
-            if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
+            //b2Vec2 pos = body->body->GetPosition();
+           //ComponentHandle<Transform> transform = entity.component<Transform>();
+            //if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
         }
         ///=========================
+
+        if (body->moveBody)
+        {
+            glm::vec2 dist = body->dest - body->GetPosition();
+            if (dist.x < 0.1 && dist.y < 0.1)
+            {
+                body->SetVelocity(glm::vec2(0, 0));
+                body->SetPosition(body->dest);
+                body->moveBody = false;
+            }
+        }
     }
 
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
     {
         b2Vec2 pos = b->GetPosition();
-        //Entity* parent = (Entity*)b->GetUserData().pointer;
-        //ComponentHandle<Transform> transform = parent->component<Transform>();
-        //cout << "body at position x=" << pos.x << " y=" << pos.y << endl;
-        //if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
+        CollisionData* bodyData = (CollisionData*)b->GetUserData().pointer;
+        Entity entity = bodyData->e;
+        ComponentHandle<Transform> transform = entity.component<Transform>();
+        if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
     }
+
+
 
     if (!collisions.empty())
     {
@@ -126,7 +144,7 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
 {
     b2BodyDef bodyDef;
     b2Body* body;
-
+    b2FixtureDef fixture;
     bodyDef.position.Set(rb->position.x, rb->position.y);
 
 
@@ -144,6 +162,7 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
     else if (rb->type == Rigidbody::ColliderType::COLLECTIBLE || rb->type == Rigidbody::ColliderType::WALL)
     {
         bodyDef.type = b2_staticBody;
+        fixture.isSensor = true;
     }
     else if (rb->type == Rigidbody::ColliderType::PLAYER_ATTACK || rb->type == Rigidbody::ColliderType::ENEMY_ATTACK)
     {  bodyDef.type = b2_kinematicBody;
@@ -153,7 +172,6 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
     body = world->CreateBody(&bodyDef);
     if (body)
     {
-        b2FixtureDef fixture;
         fixture.density = 1.0f;
         fixture.friction = 0.0f;
         fixture.restitution = 0.0f;

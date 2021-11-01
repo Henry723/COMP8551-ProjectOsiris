@@ -59,20 +59,22 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(src_playerModel, vertSource, fragSource, src_playerTexture);
   playerEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0.0f), glm::vec4(0, 1.0, 0, 0), glm::vec3(1.0f));
-  playerEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::PLAYER, 1, glm::vec2(0.0f, 0.0f));
+  playerEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::PLAYER, 0.5, glm::vec2(0.0f, 0.0f));
   playerEntity.assign<GameObject>("player");
 
   // Enemy
   entityx::Entity enemyEntity = entities.create();
   enemyEntity.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::ENEMY, 1, glm::vec2(-2.0f, 0.0f));
+  enemyEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::ENEMY, 0.5, glm::vec2(-2.0f, 0.0f));
   enemyEntity.assign<GameObject>("enemy");
 
   // Treasure Pile
   entityx::Entity treasureEntity = entities.create();
   treasureEntity.assign<Model3D>(src_treasureModel, vertSource, fragSource, src_treasureTexture);
   treasureEntity.assign<Transform>(glm::vec3(2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+  treasureEntity.assign<Rigidbody>(Rigidbody::BodyShape::CIRCLE, Rigidbody::ColliderType::COLLECTIBLE, 0.5, glm::vec2(2.0f, 0.0f));
+  treasureEntity.assign<GameObject>("treasure");
 
   // Key
   entityx::Entity keyEntity = entities.create();
