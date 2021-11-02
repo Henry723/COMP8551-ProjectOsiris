@@ -11,9 +11,11 @@ using entityx::Receiver;
 struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, EntityX {
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
-	void receive(const Collision& event);
-	void receive(const MoveInput& event); // Prints Movement Direction to console on event caught
+	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
+	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
+	void ResetMoveFlags(); //Convenience function for reset collision flags
 
+	//Some bools to track input status and collision based movement
 	bool left = false;
 	bool right = false;
 	bool up = false;
