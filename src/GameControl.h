@@ -10,6 +10,7 @@
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"
+#include "Physics/PhysicsTest.h"
 // TESTING -- End --
 
 // TODO Create Game Control for menus & game

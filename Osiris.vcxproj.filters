@@ -131,12 +131,15 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\Camera.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Input\InputEventTester.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsTest.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +193,7 @@
     </ClInclude>
     <ClInclude Include="ModelSource.h">
       <Filter>Header Files\Renderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Events\EventSystem.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsTest.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
