@@ -1,7 +1,7 @@
 #include "RenderSystem.h"
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
-int bottomText, topText, leftText, rightText; // Create int IDs for each of the text elements you want to render
+int healthText, scoreText; // Create int IDs for each of the text elements you want to render
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -62,10 +62,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
-		bottomText = ui.NewTextElement("BOTTOM TEXT", 300.0f, 100.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
-		topText = ui.NewTextElement("TOP TEXT", 300.0f, 550.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
-		leftText = ui.NewTextElement("LEFT TEXT", 25.0f, 250.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
-		rightText = ui.NewTextElement("RIGHT TEXT", 610.0f, 250.0f, 0.6f, glm::vec3(0.2, 0.7f, 0.9f), true);
+		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		ui.configured = true;
 	}
 	else {
