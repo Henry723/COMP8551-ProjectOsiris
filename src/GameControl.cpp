@@ -74,6 +74,24 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   enemyEntity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
   enemyEntity.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 0.0f));
   enemyEntity.assign<GameObject>("enemy");
+  //
+  entityx::Entity enemyEntity2 = entities.create();
+  enemyEntity2.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
+  enemyEntity2.assign<Transform>(glm::vec3(-2.0f, -2.0f, -2.0f), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
+  enemyEntity2.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, -2.0f));
+  enemyEntity2.assign<GameObject>("enemy");
+  //
+  entityx::Entity enemyEntity3 = entities.create();
+  enemyEntity3.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
+  enemyEntity3.assign<Transform>(glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
+  enemyEntity3.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 2.0f));
+  enemyEntity3.assign<GameObject>("enemy");
+  //
+  entityx::Entity enemyEntity4 = entities.create();
+  enemyEntity4.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
+  enemyEntity4.assign<Transform>(glm::vec3(4.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
+  enemyEntity4.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(4.0f, 0.0f));
+  enemyEntity4.assign<GameObject>("enemy");
 
   // Treasure Pile
   entityx::Entity treasureEntity = entities.create();
@@ -81,24 +99,39 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   treasureEntity.assign<Transform>(glm::vec3(2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
   treasureEntity.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::COLLECTIBLE, glm::vec2(2.0f, 0.0f));
   treasureEntity.assign<GameObject>("treasure");
+  //
+  entityx::Entity treasureEntity2 = entities.create();
+  treasureEntity2.assign<Model3D>(src_treasureModel, vertSource, fragSource, src_treasureTexture);
+  treasureEntity2.assign<Transform>(glm::vec3(0.0f, -2.0f, 2.0f), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+  treasureEntity2.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::COLLECTIBLE, glm::vec2(0.0f, 2.0f));
+  treasureEntity2.assign<GameObject>("treasure");
+  //
+  entityx::Entity treasureEntity3 = entities.create();
+  treasureEntity3.assign<Model3D>(src_treasureModel, vertSource, fragSource, src_treasureTexture);
+  treasureEntity3.assign<Transform>(glm::vec3(2.0f, -2.0f, 2.0f), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+  treasureEntity3.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::COLLECTIBLE, glm::vec2(2.0f, 2.0f));
+  treasureEntity3.assign<GameObject>("treasure");
 
   // Key
   entityx::Entity keyEntity = entities.create();
   keyEntity.assign<Model3D>(src_keyModel, vertSource, fragSource, src_keyTexture);
   keyEntity.assign<Transform>(glm::vec3(0.0f, 0.5f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
 
-  // Floor tiles
-  entityx::Entity floorTile1Entity = entities.create();
-  floorTile1Entity.assign<Model3D>(src_floorTile1Model, vertSource, fragSource, src_floorTile1Texture);
-  floorTile1Entity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
-
-  entityx::Entity floorTile2Entity = entities.create();
-  floorTile2Entity.assign<Model3D>(src_floorTile2Model, vertSource, fragSource, src_floorTile2Texture);
-  floorTile2Entity.assign<Transform>(glm::vec3(2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, 110), glm::vec3(1.0f, 1.0f, 1.0f));
-
-  entityx::Entity floorTile3Entity = entities.create();
-  floorTile3Entity.assign<Model3D>(src_floorTile3Model, vertSource, fragSource, src_floorTile3Texture);
-  floorTile3Entity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -110), glm::vec3(1.0f, 1.0f, 1.0f));
+  //Generate floor tiles
+  int mapMax = 3;
+  int mapMin = -2;
+  for (int i = mapMin; i < mapMax; i++)
+  {
+      for (int j = mapMin; j < mapMax; j++)
+      {
+          entityx::Entity floorTile1Entity = entities.create();
+          const char* src_Model = src_floorTile1Model;
+          if ((i + j) % 3 == 1) src_Model = src_floorTile2Model;
+          if ((i + j) % 3 == 2) src_Model = src_floorTile3Model;
+          floorTile1Entity.assign<Model3D>(src_Model, vertSource, fragSource, src_floorTile1Texture);
+          floorTile1Entity.assign<Transform>(glm::vec3(i * 2, -2.0f, j * 2), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
+      }
+  }
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
