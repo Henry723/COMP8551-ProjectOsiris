@@ -1,5 +1,6 @@
 #include "InputEventTester.h"
 
+
 void InputEventTester::configure(EventManager& em) {
 	em.subscribe<MoveInput>(*this);
 	em.subscribe<AttackInput>(*this);
