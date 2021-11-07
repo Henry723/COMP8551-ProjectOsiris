@@ -13,16 +13,28 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
 	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
+	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
 	void ResetMoveFlags(); //Convenience function for reset collision flags
+	void ResetCollisionEntities(); //Convenience function for resetting detected entities
 
-	//Some bools to track input status and collision based movement
+	//Movement input flags
 	bool left = false;
 	bool right = false;
 	bool up = false;
 	bool down = false;
-
+	//Collision flags for available movement
 	bool canMoveLeft = true;
 	bool canMoveRight = true;
 	bool canMoveUp = true;
 	bool canMoveDown = true;
+	//Attack input flags
+	bool attackLeft = true;
+	bool attackRight = true;
+	bool attackUp = true;
+	bool attackDown = true;
+	//Directional entities relative to body
+	Entity* leftEntity = nullptr;
+	Entity* rightEntity = nullptr;
+	Entity* upEntity = nullptr;
+	Entity* downEntity = nullptr;
 };

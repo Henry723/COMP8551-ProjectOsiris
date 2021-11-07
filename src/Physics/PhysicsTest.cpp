@@ -39,11 +39,61 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
 			}
+
+			if (attackLeft && leftEntity)
+			{
+				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
+				cout << "attacking " << targetObj->name << " to the left" << endl;
+
+				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
+				targetRb->DeleteBody();
+				leftEntity->destroy();
+				canMoveLeft = true;
+				this->leftEntity = nullptr;
+			}
+			if (attackRight && rightEntity)
+			{
+				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
+				cout << "attacking " << targetObj->name << " to the right" << endl;
+
+				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
+				targetRb->DeleteBody();
+				rightEntity->destroy();
+				canMoveRight = true;
+				this->rightEntity = nullptr;
+			}
+			if (attackUp && upEntity)
+			{
+				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
+				cout << "attacking " << targetObj->name << " to the top" << endl;
+
+				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
+				targetRb->DeleteBody();
+				upEntity->destroy();
+				canMoveUp = true;
+				this->upEntity = nullptr;
+			}
+			if (attackDown && downEntity)
+			{
+				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
+				cout << "attacking " << targetObj->name << " to the bottom" << endl;
+
+				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
+				targetRb->DeleteBody();
+				downEntity->destroy();
+				canMoveDown = true;
+				this->downEntity = nullptr;
+			}
+
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
 			up = false;
 			down = false;
 			left = false;
+			attackRight = false;
+			attackUp = false;
+			attackDown = false;
+			attackLeft = false;
 		}
 	}
 }
@@ -55,22 +105,73 @@ void PhysicsTest::ResetMoveFlags()
 	canMoveRight = true;
 	canMoveUp = true;
 	canMoveDown = true;
+	ResetCollisionEntities(); //Will have to reset detected entities on move as well
+}
+
+//Convenience function for resetting detected entities
+void PhysicsTest::ResetCollisionEntities()
+{
+	this->leftEntity = nullptr;
+	this->rightEntity = nullptr;
+	this->upEntity = nullptr;
+	this->downEntity = nullptr;
 }
 
 void PhysicsTest::configure(EventManager& em) {
 	em.subscribe<MoveInput>(*this);
 	em.subscribe<Collision>(*this);
+	em.subscribe<AttackInput>(*this);
 }
 
 void PhysicsTest::receive(const Collision& event)
 {
 	cout << "collision event received for " << event.fA << " and " << event.fB << endl;
-	//Collision is just checking for any directional sensors being hit and telling the player if they can or cant move.
-	//Can be further customised to check specifically for Treasure/Enemy/Walls/etc
-	if (event.fA == "left" || event.fB == "left") this->canMoveLeft = false;
-	if (event.fA == "right" || event.fB == "right") this->canMoveRight = false;
-	if (event.fA == "top" || event.fB == "top") this->canMoveUp = false;
-	if (event.fA == "bottom" || event.fB == "bottom") this->canMoveDown = false;
+
+	//Direct body collision
+	if (event.fA == "body" && event.fB == "body")
+	{
+		//So far we only have treasure entities so we can delete that
+		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+		if (objectA->name == "treasure") event.a->destroy();
+		else if (objectB->name == "treasure") event.b->destroy();
+	}
+	//One collider was a named sensor
+	else
+	{
+		if (event.fA == "left" || event.fB == "left")
+		{
+			this->leftEntity = event.fA == "left" ? event.b : event.a;
+			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+			if (objectA->name == "enemy") this->canMoveLeft = false;
+			else if (objectB->name == "enemy") this->canMoveLeft = false;
+		}
+		else if (event.fA == "right" || event.fB == "right")
+		{
+			this->rightEntity = event.fA == "right" ? event.b : event.a;
+			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+			if (objectA->name == "enemy") this->canMoveRight = false;
+			else if (objectB->name == "enemy") this->canMoveRight = false;
+		}
+		else if (event.fA == "top" || event.fB == "top")
+		{
+			this->upEntity = event.fA == "top" ? event.b : event.a;
+			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+			if (objectA->name == "enemy") this->canMoveUp = false;
+			else if (objectB->name == "enemy") this->canMoveUp = false;
+		}
+		else if (event.fA == "bottom" || event.fB == "bottom")
+		{
+			this->downEntity = event.fA == "bottom" ? event.b : event.a;
+			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+			if (objectA->name == "enemy") this->canMoveDown = false;
+			else if (objectB->name == "enemy") this->canMoveDown = false;
+		}
+	}
 }
 
 //Receive function just sets boolean flags to be picked up by update loop
@@ -88,6 +189,25 @@ void PhysicsTest::receive(const MoveInput& event) {
 		break;
 	case MoveInput::RIGHT:
 		right = true;
+		break;
+	}
+}
+
+//Receive function just sets boolean flags to be picked up by update loop
+void PhysicsTest::receive(const AttackInput& event) {
+	AttackInput::InpDir dir = event.dir;
+	switch (dir) {
+	case AttackInput::UP:
+		attackUp = true;
+		break;
+	case AttackInput::LEFT:
+		attackLeft = true;
+		break;
+	case AttackInput::DOWN:
+		attackDown = true;
+		break;
+	case AttackInput::RIGHT:
+		attackRight = true;
 		break;
 	}
 }
