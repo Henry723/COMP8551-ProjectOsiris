@@ -115,9 +115,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   treasureEntity3.assign<GameObject>("treasure");
 
   // Key
-  entityx::Entity keyEntity = entities.create();
-  keyEntity.assign<Model3D>(src_keyModel, vertSource, fragSource, src_keyTexture);
-  keyEntity.assign<Transform>(glm::vec3(0.0f, 0.5f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
+  //entityx::Entity keyEntity = entities.create();
+  //keyEntity.assign<Model3D>(src_keyModel, vertSource, fragSource, src_keyTexture);
+  //keyEntity.assign<Transform>(glm::vec3(0.0f, 0.5f, 0), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f));
 
   //Generate floor tiles
   int mapMax = 3;
@@ -137,9 +137,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
-  cameraEntity.assign<Camera>(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
+  cameraEntity.assign<Camera>(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -80.0f);
   //change the camera's position here in the first argument
-  cameraEntity.assign<Transform>(glm::vec3(0, 0.0f, -8.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
+  cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
   //Load up game objects from configuration file. Currently loading player.
   CCfgMgrPhysical txml("./src/Game.xml");
