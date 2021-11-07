@@ -56,6 +56,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
   // Create a 3D model entity for the RenderSystem to use
   // Player
+  /*
   entityx::Entity playerEntity = entities.create();
   playerEntity.assign<Model3D>(src_playerModel, vertSource, fragSource, src_playerTexture);
   playerEntity.assign<Transform>(glm::vec3(0.0f, -2.0f, 0.0f), glm::vec4(0, 1.0, 0, 0), glm::vec3(1.0f));
@@ -67,6 +68,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   playerColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, -2), false, 0.5, "top"));
   playerEntity.assign<Rigidbody>(playerColliders, Rigidbody::ColliderType::PLAYER, glm::vec2(0.0f, 0.0f));
   playerEntity.assign<GameObject>("player");
+  */
 
   // Enemy
   entityx::Entity enemyEntity = entities.create();
@@ -139,12 +141,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, 0.0f, -8.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-
-
-  //TEST - Load up configuration file, run the test function, grab position data of specified object
-  CCfgMgrPhysical txml("./src/Configuration/gameobjects.xml");
-  txml.test();
-  cout << txml.getAttribute("Cube 2", "position") << endl;
+  //Load up game objects from configuration file. Currently loading player.
+  CCfgMgrPhysical txml("./src/Game.xml");
+  txml.LoadObjects(entities);
 }
 
 void GameControl::Update(TimeDelta dt)

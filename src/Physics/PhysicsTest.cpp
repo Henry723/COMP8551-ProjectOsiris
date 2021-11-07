@@ -85,7 +85,6 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				this->downEntity = nullptr;
 			}
 
-
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
 			up = false;
@@ -142,7 +141,7 @@ void PhysicsTest::receive(const Collision& event)
 	{
 		if (event.fA == "left" || event.fB == "left")
 		{
-			this->leftEntity = event.fA == "left" ? event.b : event.b;
+			this->leftEntity = event.fA == "left" ? event.b : event.a;
 			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
 			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 			if (objectA->name == "enemy") this->canMoveLeft = false;
@@ -150,7 +149,7 @@ void PhysicsTest::receive(const Collision& event)
 		}
 		else if (event.fA == "right" || event.fB == "right")
 		{
-			this->rightEntity = event.fA == "right" ? event.b : event.b;
+			this->rightEntity = event.fA == "right" ? event.b : event.a;
 			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
 			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 			if (objectA->name == "enemy") this->canMoveRight = false;
@@ -158,7 +157,7 @@ void PhysicsTest::receive(const Collision& event)
 		}
 		else if (event.fA == "top" || event.fB == "top")
 		{
-			this->upEntity = event.fA == "top" ? event.b : event.b;
+			this->upEntity = event.fA == "top" ? event.b : event.a;
 			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
 			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 			if (objectA->name == "enemy") this->canMoveUp = false;
@@ -166,7 +165,7 @@ void PhysicsTest::receive(const Collision& event)
 		}
 		else if (event.fA == "bottom" || event.fB == "bottom")
 		{
-			this->downEntity = event.fA == "bottom" ? event.b : event.b;
+			this->downEntity = event.fA == "bottom" ? event.b : event.a;
 			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
 			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 			if (objectA->name == "enemy") this->canMoveDown = false;

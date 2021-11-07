@@ -51,6 +51,147 @@ void CCfgMgrPhysical::PrintDocument()
     doc.Print(); //Print out the whole XML Doc
 }
 
+void CCfgMgrPhysical::LoadObjects(EntityManager& em)
+{
+    int test = 0;
+    tinyxml2::XMLElement* entity = doc.FirstChildElement("entity");
+    while(entity)
+    {
+        tinyxml2::XMLElement* object = entity->FirstChildElement("gameobject");
+        while (object)
+        {
+            //Create empty entity
+            Entity e = em.create();
+            
+            //Check for name, add game object if it exists
+            const char* object_name = object->Attribute("name");
+            if (object_name) e.assign<GameObject>(object_name);
+
+            //Check for model data and add if exists
+            tinyxml2::XMLElement* model_data = object->FirstChildElement("model3D");
+            if (model_data)
+            {
+                tinyxml2::XMLElement* model_src = model_data->FirstChildElement("model_src");
+                tinyxml2::XMLElement* text_src = model_data->FirstChildElement("text_src");
+                tinyxml2::XMLElement* vert_src = model_data->FirstChildElement("vert_src");
+                tinyxml2::XMLElement* frag_src = model_data->FirstChildElement("frag_src");
+                //Make sure all neccesary data is present.
+                if (model_src && text_src && vert_src && frag_src) e.assign<Model3D>(model_src->GetText(), 
+                                                                                    vert_src->GetText(), 
+                                                                                    frag_src->GetText(), 
+                                                                                    text_src->GetText());
+            }
+
+            //Check for transform data and add if exists
+            tinyxml2::XMLElement* transform_data = object->FirstChildElement("transform");
+            if (transform_data)
+            {
+                tinyxml2::XMLElement* position = transform_data->FirstChildElement("position");
+                tinyxml2::XMLElement* scale = transform_data->FirstChildElement("scale");
+                tinyxml2::XMLElement* rotation = transform_data->FirstChildElement("rotation");
+
+                //Make sure all neccesary data is present.
+                if (position && scale && rotation) e.assign<Transform>(ParseVec3(position->GetText()), 
+                                                                        ParseVec4(rotation->GetText()), 
+                                                                        ParseVec3(scale->GetText()));
+            }
+
+            //Check for rigidbody data and add if exists
+            tinyxml2::XMLElement* rigidbody_data = object->FirstChildElement("rigidbody");
+            if (rigidbody_data)
+            {
+                tinyxml2::XMLElement* position = rigidbody_data->FirstChildElement("position");
+                tinyxml2::XMLElement* colliders = rigidbody_data->FirstChildElement("colliders");
+                tinyxml2::XMLElement* collider = colliders->FirstChildElement("collider");
+
+                //Parse position data
+                glm::vec2 position_value = ParseVec2(position->GetText());
+
+                //Iterate over collider elements
+                vector<Collider> collider_list;
+                while (collider)
+                {
+                    //Get expected pieces of a colliders
+                    const char* shape = collider->Attribute("shape");
+                    const char* sensor = collider->Attribute("sensor");
+                    const char* size = collider->Attribute("size");
+                    const char* name = collider->Attribute("name");
+
+                    //Determine collider shape, default to circle
+                    Collider::Shape shape_value = Collider::Shape::CIRCLE;
+                    if (strcmp(shape, "circle") == 0) shape_value = Collider::Shape::CIRCLE;
+                    else if (strcmp(shape, "box") == 0) shape_value = Collider::Shape::BOX;
+
+                    //Get actual values from XML data
+                    bool sensor_value = sensor == "true" ? true : false;
+                    float size_value = std::stof((char*)size);
+                    char* name_value = (char*)name;
+                    glm::vec2 position_value = ParseVec2(collider->GetText());
+
+                    //Create the collider and add it to a vector
+                    collider_list.push_back(Collider(shape_value, position_value, sensor_value, size_value, name_value));
+                    collider = collider->NextSiblingElement("collider");
+                }
+
+                //Determine the rigidbody type, default to player which is a dynamic body
+                const char* type = rigidbody_data->Attribute("type");
+                Rigidbody::ColliderType type_value = Rigidbody::ColliderType::PLAYER;
+                if (strcmp(type, "player") == 0) type_value = Rigidbody::ColliderType::PLAYER;
+                else if (strcmp(type, "enemy") == 0) type_value = Rigidbody::ColliderType::ENEMY;
+                else if (strcmp(type, "collectible") == 0) type_value = Rigidbody::ColliderType::COLLECTIBLE;
+                else if (strcmp(type, "wall") == 0) type_value = Rigidbody::ColliderType::WALL;
+                else if (strcmp(type, "player attack") == 0) type_value = Rigidbody::ColliderType::PLAYER_ATTACK;
+                else if (strcmp(type, "enemy attack") == 0) type_value = Rigidbody::ColliderType::ENEMY_ATTACK;
+
+                //Make sure all neccesary data is present.
+                if (position && type) e.assign<Rigidbody>(collider_list, type_value, position_value);
+            }
+            object = object->NextSiblingElement("gameobject");
+        }
+        entity = entity->NextSiblingElement("entity");
+    }
+}
+
+glm::vec2 CCfgMgrPhysical::ParseVec2(const char* data)
+{
+    float vals[2];
+    int index = 0;
+    char* split = strtok((char*)data, ",");
+    while (split != NULL)
+    {
+        vals[index++] = std::stof(std::string(split));
+        split = strtok(NULL, ",");
+    }
+    return glm::vec2(vals[0], vals[1]);
+}
+
+glm::vec3 CCfgMgrPhysical::ParseVec3(const char* data)
+{
+    float vals[3];
+    int index = 0;
+    char* split = strtok((char*)data, ",");
+    while (split != NULL)
+    {
+        vals[index++] = std::stof(std::string(split));
+        split = strtok(NULL, ",");
+    }
+    return glm::vec3(vals[0], vals[1], vals[2]);
+}
+
+glm::vec4 CCfgMgrPhysical::ParseVec4(const char* data)
+{
+    float vals[4];
+    int index = 0;
+    char* split = strtok((char*)data, ",");
+    while (split != NULL)
+    {
+        vals[index++] = std::stof(std::string(split));
+        split = strtok(NULL, ",");
+    }
+    return glm::vec4(vals[0], vals[1], vals[2], vals[3]);
+}
+
+
 void CCfgMgrPhysical::test()
 {
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< BEGIN TEST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
@@ -113,4 +254,9 @@ const char* CCfgMgrPhysical::getAttribute(const char* name, const char* attribut
         obj = obj->NextSiblingElement("gameobject");
     }
     return "Object not found";
+}
+
+const char* CCfgMgrPhysical::GetElement(const char* name)
+{
+    return "";
 }
