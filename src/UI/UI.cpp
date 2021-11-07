@@ -145,16 +145,20 @@ void UISystem::RenderAll()
     }
 }
 
-void UISystem::NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active)
+int UISystem::NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active)
 {
-    TextElement text = {value, posX, posY, scale, color, active};
+    TextElement text = { value, posX, posY, scale, color, active };
     textElements.push_back(text);
+    numElements += 1;
+    //std::cout << "UISystem: " << value << ": numElements = " << numElements << std::endl;
+    return numElements - 1; // returns element "ID" used to access the element in textElements
 }
 
 void UISystem::setup() {
     // Currently only calls the LoadFreeType function and sets up the shader. Other setup steps can also be added here
     LoadFreeType();
     ShaderSetup();
+    numElements = 0;
 }
 
 void UISystem::ShaderSetup() // Create and return a shader for text rendering
@@ -186,17 +190,11 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    if (!configured) { // Initialize FreeType and VAO/VBOs 
-        //Shader2 shader = ShaderSetup();
-        //glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
-        //glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-        LoadFreeType(); 
-        configured = true;
-    }
-
-    // Render 2d text on screen
-    RenderText(shader, "FreeType text 1", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.6f));
-    RenderText(shader, "FreeType text 2", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+    //if (!configured) { // Initialize FreeType and VAO/VBOs 
+    //    UISystem& ui = UISystem::getInstance();
+    //    ui.setup();
+    //    configured = true;
+    //}
 
     // This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
     for (auto entity = en.begin(); entity != en.end(); ++entity)
