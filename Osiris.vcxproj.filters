@@ -16,6 +16,63 @@
     <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{e5aabd7e-b012-4163-bc99-3cdf0bcf9e01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{32d68844-c4ff-4c3f-b321-0d6c723e3055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{8340e55a-ca48-4c95-a693-c8f889de7ec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{790047cc-96cc-42d2-8551-63b747bc69dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Shaders">
+      <UniqueIdentifier>{5ef8923e-e4c1-4c32-a537-e30066663092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Textures">
+      <UniqueIdentifier>{8f32fb49-ec02-4424-a060-537980aff700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Models">
+      <UniqueIdentifier>{29f31eb5-ff17-48e6-ae92-0e84c917e32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{3de30773-605f-4b1e-bbc4-a79b981dfbb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{ffc6d8b4-45ce-4250-b08f-67da2e534376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Configuration">
+      <UniqueIdentifier>{c0b86da6-d185-4403-9a00-b8d5f747854e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Configuration">
+      <UniqueIdentifier>{c6657139-630f-48ea-ba38-c7d8c9f98def}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{12f81ac6-d9fa-4d27-989e-ff830180d01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemoryManager">
+      <UniqueIdentifier>{48ec83cb-b7a2-4436-a43d-1d70696d0fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MemoryManager">
+      <UniqueIdentifier>{498e6fa7-ac06-4ee4-b13c-e9c692e5b508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{88cb8a4e-4df4-45e7-877b-cc5dd4c29032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{c1c9b563-81ae-4ddc-9f0f-6b10c6553a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\fonts">
+      <UniqueIdentifier>{37f39620-f0ae-4c41-a366-b1659aa15299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\shaders">
+      <UniqueIdentifier>{e80674ae-6462-4375-8902-3f6430ab196b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{4a563ad7-deb3-4afc-8228-550e7a8f12f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SceneManager">
+      <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,5 +81,187 @@
     <ClCompile Include="_dependencies\sources\glad\glad.c">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Input\InputSystem.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\RenderSystem.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Model3D.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Shader.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\stb_image.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsEngine.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\ModelImporter.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrPhysical.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\tinyxml2.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\EventSystem.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp">
+      <Filter>Source Files\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrApplication.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrData.cpp">
+      <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Camera.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputEventTester.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsTest.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputSystem.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\RenderSystem.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Model3D.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Shader.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\stb_image.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\ModelImporter.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
+      <Filter>Header Files\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MemoryManager\CMMPoolTester.h">
+      <Filter>Header Files\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrApplication.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Camera.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSource.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventSystem.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputEventTester.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\TextShader.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsTest.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Renderer3D\Shaders\Default.frag">
+      <Filter>Source Files\Renderer\Shaders</Filter>
+    </None>
+    <None Include="src\Renderer3D\Shaders\Default.vert">
+      <Filter>Source Files\Renderer\Shaders</Filter>
+    </None>
+    <None Include="src\UI\shaders\Default.frag">
+      <Filter>Source Files\UI\shaders</Filter>
+    </None>
+    <None Include="src\UI\shaders\Default.vert">
+      <Filter>Source Files\UI\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\Renderer3D\Textures\container.jpg">
+      <Filter>Source Files\Renderer\Textures</Filter>
+    </Image>
+    <ClInclude Include="src\Physics\PhysicsEngine.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="src\UI\fonts\ariblk.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arial.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arialbd.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\arialbi.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ariali.ttf">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALN.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNB.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNBI.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
+    <Font Include="src\UI\fonts\ARIALNI.TTF">
+      <Filter>Source Files\UI\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

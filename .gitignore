@@ -12,6 +12,9 @@
 *.o
 *.obj
 
+#Include renderer obj
+!/src/Renderer3D/Models/*.obj
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -20,6 +23,10 @@
 *.so
 *.dylib
 *.dll
+
+# .dll Rule Exclusions
+!assimp-vc142-mtd.dll
+!freetype.dll
 
 # Fortran module files
 *.mod

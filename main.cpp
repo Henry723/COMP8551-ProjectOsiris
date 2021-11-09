@@ -1,12 +1,4 @@
-// OpenGL Includes
-#include <glad/glad.h> // Always include glad first to get the OpenGL headers required by glfw
-#include <GLFW/glfw3.h>
-
-// Standard Library Includes
-#include <iostream>
-
-// Namespaces
-using namespace std;
+#include "src/GameControl.h"
 
 // ---
 // (TEMP) Global Properties
@@ -38,7 +30,6 @@ int main() {
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW Window", NULL, NULL);
 
-
 	// 1. If the window failed to create, return -1.
 	if (window == NULL)
 	{
@@ -46,6 +37,8 @@ int main() {
 		glfwTerminate();
 		return -1;
 	}
+
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1); // ensure that key press events do not go unhandled in certain cases where many events are happening
 
 	// 2. Set the context to our new window.
 	glfwMakeContextCurrent(window);
@@ -70,6 +63,10 @@ int main() {
 	//		We link these AFTER the window is created, but BEFORE the render loop is initiated.
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// Use scene manager to Create game control
+	SceneManager& scene = SceneManager::getInstance();
+	scene.setScene("filename");
+	GameControl* gamecontrol = new GameControl(window, scene.getScene());
 
 	// ---
 	// This is our Render Loop!
@@ -77,20 +74,15 @@ int main() {
 	// --- 
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
-		// input
-		processInput(window);
+		// TODO allow for new "scene"
+		gamecontrol->Update(0.1f);
 
-		// rendering commands
-		// ...
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // state-setting function of OpenGL
-		glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
-
-		// call events and swap the buffers
-		glfwSwapBuffers(window); //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
-		glfwPollEvents(); // checks if any events are triggered, updates the window state, and calls the corresponding functions (which we can register via callback methods)
-
+		if (scene.isNewScene()) {
+			delete gamecontrol;
+			gamecontrol = new GameControl(window, scene.getScene());
+		}
 	}
-
+	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.
 	glfwTerminate();
 
