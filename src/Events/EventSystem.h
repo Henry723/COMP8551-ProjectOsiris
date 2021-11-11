@@ -32,6 +32,11 @@ struct AttackInput {
 	InpDir dir;
 };
 
+// Custom event for Interact Inputs
+struct InteractInput {
+	explicit InteractInput(){}
+};
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}

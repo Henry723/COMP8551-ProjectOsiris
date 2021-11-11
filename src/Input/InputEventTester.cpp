@@ -4,6 +4,7 @@
 void InputEventTester::configure(EventManager& em) {
 	em.subscribe<MoveInput>(*this);
 	em.subscribe<AttackInput>(*this);
+	em.subscribe<InteractInput>(*this);
 }
 
 void InputEventTester::receive(const MoveInput& event) {
@@ -40,4 +41,8 @@ void InputEventTester::receive(const AttackInput& event) {
 		cout << "EVENT SYSTEM: ATTACK INPUT - RIGHT!" << endl;
 		break;
 	}
+}
+
+void InputEventTester::receive(const InteractInput& event) {
+	cout << "EVENT SYSTEM: INTERACTING..." << endl;
 }
