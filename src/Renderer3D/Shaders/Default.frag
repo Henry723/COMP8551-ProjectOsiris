@@ -37,8 +37,8 @@ void main()
     vec3 normal = normalize(vertexColor);
     vec3 lightDirection = normalize(light.position - FragPos);
     float diff = max(0.0, dot(normal, lightDirection));
-    diff = step(0.4, diff); //check how far of the models being hit by diffuse light (cel).
-    //diff = Posterize(3, diff); 
+    //diff = step(0.4, diff); //check how far of the models being hit by diffuse light (cel).
+    diff = Posterize(3, diff); 
     vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
 
     // Specular lighting to show how light reflects when it comes to each faces
@@ -46,8 +46,8 @@ void main()
     vec3 reflectDir = reflect(-lightDirection, normal);  
     float spec = max(0.0, dot(viewDir, reflectDir));
     spec = pow(spec, material.shininess);
-    spec = step(0.1, spec);
-    //spec = Posterize(2, spec);
+    //spec = step(0.1, spec);
+    spec = Posterize(2, spec);
     vec3 specular = light.specular * (spec * material.specular);  
 
     //the final results of the color 
