@@ -37,6 +37,18 @@ struct InteractInput {
 	explicit InteractInput(){}
 };
 
+// Custom event for Enemy movement debugging
+struct EnemyDebugInput {
+	enum InpDir {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT
+	};
+	explicit EnemyDebugInput(InpDir dir) : dir(dir){}
+	InpDir dir;
+};
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}
