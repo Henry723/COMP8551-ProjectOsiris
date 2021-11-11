@@ -23,6 +23,11 @@ uniform sampler2D texture1; // This uniform allows us to assign our texture as o
 uniform Light light; // This uniform creates our light object for ambient, diffuse, and specular lights.
 uniform Material material; // This uniform creates our material object for the models we imported
 
+//This function will segment light values to create another way to cel shading 
+float Posterize(float steps, float value){
+    return floor(value * steps) / steps;
+}
+
 void main()
 {
     // The ambient light that will apply to all of the objects
@@ -31,13 +36,18 @@ void main()
     // Diffuse lighting to show how light bounces when it comes to each faces
     vec3 normal = normalize(vertexColor);
     vec3 lightDirection = normalize(light.position - FragPos);
-    float diff = max(dot(normal, lightDirection), 0.0);
+    float diff = max(0.0, dot(normal, lightDirection));
+    //diff = step(0.4, diff); //check how far of the models being hit by diffuse light (cel).
+    diff = Posterize(3, diff); 
     vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
 
     // Specular lighting to show how light reflects when it comes to each faces
     vec3 viewDir = normalize(positionOffset - FragPos);
     vec3 reflectDir = reflect(-lightDirection, normal);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    float spec = max(0.0, dot(viewDir, reflectDir));
+    spec = pow(spec, material.shininess);
+    //spec = step(0.1, spec);
+    spec = Posterize(2, spec);
     vec3 specular = light.specular * (spec * material.specular);  
 
     //the final results of the color 
