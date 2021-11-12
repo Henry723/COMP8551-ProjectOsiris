@@ -1,5 +1,5 @@
 #version 330 core
-struct PointLight {
+struct Light {
     vec3 position;
 
     float constant;
@@ -41,6 +41,10 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
     float distance = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
+    //Posterize
+    diff = Posterize(3, diff);
+    spec = Posterize(2, spec);
+
     //combine results
     vec3 ambient = light.ambient * texture(texture1, TexCoord).rgb;
     vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
@@ -49,6 +53,11 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
     diffuse *= attenuation;
     specular *= attenuation;
     return (ambient + diffuse + specular);
+}
+
+//This function will segment light values to create another way to cel shading 
+float Posterize(float steps, float value){
+    return floor(value * steps) / steps;
 }
 
 void main()
