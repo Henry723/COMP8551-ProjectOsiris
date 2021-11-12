@@ -1,11 +1,18 @@
 #version 330 core
-struct Light {
+struct PointLight {
     vec3 position;
+
+    float constant;
+    float linear;
+    float quadratic;
 
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
 };
+
+#define NR_POINT_LIGHTS 4
+uniform PointLight pointLights[NR_POINT_LIGHTS];
 
 struct Material {
     vec3 specular;    
@@ -20,28 +27,60 @@ in vec3 FragPos; // the input variable from the vertex shader (same name and typ
 
 uniform vec3 positionOffset; // The global "uniform" position variable, possibly updated per frame through an external loop?
 uniform sampler2D texture1; // This uniform allows us to assign our texture as output for our Fragment shader
-uniform Light light; // This uniform creates our light object for ambient, diffuse, and specular lights.
+//uniform Light light; // This uniform creates our light object for ambient, diffuse, and specular lights.
 uniform Material material; // This uniform creates our material object for the models we imported
+
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
+    vec3 lightDir = normalize(light.position - fragPos);
+    //diffuse shading
+    float diff = max(dot(normal, lightDir), 0.0);
+    //specular shading
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    //attenuation
+    float distance = length(light.position - fragPos);
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+    //combine results
+    vec3 ambient = light.ambient * texture(texture1, TexCoord).rgb;
+    vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
+    vec3 specular = light.specular * (spec * material.specular);
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+    return (ambient + diffuse + specular);
+}
 
 void main()
 {
-    // The ambient light that will apply to all of the objects
-    vec3 ambient = light.ambient * texture(texture1, TexCoord).rgb;
-
-    // Diffuse lighting to show how light bounces when it comes to each faces
-    vec3 normal = normalize(vertexColor);
-    vec3 lightDirection = normalize(light.position - FragPos);
-    float diff = max(dot(normal, lightDirection), 0.0);
-    vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
-
-    // Specular lighting to show how light reflects when it comes to each faces
+    vec3 norm = normalize(vertexColor);
     vec3 viewDir = normalize(positionOffset - FragPos);
-    vec3 reflectDir = reflect(-lightDirection, normal);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * material.specular);  
 
-    //the final results of the color 
-    vec3 result = ambient + diffuse + specular;
+    vec3 result = vec3(0, 0, 0);
+    //point lights calculation
+    for(int i=0; i<NR_POINT_LIGHTS; i++)
+        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+    
 
     FragColor = vec4(result, 1.0);
+
+    // The ambient light that will apply to all of the objects
+    //vec3 ambient = light.ambient * texture(texture1, TexCoord).rgb;
+
+    // Diffuse lighting to show how light bounces when it comes to each faces
+    //vec3 normal = normalize(vertexColor);
+    //vec3 lightDirection = normalize(light.position - FragPos);
+    //float diff = max(dot(normal, lightDirection), 0.0);
+    //vec3 diffuse = vec3(light.diffuse) * diff * texture(texture1, TexCoord).rgb;
+
+    // Specular lighting to show how light reflects when it comes to each faces
+    //vec3 viewDir = normalize(positionOffset - FragPos);
+    //vec3 reflectDir = reflect(-lightDirection, normal);  
+    //float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    //vec3 specular = light.specular * (spec * material.specular);  
+
+    //the final results of the color 
+    //vec3 result = ambient + diffuse + specular;
+
+    //FragColor = vec4(result, 1.0);
 }

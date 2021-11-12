@@ -100,15 +100,71 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 
 	//Default ambient lights
 	//sets the ambient light value in shader (r, g, b)
-	modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
+	//modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
 
 	// Default diffuse lights
 	//sets the position of the diffuse lighting
-	modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
+	//modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
 	//sets the diffuse light value in shader (r, g, b)
-	modelComponent->shader_program.setVec3("light.diffuse", 0.2f + 171.0/255, 0.2f + 138.0/255, 0.2f + 126.0/255);
+	//modelComponent->shader_program.setVec3("light.diffuse", 0.2f + 171.0/255, 0.2f + 138.0/255, 0.2f + 126.0/255);
 	//sets the specular light value of light in shader (r, g, b)
-	modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
+	//modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
+
+	glm::vec3 pointLightPositions[] = {
+		glm::vec3(-4.0f, 4.0f, -6.0f), //upper left
+		glm::vec3(-4.0f, 4.0f, 6.0f), //bottom left
+		glm::vec3(4.0f, 4.0f, -6.0f), //upper right
+		glm::vec3(4.0f, 4.0f, 6.0f) //bottom right
+	};
+
+	// Distance Constant Linear Quadratic
+	// 7		1.0		0.7			1.8	
+	// 13		1.0		0.35		0.44	
+	// 20		1.0		0.22		0.20	
+	// 32		1.0		0.14		0.07	
+	// 50		1.0		0.09		0.032	
+	// 65		1.0		0.07		0.017
+	// 100		1.0		0.045		0.0075	
+	// 160		1.0		0.027		0.0028	
+	// 100		1.0		0.014		0.0007	
+
+	//Point lights
+	//point light 1
+	modelComponent->shader_program.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+	modelComponent->shader_program.setVec3("pointLights[0].ambient", 0.3f, 0.2f, 0.2f);
+	modelComponent->shader_program.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+	modelComponent->shader_program.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[0].constant", 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[0].linear", 0.027);
+	modelComponent->shader_program.setFloat("pointLights[0].quadratic", 0.0028);
+
+	//point light 2
+	modelComponent->shader_program.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+	modelComponent->shader_program.setVec3("pointLights[1].ambient", 0.3f, 0.2f, 0.2f);
+	modelComponent->shader_program.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+	modelComponent->shader_program.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[1].constant", 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[1].linear", 0.09);
+	modelComponent->shader_program.setFloat("pointLights[1].quadratic", 0.032);
+
+	//point light 3
+	modelComponent->shader_program.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+	modelComponent->shader_program.setVec3("pointLights[2].ambient", 0.3f, 0.2f, 0.2f);
+	modelComponent->shader_program.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+	modelComponent->shader_program.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[2].constant", 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[2].linear", 0.22);
+	modelComponent->shader_program.setFloat("pointLights[2].quadratic", 0.20);
+
+	//point light 4
+	modelComponent->shader_program.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+	modelComponent->shader_program.setVec3("pointLights[3].ambient", 0.3f, 0.2f, 0.2f);
+	modelComponent->shader_program.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+	modelComponent->shader_program.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[3].constant", 1.0f);
+	modelComponent->shader_program.setFloat("pointLights[3].linear", 0.22);
+	modelComponent->shader_program.setFloat("pointLights[3].quadratic", 0.20);
+
 
 	// Default material properties
 	//sets the specular light value of the material in shader (r, g, b)
