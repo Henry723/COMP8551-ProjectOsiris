@@ -1,5 +1,5 @@
 #version 330 core
-struct Light {
+struct PointLight {
     vec3 position;
 
     float constant;
@@ -10,7 +10,6 @@ struct Light {
     vec3 diffuse;
     vec3 specular;
 };
-
 #define NR_POINT_LIGHTS 4
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 
@@ -29,6 +28,11 @@ uniform vec3 positionOffset; // The global "uniform" position variable, possibly
 uniform sampler2D texture1; // This uniform allows us to assign our texture as output for our Fragment shader
 //uniform Light light; // This uniform creates our light object for ambient, diffuse, and specular lights.
 uniform Material material; // This uniform creates our material object for the models we imported
+
+//This function will segment light values to create another way to cel shading 
+float Posterize(float steps, float value){
+    return floor(value * steps) / steps;
+}
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
     vec3 lightDir = normalize(light.position - fragPos);
@@ -55,10 +59,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
     return (ambient + diffuse + specular);
 }
 
-//This function will segment light values to create another way to cel shading 
-float Posterize(float steps, float value){
-    return floor(value * steps) / steps;
-}
+
 
 void main()
 {
