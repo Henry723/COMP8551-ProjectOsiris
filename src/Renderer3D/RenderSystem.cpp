@@ -131,8 +131,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//Point lights
 	//point light 1
 	modelComponent->shader_program.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-	modelComponent->shader_program.setVec3("pointLights[0].ambient", 0.3f, 0.2f, 0.2f);
-	modelComponent->shader_program.setVec3("pointLights[0].diffuse", 0.2f + 171.0 / 255, 0.2f + 138.0 / 255, 0.2f + 126.0 / 255);
+	modelComponent->shader_program.setVec3("pointLights[0].ambient", 0.2f, 0.1f, 0.1f);
+	modelComponent->shader_program.setVec3("pointLights[0].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
 	modelComponent->shader_program.setVec3("pointLights[0].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 	modelComponent->shader_program.setFloat("pointLights[0].constant", 1.0f);
 	modelComponent->shader_program.setFloat("pointLights[0].linear", 0.027);
