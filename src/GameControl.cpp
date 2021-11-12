@@ -128,9 +128,12 @@ GameControl::GameControl(GLFWwindow* window, string filename)
       {
           entityx::Entity floorTile1Entity = entities.create();
           const char* src_Model = src_floorTile1Model;
+          const char* src_Texture = src_floorTile1Texture;
           if ((i + j) % 3 == 1) src_Model = src_floorTile2Model;
+          if ((i + j) % 3 == 1) src_Texture = src_floorTile2Texture;
           if ((i + j) % 3 == 2) src_Model = src_floorTile3Model;
-          floorTile1Entity.assign<Model3D>(src_Model, vertSource, fragSource, src_floorTile1Texture);
+          if ((i + j) % 3 == 2) src_Texture = src_floorTile3Texture;
+          floorTile1Entity.assign<Model3D>(src_Model, vertSource, fragSource, src_Texture);
           floorTile1Entity.assign<Transform>(glm::vec3(i * 2, -2.0f, j * 2), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
       }
   }
