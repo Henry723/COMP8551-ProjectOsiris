@@ -108,6 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\AIEnemy\EnemySystem.cpp" />
     <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrData.cpp" />
@@ -132,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelSource.h" />
+    <ClInclude Include="src\AIEnemy\EnemySystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />

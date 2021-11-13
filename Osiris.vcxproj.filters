@@ -73,6 +73,12 @@
     <Filter Include="Header Files\SceneManager">
       <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AIEnemy">
+      <UniqueIdentifier>{4d4429ad-0b00-4afb-a56f-e0c4c5867938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AIEnemy">
+      <UniqueIdentifier>{ab834fa1-c64b-4e6b-ac9b-957515b7a1b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="src\Physics\PhysicsTest.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AIEnemy\EnemySystem.cpp">
+      <Filter>Source Files\AIEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AIEnemy\EnemySystem.h">
+      <Filter>Header Files\AIEnemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

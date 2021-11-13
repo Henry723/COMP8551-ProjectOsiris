@@ -133,6 +133,34 @@ struct Collision
 	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
 };
 
+struct CommandFlags
+{
+	// Enemy Command input flags
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
+
+	//Attack input flags
+	bool attackLeft = true;
+	bool attackRight = true;
+	bool attackUp = true;
+	bool attackDown = true;
+
+	//Collision flags for available movement.
+	//		These will only be false if obstacles are detected.
+	bool canMoveUp = true;
+	bool canMoveDown = true;
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
+
+	//Directional entities relative to body
+	Entity* leftEntity = nullptr;
+	Entity* rightEntity = nullptr;
+	Entity* upEntity = nullptr;
+	Entity* downEntity = nullptr;
+};
+
 //Simple GameObject struct for tracking generic info, only includes name for now.
 struct GameObject
 {

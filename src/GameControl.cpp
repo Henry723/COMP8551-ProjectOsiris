@@ -32,6 +32,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
   systems.add<PhysicsTest>();
+  systems.add<EnemySystem>();
   systems.add<UISystem>();
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
@@ -70,29 +71,36 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   playerEntity.assign<GameObject>("player");
   */
 
+  vector<Collider> enemyColliders;
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), false, 0.5));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(2, 0), false, 0.5, "right"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(-2, 0), false, 0.5, "left"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 2), false, 0.5, "bottom"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, -2), false, 0.5, "top"));
+
   // Enemy
   entityx::Entity enemyEntity = entities.create();
   enemyEntity.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity.assign<Transform>(glm::vec3(-2.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 0.0f));
+  enemyEntity.assign<Rigidbody>(enemyColliders, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 0.0f));
   enemyEntity.assign<GameObject>("enemy");
   //
   entityx::Entity enemyEntity2 = entities.create();
   enemyEntity2.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity2.assign<Transform>(glm::vec3(-2.0f, -2.0f, -2.0f), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity2.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, -2.0f));
+  enemyEntity2.assign<Rigidbody>(enemyColliders, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, -2.0f));
   enemyEntity2.assign<GameObject>("enemy");
   //
   entityx::Entity enemyEntity3 = entities.create();
   enemyEntity3.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity3.assign<Transform>(glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity3.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 2.0f));
+  enemyEntity3.assign<Rigidbody>(enemyColliders, Rigidbody::ColliderType::ENEMY, glm::vec2(-2.0f, 2.0f));
   enemyEntity3.assign<GameObject>("enemy");
   //
   entityx::Entity enemyEntity4 = entities.create();
   enemyEntity4.assign<Model3D>(src_enemyModel, vertSource, fragSource, src_enemyTexture);
   enemyEntity4.assign<Transform>(glm::vec3(4.0f, -2.0f, 0), glm::vec4(0.0, 1.0, 0, -90), glm::vec3(1.0f));
-  enemyEntity4.assign<Rigidbody>(vector<Collider>{Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5) }, Rigidbody::ColliderType::ENEMY, glm::vec2(4.0f, 0.0f));
+  enemyEntity4.assign<Rigidbody>(enemyColliders, Rigidbody::ColliderType::ENEMY, glm::vec2(4.0f, 0.0f));
   enemyEntity4.assign<GameObject>("enemy");
 
   // Treasure Pile
@@ -157,5 +165,6 @@ void GameControl::Update(TimeDelta dt)
   systems.update<PhysicsEngine>(dt);
   systems.update<PhysicsTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
+  systems.update<EnemySystem>(dt);
   
 }
