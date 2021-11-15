@@ -123,12 +123,6 @@
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp">
-      <Filter>Source Files\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Configuration\CfgMgrData.cpp">
-      <Filter>Source Files\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer3D\Camera.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
@@ -140,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="src\Physics\PhysicsTest.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
+      <Filter>Source Files\Configuration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +167,6 @@
     <ClInclude Include="src\Renderer3D\ModelImporter.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
       <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
@@ -180,12 +174,6 @@
       <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrApplication.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrData.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer3D\Camera.h">
@@ -211,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

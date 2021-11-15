@@ -48,6 +48,13 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   }
   // TESTING -- Memory Manager Pool Test -- End --
 
+  // TEST -- Memory Manager Pool Test -- Start --
+  {
+      CCfgMgrAppTester class_test;
+      class_test.run_test(CCfgMgrAppTester::report::verbose);
+  }
+  // TESTING -- Memory Manager Pool Test -- End --
+
   // TODO make it easier to create entities
   // Create entities
   entityx::Entity entity = entities.create();
