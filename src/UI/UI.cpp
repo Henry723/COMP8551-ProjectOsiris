@@ -132,6 +132,28 @@ void UISystem::RenderText(TextShader &shader, std::string text, float x, float y
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+//绘制开始菜单（2d shape）Draw start menu
+void UISystem::RenderShape2d(Shader& shader, Shape2D& shape) {
+    // activate corresponding render state	
+    shader.use();
+    //glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(VAO);
+
+
+	glBindTexture(GL_TEXTURE_2D, shape.TextureID);
+	// update content of VBO memory
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shape.Vertices), &shape.Vertices);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(shape.Vertices), &shape.Vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// render quad
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 void UISystem::RenderAll()
 {
@@ -154,6 +176,40 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
     return numElements - 1; // returns element "ID" used to access the element in textElements
 }
 
+void UISystem::generateMenuText() { // 设置菜单文字 Set menu text
+    TextElement textHiScore = {"Hi-Score: 100", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textHiScore);
+
+    TextElement textGameOver = {"Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textGameOver);
+
+    TextElement textScore = {"Score: 100", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textScore);
+
+    TextElement textTime = {"Time Elapsed: 00:10:25", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textTime);
+
+    TextElement textReset = {"Press P to restart", 270.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textReset);
+
+    TextElement textExit = {"Press esc to exit", 275.f, 130.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    textMenuElements.push_back(textExit);
+//		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+//		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+}
+
+void UISystem::RenderMenuText() { // 绘制菜单文字 Draw menu text
+    for (int i = 0; i < textMenuElements.size(); i++)
+    {
+        TextElement curElement = textMenuElements.at(i);
+        if (curElement.active) // Only render the element if it is active
+        {
+            RenderText(shader, curElement.value, curElement.posX, curElement.posY, curElement.scale, curElement.color);
+        }
+    }
+}
+
+
 void UISystem::setup() {
     // Currently only calls the LoadFreeType function and sets up the shader. Other setup steps can also be added here
     LoadFreeType();
@@ -168,6 +224,12 @@ void UISystem::ShaderSetup() // Create and return a shader for text rendering
     shader.use();
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
+
+// 2d Shape 渲染用的Shader
+    shapeShader = Shader("./src/UI/shaders/Default.vert", "./src/UI/shaders/shape2d.frag"); // Initialize the shader program
+    shapeShader.use();
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
 
 void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -196,13 +258,54 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     //    configured = true;
     //}
 
+    if (gameState != PREPARING) return; // 只有开始状态绘制2d shape Only the start state draws 2d shape
+
+    ////ComponentHandle<Color> hcolor;
+    ComponentHandle<Window> hwindow;
+    
+    // Loop through window components (there will likely only be one.)
+    ////auto en = es.entities_with_components(hwindow, hcolor);
+    auto en = es.entities_with_components(hwindow);
+    
     // This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
     for (auto entity = en.begin(); entity != en.end(); ++entity)
     {
         // Disable these properties so the RenderSystem can properly render
         glDisable(GL_CULL_FACE);
         glDisable(GL_BLEND);
+         glDisable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        //RenderShape2d(shapeShader, StartMenu);
+        RenderStartMenu();
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
         //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
         glfwSwapBuffers((*entity).component<Window>().get()->window);
     }
+    void UISystem::configure(EventManager& em) {
+	em.subscribe<ControlInput>(*this);
+	//em.subscribe<Collision>(*this);
+}
+
+
+void UISystem::receive(const ControlInput& event) {
+	ControlInput::Cmd cmd = event.cmd;
+	switch (cmd) {
+	case ControlInput::X: // 开始状态下按X Press X in the start state
+        if (gameState == PREPARING) gameState = RUNNING;
+		break;
+    case ControlInput::Y: // 运行状态下按Y触发结束 Press Y in the running state to trigger the end
+        if (gameState == RUNNING) gameState = MENU;
+		break;
+    case ControlInput::P: // 结束状态下按P，restart Press P at the end, restart
+        if (gameState == MENU) {
+            SceneManager::getInstance().setScene("filename");
+            gameState = PREPARING;
+            //gameState = RUNNING;
+        }
+		break;
+	}
+    
 }
