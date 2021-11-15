@@ -3,6 +3,7 @@
 // Set up the 'groups' of keys using the keycodes
 vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
 vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
+vector<int> controlKeys = { GLFW_KEY_X, GLFW_KEY_Y, GLFW_KEY_P}; // Up Left Down Right arrow keys
 
 void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -37,6 +38,22 @@ void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) // function is called whenever a keyboard input is detected
 {
   EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window); // Reference to Event Manager to emit input events.
+
+  // 关于游戏状态的按键输入 对应的事件叫control event
+  if (find(controlKeys.begin(), controlKeys.end(), key) != controlKeys.end()) { // Handle control input group
+    switch (action) { // Will emit control event containing direction based on key input
+    case GLFW_PRESS: // decide what to do when the key is pressed
+      if (key == controlKeys[0]) //X 
+        eve->emit<ControlInput>(ControlInput::X);
+      else if (key == controlKeys[1]) //Y
+        eve->emit<ControlInput>(ControlInput::Y);
+      else if (key == controlKeys[2]) // P 
+        eve->emit<ControlInput>(ControlInput::P);
+      break;
+    case GLFW_RELEASE: // decide what to do when the key is released
+      break;
+    }
+  }
 
   if (find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) { // Handle movement input group
     switch (action) { // Will emit movement event containing direction based on key input
