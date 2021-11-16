@@ -1,66 +1,23 @@
 #include "Model3D.h"
+#define TEST_MODEL3D       false
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
+	
+#if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
 	cout << endl << "Model3D is being created." << endl;
-
-	ModelImporter importer = ModelImporter();
-	/*vector<float> attributes;
-	vector<unsigned int> indices;*/
 	
 	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
 	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
 	cout << "=====================================" << endl;
+#endif
 
+	ModelImporter importer = ModelImporter();
 	importer.loadModel(modelSource, attributes, indices);
 
-	// print attrib array in model3D
-	cout << "In Model3D: AFTER attrib load: " << attributes.size() << endl;
-	int numPrinted = 0;
-	for (auto i : attributes) {
-		cout << i << ' '; // will print: "a b c"
-		numPrinted++;
-		if (numPrinted % 8 == 0) {
-			cout << endl;
-		}
-	}
-	cout << endl;
-
-	// TEMP hard coded values for testing purposes. To be replaced with proper model loading.
-	float squareAttribs[] = {
-		// positions			// normals				// tex co-ords
-		0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-		0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.0f, 1.0f
-	};
-
-	// float* squareVerts = &attributes[0];
-
-	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
-	numPrinted = 0;
-	for (auto i : indices) {
-		cout << i << ' '; // will print: "a b c"
-		numPrinted++;
-		if (numPrinted % 3 == 0) {
-			cout << endl;
-		}
-	}
-	cout << endl;
-
-	numIndices = indices.size(); // We'll need the index count for DrawElements function! For now it's hard-coded.
-	unsigned int squareIndices[] = { // note that we start from 0.
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
-
-	
-
-	// unsigned int* squareIndices = &indices[0];
-
-	//float* vertArray = &squareVerts[0]; // Create a pointer to the values stored in the vector. C++ guarantees vector arrays are stored contiguously
-	//unsigned int* indexArray = &squareIndices[0];
+	//cout << "In Model3D: AFTER index load: " << indices.size() << endl;
+	numIndices = indices.size();
 
 	// ..:: Initialization code (done once (unless your object frequently changes)) ::..
 	unsigned int VBO, EBO, VAO;
@@ -69,6 +26,24 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	// 1. Create an ID for a new VBO & EBO to send to the Vertex Shader for rendering, stored in the GPU.
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
+
+	// ------------------ Vertex Array Object --------------------
+	glBindVertexArray(VAO);
+
+	// VBO's must be bound to a unique buffer object type, in this case GL_ARRAY_BUFFER.
+	//		Any buffer calls made on GL_ARRAY_BUFFER will refer to and configure our VBO until it is re-bound.
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	// Copy the previously defined vertex data into the bound buffer's memory.
+	//		The graphics card will manage the data as follows:
+	//			GL_STREAM_DRAW: the data is set only once, and used by the GPU at most a few times.
+	//			GL_STATIC_DRAW: the data is set only once, and used many times.
+	//			GL_DYNAMIC_DRAW : the data is changed a lot, and used many times.
+	glBufferData(GL_ARRAY_BUFFER, attributes.size() * sizeof(float), &attributes[0], GL_STATIC_DRAW);
+
+	// Next, we bind our index array in the same way as our VBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	// ------------- TEXTURES ----------------
 	glGenTextures(1, &texture); // Takes in how many textures are required, stores them in an unsigned int array
@@ -85,7 +60,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 
 	// Fill the data by passing references into the stbi_load functions.
 	int imgWidth, imgHeight, nrChannels;
-	stbi_set_flip_vertically_on_load(true); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
+	stbi_set_flip_vertically_on_load(false); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
 	unsigned char* textureData = stbi_load(texPath, &imgWidth, &imgHeight, &nrChannels, 0);
 
 	if (textureData)
@@ -102,25 +77,6 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 
 	// Once we've generated the texture and mipmaps, we free the image memory
 	stbi_image_free(textureData);
-
-
-	// ------------------ Vertex Array Object --------------------
-	glBindVertexArray(VAO);
-
-	// VBO's must be bound to a unique buffer object type, in this case GL_ARRAY_BUFFER.
-	//		Any buffer calls made on GL_ARRAY_BUFFER will refer to and configure our VBO until it is re-bound.
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	// Copy the previously defined vertex data into the bound buffer's memory.
-	//		The graphics card will manage the data as follows:
-	//			GL_STREAM_DRAW: the data is set only once, and used by the GPU at most a few times.
-	//			GL_STATIC_DRAW: the data is set only once, and used many times.
-	//			GL_DYNAMIC_DRAW : the data is changed a lot, and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(squareAttribs), squareAttribs, GL_STATIC_DRAW);
-
-	// Next, we bind our index array in the same way as our VBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(squareIndices), squareIndices, GL_STATIC_DRAW);
 
 	// 2. OpenGL does not yet know how it should interpret the vertex data in memory.
 	//		Now we define how it should connect the vertex data to the vertex shader's attributes
@@ -152,7 +108,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	glVertexAttribPointer(positionAttributeID, posAttributeSize, GL_FLOAT, GL_FALSE, attributeOffset * sizeof(float), (void*)posOffset); // 0 is the offset.
 	glEnableVertexAttribArray(positionAttributeID);
 
-	// Vertex Color Attribute
+	// Vertex Normal Attribute
 	glVertexAttribPointer(colorAttributeID, colAttributeSize, GL_FLOAT, GL_FALSE, attributeOffset * sizeof(float), (void*)(colOffset * sizeof(float))); // Start at the END of position attribute
 	glEnableVertexAttribArray(colorAttributeID);
 
@@ -166,7 +122,9 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
-	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
+#if TEST_MODEL3D
+	//cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
+#endif
 }
 
 void Model3D::translate(glm::vec3 translation) {
@@ -179,4 +137,13 @@ void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
 
 void Model3D::scale(glm::vec3 scale) {
 	transformation_matrix = glm::scale(transformation_matrix, scale);
+}
+
+void Model3D::resetModelMatrix() {
+	transformation_matrix = glm::mat4(1.0f);
+}
+
+glm::mat4 Model3D::getModelMatrix()
+{
+	return transformation_matrix;
 }

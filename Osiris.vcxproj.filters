@@ -70,6 +70,9 @@
     <Filter Include="Header Files\UI">
       <UniqueIdentifier>{4a563ad7-deb3-4afc-8228-550e7a8f12f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SceneManager">
+      <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Audio">
       <UniqueIdentifier>{737cc4e4-378d-440c-b2b6-5e21ce936ff8}</UniqueIdentifier>
     </Filter>
@@ -132,11 +135,17 @@
     <ClCompile Include="src\Configuration\CfgMgrData.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer3D\Camera.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Input\InputEventTester.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsTest.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioSystem.cpp">
       <Filter>Source Files\Audio</Filter>
@@ -188,6 +197,12 @@
     <ClInclude Include="src\Configuration\CfgMgrData.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer3D\Camera.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSource.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Events\EventSystem.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -199,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsTest.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Audio\AudioSystem.h">
       <Filter>Header Files\Audio</Filter>
