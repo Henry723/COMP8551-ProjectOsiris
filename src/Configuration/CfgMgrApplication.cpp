@@ -31,12 +31,12 @@ using namespace std;
 CCfgMgrApplication::CCfgMgrApplication()
     : handleCount(0)
 {
-    // TODO : Finish Implementation
+    // Add anything extra
 }
 
 CCfgMgrApplication::~CCfgMgrApplication()
 {
-    // TODO : Finish Implementation
+    // Add anything extra
 }
 
 bool CCfgMgrApplication::loadConfig(std::string fileName)
@@ -123,8 +123,9 @@ bool CCfgMgrApplication::saveCustomData(int fileHandle)
                 cfgFile << rawLnData.str();
             }
 
-            // close the file and return the file handle reference to client
+            // close the file and return the result
             cfgFile.close();
+            fileHandles[fDIdx].isDirty = false; // Now that saved they are no longer dirty
             rslt = true;
         }
     }
@@ -208,6 +209,21 @@ bool CCfgMgrApplication::setDataValue(int fileHandle, AKey_t key, CKeyValue* pNe
                 rslt = true;
                 break;
             }
+        }
+
+        // If no key was found then create a new one and add it.
+        if (rslt == false)
+        {
+            // Add as a new key
+            keyInfo_t newKey;
+            newKey.keyName = key.first;
+            newKey.type = key.second;
+            newKey.value = pNewValue->getValueString();
+            fileHandles[fDIdx].keys.push_back(newKey);
+
+            // Very important to update dirty or it will never save
+            fileHandles[fDIdx].isDirty = true; 
+            rslt = true;
         }
     }
 

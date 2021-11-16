@@ -73,14 +73,14 @@ public:
     bool getDataKeys(int fileHandle, std::vector<AKey_t>& emptyList);
      // Using a key pair get the data. Client responsible for correct CKeyValue
     bool getDataValue(int fileHandle, AKey_t key, CKeyValue& value);
-     // Stash the keys found in a loaded file. Client responsible for correct CKeyValue
+     // Stash the keys found in a loaded file or add your own. Client responsible for correct CKeyValue
     bool setDataValue(int fileHandle, AKey_t key, CKeyValue* pNewValue);
 
 private:
     struct keyInfo_t {
         std::string keyName;  
         CKVType type = CKVType::String_t;
-        std::string value; 
+        std::string value;
     };
     struct handleData_t {
         int handle = -1; 

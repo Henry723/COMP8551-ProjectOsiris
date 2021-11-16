@@ -53,6 +53,7 @@ private:
     bool m_Rslt_get_Data_Value;
     bool m_Rslt_set_Data_Value;
     bool m_Rslt_save_Custom_Data;
+    bool m_Rslt_add_New_Data;
 
     std::string m_TestFile;
     int m_handle;
@@ -67,5 +68,6 @@ private:
     bool Test_get_Data_Value();
     bool Test_set_Data_Value();
     bool Test_save_Custom_Data();
+    bool Test_add_New_Data();
 };
 #endif /* defined(__ConfigurationManager__CfgMgrAppTester__) */

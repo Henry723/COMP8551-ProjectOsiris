@@ -32,10 +32,10 @@ const string c_sValues[] = { "Richard Tesch", "K.Olsson", "H Zhang", "R Tesch", 
 
 CCfgMgrAppTester::CCfgMgrAppTester()
     : m_Rslt_load_Config(false), m_Rslt_load_Custom_Data(false),
-      m_Rslt_save_Custom_Data(false), m_Rslt_get_Data_Keys(false), 
-      m_Rslt_get_Data_Value(false), m_Rslt_set_Data_Value(false),
-      m_TestFile("CfgTestFile.cfg"), m_handle(-1), 
-      m_NumOfTestRec(0), m_NumOfTest(6)
+      m_Rslt_get_Data_Keys(false), m_Rslt_get_Data_Value(false), 
+      m_Rslt_set_Data_Value(false), m_Rslt_save_Custom_Data(false), 
+      m_Rslt_add_New_Data(false), m_TestFile("CfgTestFile.cfg"), m_handle(-1), 
+      m_NumOfTestRec(0), m_NumOfTest(7)
 {
     cfgMgr_p = new CCfgMgrApplication();
 
@@ -87,7 +87,8 @@ void CCfgMgrAppTester::run_test(report type)
     m_Rslt_get_Data_Keys = Test_get_Data_Keys();
     m_Rslt_get_Data_Value = Test_get_Data_Value();
     m_Rslt_set_Data_Value = Test_set_Data_Value();
-    m_Rslt_save_Custom_Data = Test_save_Custom_Data(); // Must be last for test to work
+    m_Rslt_save_Custom_Data = Test_save_Custom_Data(); // Must be in this position for this test to work
+    m_Rslt_add_New_Data = Test_add_New_Data();
 
     if (type == report::verbose)
     {
@@ -112,6 +113,7 @@ int CCfgMgrAppTester::passed()
     rslt += m_Rslt_get_Data_Value ? 1 : 0;
     rslt += m_Rslt_set_Data_Value ? 1 : 0;
     rslt += m_Rslt_save_Custom_Data ? 1 : 0;
+    rslt += m_Rslt_add_New_Data ? 1 : 0;
 
     return rslt;
 }
@@ -127,6 +129,7 @@ int CCfgMgrAppTester::failed()
     rslt += m_Rslt_get_Data_Value ? 0 : 1;
     rslt += m_Rslt_set_Data_Value ? 0 : 1;
     rslt += m_Rslt_save_Custom_Data ? 0 : 1;
+    rslt += m_Rslt_add_New_Data ? 0 : 1;
 
     return rslt;
 }
@@ -169,7 +172,7 @@ bool CCfgMgrAppTester::Test_get_Data_Keys()
     vector<CCfgMgrApplication::AKey_t> keyList;
     cfgMgr_p->getDataKeys(m_handle, keyList);
 
-    // Validate the keyList agains hardcoded values
+    // Validate the keyList against hardcoded values
     for (int i = 0; i < keyList.size() ; i++)
     {
         CCfgMgrApplication::AKey_t key = keyList[i];
@@ -376,6 +379,58 @@ bool CCfgMgrAppTester::Test_save_Custom_Data()
     if (setCount == m_NumOfTestRec)
     {
         rslt = true;
+    }
+
+    return rslt;
+}
+
+bool CCfgMgrAppTester::Test_add_New_Data()
+{
+    bool rslt = false;
+    int highScore = 37;
+    float bestTime = 22.3;
+    string HSName = "Bob Cratchit";
+
+    // Add three new data keys then save to file to see if they show up
+    CKeyValue iHighScore(CKVType::Int_t);
+    CKeyValue fBestTime(CKVType::Float_t);
+    CKeyValue sHSName(CKVType::String_t);
+    
+    // Assign the values to the CKeyValues
+    iHighScore.setValue(highScore);
+    fBestTime.setValue(bestTime);
+    sHSName.setValue(HSName);
+
+    // Create the keys
+    CCfgMgrApplication::AKey_t HSkey = CCfgMgrApplication::AKey_t("High Score 6", CKVType::Int_t);
+    // Note: you can hard code the type as a above but better to get the type from your associated value
+    CCfgMgrApplication::AKey_t BTkey = CCfgMgrApplication::AKey_t("Best Time", fBestTime.getType());
+    CCfgMgrApplication::AKey_t HSNkey = CCfgMgrApplication::AKey_t("Name HS6", iHighScore.getType());
+
+    // Assign the values to the config manager
+    rslt = cfgMgr_p->setDataValue(m_handle, HSkey, &iHighScore);
+    rslt = rslt && cfgMgr_p->setDataValue(m_handle, BTkey, &fBestTime);
+    rslt = rslt && cfgMgr_p->setDataValue(m_handle, HSNkey, &sHSName);
+
+    // Save them to file
+    rslt = rslt && cfgMgr_p->saveCustomData(m_handle);
+
+    // -----------------------------------------------------------------
+    // Reload and read them back to verify - you can check the file too. 
+    // NOTE: New handle is generated
+    m_handle = cfgMgr_p->loadCustomData(m_TestFile);
+    if (m_handle != -1)
+    {
+        vector<CCfgMgrApplication::AKey_t> keyList;
+        rslt = rslt && cfgMgr_p->getDataKeys(m_handle, keyList);
+
+        rslt = rslt && (find(keyList.begin(), keyList.end(), HSkey) != keyList.end());
+        rslt = rslt && (find(keyList.begin(), keyList.end(), BTkey) != keyList.end());
+        rslt = rslt && (find(keyList.begin(), keyList.end(), HSNkey) != keyList.end());
+    }
+    else
+    {
+        rslt = false;
     }
 
     return rslt;
