@@ -18,7 +18,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
 	glEnable(GL_DEPTH_TEST);
 
-	glm::vec2 playerPosition;
+	glm::vec2 playerPosition(0.0);
 	//get player position to update camera position
 	for (Entity entity : es.entities_with_components(hRigidBody)) {
 		ComponentHandle<GameObject> object = entity.component<GameObject>();
@@ -38,7 +38,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		camera = (*entity).component<Camera>().get();
 		Transform* transform = (*entity).component<Transform>().get();
 		camera->Position = transform->position;
-		camera->Position = glm::vec3(playerPosition.x, camera->Position.y, playerPosition.y+2.0);
+		camera->Position = glm::vec3(playerPosition.x, camera->Position.y, playerPosition.y + 2.0);
 	}
 	
 	// Loop through window components (there will likely only be one.)
