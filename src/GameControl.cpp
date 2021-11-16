@@ -152,10 +152,9 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 void GameControl::Update(TimeDelta dt)
 {
   systems.update<InputSystem>(dt);
-  systems.update<RenderSystem>(dt);
   //systems.update<UISystem>(dt); Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
   systems.update<PhysicsTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
-  
+  systems.update<RenderSystem>(dt);
 }

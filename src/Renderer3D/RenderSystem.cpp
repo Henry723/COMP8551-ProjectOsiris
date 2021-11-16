@@ -11,11 +11,22 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	ComponentHandle<Model3D> hmodel;
 	ComponentHandle<Transform> htransform;
 	ComponentHandle<Camera> hCamera;
+	ComponentHandle<Rigidbody> hRigidBody;
+
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
 	glEnable(GL_DEPTH_TEST);
 
+	glm::vec2 playerPosition;
+	//get player position to update camera position
+	for (Entity entity : es.entities_with_components(hRigidBody)) {
+		ComponentHandle<GameObject> object = entity.component<GameObject>();
+		ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
+		if (object && object->name == "player") {
+			playerPosition = rigidbody->GetPosition();
+		}
+	}
 
 	//the main camera
 	Camera* camera = &Camera();
@@ -27,6 +38,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		camera = (*entity).component<Camera>().get();
 		Transform* transform = (*entity).component<Transform>().get();
 		camera->Position = transform->position;
+		camera->Position = glm::vec3(playerPosition.x, camera->Position.y, playerPosition.y+2.0);
 	}
 	
 	// Loop through window components (there will likely only be one.)
