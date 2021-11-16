@@ -111,8 +111,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(0, 0, 1.0f), //upper left
-		glm::vec3(-4.0f, 4.0f, 6.0f), //bottom left
+		glm::vec3(4, 0, 1.0f), //right
+		glm::vec3(-4, 0, 1.0f), //left
 		glm::vec3(4.0f, 4.0f, -6.0f), //upper right
 		glm::vec3(4.0f, 4.0f, 6.0f) //bottom right
 	};
@@ -135,17 +135,19 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	modelComponent->shader_program.setVec3("pointLights[0].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
 	modelComponent->shader_program.setVec3("pointLights[0].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 	modelComponent->shader_program.setFloat("pointLights[0].constant", 1.0f);
-	modelComponent->shader_program.setFloat("pointLights[0].linear", 0.027);
-	modelComponent->shader_program.setFloat("pointLights[0].quadratic", 0.0028);
+	modelComponent->shader_program.setFloat("pointLights[0].linear", 0.14);
+	modelComponent->shader_program.setFloat("pointLights[0].quadratic", 0.07);
+	modelComponent->shader_program.setVec3("pointLights[0].color", 1.75, 1.75, 0.6);
 
 	//point light 2
-	/*modelComponent->shader_program.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+	modelComponent->shader_program.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
 	modelComponent->shader_program.setVec3("pointLights[1].ambient", 0.3f, 0.2f, 0.2f);
-	modelComponent->shader_program.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
-	modelComponent->shader_program.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+	modelComponent->shader_program.setVec3("pointLights[1].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
+	modelComponent->shader_program.setVec3("pointLights[1].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 	modelComponent->shader_program.setFloat("pointLights[1].constant", 1.0f);
-	modelComponent->shader_program.setFloat("pointLights[1].linear", 0.09);
-	modelComponent->shader_program.setFloat("pointLights[1].quadratic", 0.032);*/
+	modelComponent->shader_program.setFloat("pointLights[1].linear", 0.14);
+	modelComponent->shader_program.setFloat("pointLights[1].quadratic", 0.07);
+	modelComponent->shader_program.setVec3("pointLights[1].color", 0.6, 2.25, 2.25);
 
 	//point light 3
 	//modelComponent->shader_program.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
