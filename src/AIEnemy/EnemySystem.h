@@ -23,6 +23,8 @@ struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, E
 	void ResetMoveFlags(); //Convenience function for reset collision flags
 	void ResetCollisionEntities(); //Convenience function for resetting detected entities
 
+	bool enemyTurn = false;
+
 	// Enemy Command input flags
 	bool up = false;
 	bool down = false;

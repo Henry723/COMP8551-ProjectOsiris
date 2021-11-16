@@ -3,106 +3,145 @@
 void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
 	ComponentHandle<Rigidbody> rigidbody;
-	for (Entity entity : es.entities_with_components(rigidbody))
+
+	if (enemyTurn)
+	
 	{
-		ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
-		ComponentHandle<Transform> transform = entity.component<Transform>();
-		ComponentHandle<GameObject> object = entity.component<GameObject>();
-		
+		cout << "Resolving enemy turn" << endl;
 
-		//Only do this for rigidbodies that are the player
-		//Probably poor practice, but works for testing
-		if (object && object->name == "enemy")
+		/* initialize random seed: */
+		srand(time(NULL));
+		int randy;
+
+		for (Entity entity : es.entities_with_components(rigidbody))
 		{
+			ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
+			ComponentHandle<Transform> transform = entity.component<Transform>();
+			ComponentHandle<GameObject> object = entity.component<GameObject>();
+			ComponentHandle<CommandFlags> commands = entity.component<CommandFlags>();
 			
-			//First get current position
-			glm::vec2 position = rigidbody->GetPosition();
-			//For each direction, check if the movement flag is set and if you can move in that direction
-			//First reset move flags before moving so future collisions update them correctly.
-			//Then move the Rigidbody which will update the Transform as well
-			//Velocity probably needs to be better scaled in-engine
-			//Spaces between centers of tiles is 2.
-			if (left && canMoveLeft)
+			// Iterate over enemies.
+			if (object && object->name == "enemy")
 			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
-			}
-			if (right && canMoveRight)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
-			}
-			if (up && canMoveUp)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
-			}
-			if (down && canMoveDown)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
-			}
 
-			
+				/* generate random number between 1 and 4: */
+				randy = (rand() % 4) + 1;
 
-			if (attackLeft && leftEntity)
-			{
-				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the left" << endl;
+				switch (randy)
+				{
+					case 1:
+						commands->canMoveLeft = true;
+						commands->left = true;
+						break;
+					case 2:
+						commands->canMoveUp = true;
+						commands->up = true;
+						break;
+					case 3:
+						commands->canMoveRight = true;
+						commands->right = true;
+						break;
+					case 4:
+						commands->canMoveDown = true;
+						commands->down = true;
+						break;
 
-				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				leftEntity->destroy();
-				canMoveLeft = true;
-				this->leftEntity = nullptr;
+					default:
+						cout << "Random number generator failed - received " << randy << endl;
+				}
+
+				//First get current position
+				glm::vec2 position = rigidbody->GetPosition();
+				//For each direction, check if the movement flag is set and if you can move in that direction
+				//First reset move flags before moving so future collisions update them correctly.
+				//Then move the Rigidbody which will update the Transform as well
+				//Velocity probably needs to be better scaled in-engine
+				//Spaces between centers of tiles is 2.
+				if (commands->left && commands->canMoveLeft)
+				{
+					ResetMoveFlags();
+					rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
+				}
+				if (commands->right && commands->canMoveRight)
+				{
+					ResetMoveFlags();
+					rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
+				}
+				if (commands->up && commands->canMoveUp)
+				{
+					ResetMoveFlags();
+					rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
+				}
+				if (commands->down && commands->canMoveDown)
+				{
+					ResetMoveFlags();
+					rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
+				}
+
+
+				if (commands->attackLeft && leftEntity)
+				{
+					ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
+					cout << "attacking " << targetObj->name << " to the left" << endl;
+
+					ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					leftEntity->destroy();
+					canMoveLeft = true;
+					this->leftEntity = nullptr;
+				}
+				if (commands->attackRight && rightEntity)
+				{
+					ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
+					cout << "attacking " << targetObj->name << " to the right" << endl;
+
+					ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					rightEntity->destroy();
+					canMoveRight = true;
+					this->rightEntity = nullptr;
+				}
+				if (commands->attackUp && upEntity)
+				{
+					ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
+					cout << "attacking " << targetObj->name << " to the top" << endl;
+
+					ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					upEntity->destroy();
+					canMoveUp = true;
+					this->upEntity = nullptr;
+				}
+				if (commands->attackDown && downEntity)
+				{
+					ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
+					cout << "attacking " << targetObj->name << " to the bottom" << endl;
+
+					ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					downEntity->destroy();
+					canMoveDown = true;
+					this->downEntity = nullptr;
+				}
+
+
+				// Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
+				commands->right = false;
+				commands->up = false;
+				commands->down = false;
+				commands->left = false;
+
+				commands->attackRight = false;
+				commands->attackUp = false;
+				commands->attackDown = false;
+				commands->attackLeft = false;
+
 			}
-			if (attackRight && rightEntity)
-			{
-				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the right" << endl;
-
-				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				rightEntity->destroy();
-				canMoveRight = true;
-				this->rightEntity = nullptr;
-			}
-			if (attackUp && upEntity)
-			{
-				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the top" << endl;
-
-				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				upEntity->destroy();
-				canMoveUp = true;
-				this->upEntity = nullptr;
-			}
-			if (attackDown && downEntity)
-			{
-				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the bottom" << endl;
-
-				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				downEntity->destroy();
-				canMoveDown = true;
-				this->downEntity = nullptr;
-			}
-			
 		}
+
+		enemyTurn = false;
 	}
-
-	// Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
-	right = false;
-	up = false;
-	down = false;
-	left = false;
-
-	attackRight = false;
-	attackUp = false;
-	attackDown = false;
-	attackLeft = false;
+	
 }
 
 //Convenience function for reset collision flags
@@ -138,23 +177,26 @@ void EnemySystem::receive(const EnemyDebugInput& event) {
 
 	//	1. Get the next command from the AI component.
 	//	2. Determine if the command should be a move or attack flag
-	cout << "Enemy Input Fired" << endl;
-	EnemyDebugInput::InpDir dir = event.dir; // This will be the "Command"
+	// 
+	enemyTurn = true;
 
-	switch (dir) {
-		case EnemyDebugInput::UP:
-			up = true;
-			break;
-		case EnemyDebugInput::LEFT:
-			left = true;
-			break;
-		case EnemyDebugInput::DOWN:
-			down = true;
-			break;
-		case EnemyDebugInput::RIGHT:
-			right = true;
-			break;
-	}
+	//cout << "Enemy Input Fired" << endl;
+	//EnemyDebugInput::InpDir dir = event.dir; // This will be the "Command"
+
+	//switch (dir) {
+	//	case EnemyDebugInput::UP:
+	//		up = true;
+	//		break;
+	//	case EnemyDebugInput::LEFT:
+	//		left = true;
+	//		break;
+	//	case EnemyDebugInput::DOWN:
+	//		down = true;
+	//		break;
+	//	case EnemyDebugInput::RIGHT:
+	//		right = true;
+	//		break;
+	//}
 }
 
 void EnemySystem::receive(const Collision& event)
@@ -173,7 +215,7 @@ void EnemySystem::receive(const Collision& event)
 	
 	//One collider was a named sensor
 
-	if (event.fA == "left" || event.fB == "left")
+	/*if (event.fA == "left" || event.fB == "left")
 	{
 		this->leftEntity = event.fA == "left" ? event.b : event.a;
 		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
@@ -204,7 +246,7 @@ void EnemySystem::receive(const Collision& event)
 		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 		if (objectA->name == "player") this->canMoveDown = false;
 		else if (objectB->name == "player") this->canMoveDown = false;
-	}
+	}*/
 }
 
 
