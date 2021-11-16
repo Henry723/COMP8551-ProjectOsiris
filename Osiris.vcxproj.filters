@@ -73,6 +73,12 @@
     <Filter Include="Header Files\SceneManager">
       <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{737cc4e4-378d-440c-b2b6-5e21ce936ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{d530d6fe-139e-4a40-9276-d57a4d878526}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,12 +137,18 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\Camera.cpp">
       <Filter>Source Files\Renderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Input\InputEventTester.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsTest.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\AudioSystem.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +202,7 @@
     </ClInclude>
     <ClInclude Include="ModelSource.h">
       <Filter>Header Files\Renderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Events\EventSystem.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -205,6 +217,12 @@
     </ClInclude>
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsTest.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\AudioSystem.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +245,9 @@
     </Image>
     <ClInclude Include="src\Physics\PhysicsEngine.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

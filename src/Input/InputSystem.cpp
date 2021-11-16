@@ -3,6 +3,9 @@
 // Set up the 'groups' of keys using the keycodes
 vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
 vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
+vector<int> interactKeys = { GLFW_KEY_E }; // E button
+
+vector<int> enemyDebug = { GLFW_KEY_I, GLFW_KEY_J, GLFW_KEY_K, GLFW_KEY_L }; // Enemy movement debugging: I J K L
 
 void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -66,6 +69,35 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
         eve->emit<AttackInput>(AttackInput::DOWN);
       else if (key == attackKeys[RIGHT])
         eve->emit<AttackInput>(AttackInput::RIGHT);
+      break;
+    case GLFW_RELEASE: // decide what to do when the key is released
+      break;
+    }
+  }
+
+  if (find(interactKeys.begin(), interactKeys.end(), key) != interactKeys.end()) { // Handle interact input group
+    switch (action) { // Will emit interact event based on key input
+    case GLFW_PRESS: // decide what to do when the key is pressed
+      if (key == interactKeys[INTERACT])
+        eve->emit<InteractInput>();
+      break;
+    case GLFW_RELEASE: // decide what to do when the key is released
+      break;
+    }
+  }
+
+  //DEBUGGING ONLY, REMOVE FOR RELEASE ---------------------------------------------------------------------------------
+  if (find(enemyDebug.begin(), enemyDebug.end(), key) != enemyDebug.end()) { // Handle Enemy Debugging input group
+    switch (action) { // Will emit enemy movement event containing direction based on key input
+    case GLFW_PRESS: // decide what to do when the key is pressed
+      if (key == enemyDebug[UP])
+        eve->emit<EnemyDebugInput>(EnemyDebugInput::UP);
+      else if (key == enemyDebug[LEFT])
+        eve->emit<EnemyDebugInput>(EnemyDebugInput::LEFT);
+      else if (key == enemyDebug[DOWN])
+        eve->emit<EnemyDebugInput>(EnemyDebugInput::DOWN);
+      else if (key == enemyDebug[RIGHT])
+        eve->emit<EnemyDebugInput>(EnemyDebugInput::RIGHT);
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
       break;
