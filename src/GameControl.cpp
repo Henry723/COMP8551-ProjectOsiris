@@ -72,11 +72,11 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   */
 
   vector<Collider> enemyColliders;
-  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5));
-  //enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(2, 0), false, 0.5, "right"));
-  //enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(-2, 0), false, 0.5, "left"));
-  //enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 2), false, 0.5, "bottom"));
-  //enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, -2), false, 0.5, "top"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 0), true, 0.5, "enemy_body"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(2, 0), false, 0.5, "enemy_right"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(-2, 0), false, 0.5, "enemy_left"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, 2), false, 0.5, "enemy_bottom"));
+  enemyColliders.push_back(Collider(Collider::Shape::CIRCLE, glm::vec2(0, -2), false, 0.5, "enemy_top"));
 
   // Enemy
   entityx::Entity enemyEntity = entities.create();

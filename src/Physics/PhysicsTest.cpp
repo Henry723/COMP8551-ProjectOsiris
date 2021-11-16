@@ -23,27 +23,32 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
+				transform->rotation = glm::vec4(0, -1, 0, 90);
 			}
 			if (right && canMoveRight)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
+				transform->rotation = glm::vec4(0, 1, 0, 90);
 			}
 			if (up && canMoveUp)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
+				transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 			}
 			if (down && canMoveDown)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
+				transform->rotation = glm::vec4(0, 1, 0, 0);
 			}
 
 			if (attackLeft && leftEntity)
 			{
 				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the left" << endl;
+				transform->rotation = glm::vec4(0, -1, 0, 90);
 
 				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
@@ -55,6 +60,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the right" << endl;
+				transform->rotation = glm::vec4(0, 1, 0, 90);
 
 				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
@@ -66,6 +72,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the top" << endl;
+				transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 
 				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
@@ -77,6 +84,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the bottom" << endl;
+				transform->rotation = glm::vec4(0, 1, 0, 0);
 
 				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
 				targetRb->DeleteBody();

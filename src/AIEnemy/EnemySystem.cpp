@@ -59,25 +59,29 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				//Spaces between centers of tiles is 2.
 				if (commands->left && commands->canMoveLeft)
 				{
-					ResetMoveFlags();
+					ResetCollisionEntities();
 					rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
+					transform->rotation = glm::vec4(0, 1, 0, 20.5f);
 				}
 				if (commands->right && commands->canMoveRight)
 				{
-					ResetMoveFlags();
+					ResetCollisionEntities();
 					rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
+					transform->rotation = glm::vec4(0, -1, 0, 20.5f);
 				}
 				if (commands->up && commands->canMoveUp)
 				{
-					ResetMoveFlags();
+					ResetCollisionEntities();
 					rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
+					transform->rotation = glm::vec4(0, 1, 0, 0);
 				}
 				if (commands->down && commands->canMoveDown)
 				{
-					ResetMoveFlags();
+					ResetCollisionEntities();
 					rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
+					transform->rotation = glm::vec4(0, 1, 0, 9.5f);
+					
 				}
-
 
 				if (commands->attackLeft && leftEntity)
 				{
@@ -87,7 +91,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
 					leftEntity->destroy();
-					canMoveLeft = true;
+					commands->canMoveLeft = true;
 					this->leftEntity = nullptr;
 				}
 				if (commands->attackRight && rightEntity)
@@ -98,7 +102,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
 					rightEntity->destroy();
-					canMoveRight = true;
+					commands->canMoveRight = true;
 					this->rightEntity = nullptr;
 				}
 				if (commands->attackUp && upEntity)
@@ -109,7 +113,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
 					upEntity->destroy();
-					canMoveUp = true;
+					commands->canMoveUp = true;
 					this->upEntity = nullptr;
 				}
 				if (commands->attackDown && downEntity)
@@ -120,7 +124,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
 					downEntity->destroy();
-					canMoveDown = true;
+					commands->canMoveDown = true;
 					this->downEntity = nullptr;
 				}
 
@@ -142,16 +146,6 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		enemyTurn = false;
 	}
 	
-}
-
-//Convenience function for reset collision flags
-void EnemySystem::ResetMoveFlags()
-{
-	canMoveLeft = true;
-	canMoveRight = true;
-	canMoveUp = true;
-	canMoveDown = true;
-	ResetCollisionEntities(); //Will have to reset detected entities on move as well
 }
 
 //Convenience function for resetting detected entities
