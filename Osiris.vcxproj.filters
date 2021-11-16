@@ -258,4 +258,9 @@
       <Filter>Source Files\UI\fonts</Filter>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="src\Game.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

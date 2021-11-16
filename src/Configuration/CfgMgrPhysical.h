@@ -4,11 +4,21 @@
 // Defines Physical Layer Class for the Configuration Manager subsystem.
 //
 // The Configuration Manager Subsystem purpose is to read external source(s)
-// information containing game objects data or custom data back and forth
-// through 2 layers. The two layers and their purpose are defined as:
+// information containing game objects data backand forth through 4 layers.
+// The four layers and their purpose are defined as :
 //
 //  Layer 1. Application : Implements the API between its clients and the
-//                         link between the physical layer.
+//                         link between the presentation layers.It hides
+//                         from clients any management or access for
+//                         configuration. Configuration access is with the
+//                         use of game objects of a type IDand a given
+//                         instance of type.
+//        2. Presentation : Implements the link between layer 1 and 3 by
+//                          unwrapping app game objects to the data layer
+//                          format or wrapping data layer data into usable
+//                          layer 1 app objects.
+//        3. Data : Implements the link between layer 2 and 4 containing a
+//                  raw data format of game object collections.
 //        4. Physical : Implements the mechanism to retrieve or write data
 //                      from sources presented in their correct formats.
 //
@@ -42,6 +52,8 @@ public:
 	CCfgMgrPhysical(const char* fileName);
 	void PrintDocument();
 	void LoadObjects(EntityManager& em);
+	void LoadLevel(EntityManager& em);
+	void LoadEntity(EntityManager& em, tinyxml2::XMLElement* entity, int x, int y);
 	glm::vec2 ParseVec2(const char* data);
 	glm::vec3 ParseVec3(const char* data);
 	glm::vec4 ParseVec4(const char* data);

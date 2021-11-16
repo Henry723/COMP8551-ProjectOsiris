@@ -4,11 +4,21 @@
 // Implements Physical Layer Class for the Configuration Manager subsystem.
 //
 // The Configuration Manager Subsystem purpose is to read external source(s)
-// information containing game objects data or custom data back and forth
-// through 2 layers. The two layers and their purpose are defined as:
+// information containing game objects data backand forth through 4 layers.
+// The four layers and their purpose are defined as :
 //
 //  Layer 1. Application : Implements the API between its clients and the
-//                         link between the physical layer.
+//                         link between the presentation layers.It hides
+//                         from clients any management or access for
+//                         configuration. Configuration access is with the
+//                         use of game objects of a type IDand a given
+//                         instance of type.
+//        2. Presentation : Implements the link between layer 1 and 3 by
+//                          unwrapping app game objects to the data layer
+//                          format or wrapping data layer data into usable
+//                          layer 1 app objects.
+//        3. Data : Implements the link between layer 2 and 4 containing a
+//                  raw data format of game object collections.
 //        4. Physical : Implements the mechanism to retrieve or write data
 //                      from sources presented in their correct formats.
 //
@@ -43,8 +53,8 @@ void CCfgMgrPhysical::PrintDocument()
 
 void CCfgMgrPhysical::LoadObjects(EntityManager& em)
 {
-    int test = 0;
-    tinyxml2::XMLElement* entity = doc.FirstChildElement("entity");
+    tinyxml2::XMLElement* game = doc.FirstChildElement("game");
+    tinyxml2::XMLElement* entity = game->FirstChildElement("entity");
     while(entity)
     {
         tinyxml2::XMLElement* object = entity->FirstChildElement("gameobject");
@@ -103,7 +113,7 @@ void CCfgMgrPhysical::LoadObjects(EntityManager& em)
                 {
                     //Get expected pieces of a colliders
                     const char* shape = collider->Attribute("shape");
-                    const char* sensor = collider->Attribute("sensor");
+                    bool sensor = collider->BoolAttribute("sensor");
                     const char* size = collider->Attribute("size");
                     const char* name = collider->Attribute("name");
 
@@ -113,13 +123,11 @@ void CCfgMgrPhysical::LoadObjects(EntityManager& em)
                     else if (strcmp(shape, "box") == 0) shape_value = Collider::Shape::BOX;
 
                     //Get actual values from XML data
-                    bool sensor_value = sensor == "true" ? true : false;
                     float size_value = std::stof((char*)size);
-                    char* name_value = (char*)name;
                     glm::vec2 position_value = ParseVec2(collider->GetText());
-
+                    
                     //Create the collider and add it to a vector
-                    collider_list.push_back(Collider(shape_value, position_value, sensor_value, size_value, name_value));
+                    collider_list.push_back(Collider(shape_value, position_value, sensor, size_value, name));
                     collider = collider->NextSiblingElement("collider");
                 }
 
