@@ -14,6 +14,9 @@ struct PointLight {
 #define NR_POINT_LIGHTS 2
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 
+#define OUTLINE_COLOR vec4(0, 0, 0, 1)
+#define OUTLINE_THICKNESS 0.3f
+
 struct Material {
     vec3 specular;    
     float shininess;
@@ -72,8 +75,13 @@ void main()
     //point lights calculation
     for(int i=0; i<NR_POINT_LIGHTS; i++)
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+    
+    float maxAngleVal = max(0.0, dot(norm, viewDir));
 
-    FragColor = vec4(result, 1.0);
+    if(maxAngleVal < OUTLINE_THICKNESS)
+        FragColor = OUTLINE_COLOR;
+    else
+        FragColor = vec4(result, 1.0);
 
     // The ambient light that will apply to all of the objects
     //vec3 ambient = light.ambient * texture(texture1, TexCoord).rgb;
