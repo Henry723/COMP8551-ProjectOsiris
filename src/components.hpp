@@ -135,6 +135,10 @@ struct Collision
 
 struct CommandFlags
 {
+	int nextMoveDir = 0;
+	int moveTurn = 0;
+	bool move_on_evens() { return moveTurn % 2 == 0; }
+
 	// Enemy Command input flags
 	bool up = false;
 	bool down = false;
@@ -159,6 +163,14 @@ struct CommandFlags
 	Entity* rightEntity = nullptr;
 	Entity* upEntity = nullptr;
 	Entity* downEntity = nullptr;
+
+	CommandFlags()
+	{
+		srand(time(NULL));
+		/* generate random number between 1 and 2: */
+		moveTurn = (rand() % 2) + 1;
+	}
+
 };
 
 //Simple GameObject struct for tracking generic info, only includes name for now.

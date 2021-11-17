@@ -25,19 +25,19 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
 				transform->rotation = glm::vec4(0, -1, 0, 90);
 			}
-			if (right && canMoveRight)
+			else if (right && canMoveRight)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
 				transform->rotation = glm::vec4(0, 1, 0, 90);
 			}
-			if (up && canMoveUp)
+			else if (up && canMoveUp)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
 				transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 			}
-			if (down && canMoveDown)
+			else if (down && canMoveDown)
 			{
 				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
@@ -56,7 +56,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				canMoveLeft = true;
 				this->leftEntity = nullptr;
 			}
-			if (attackRight && rightEntity)
+			else if (attackRight && rightEntity)
 			{
 				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the right" << endl;
@@ -68,7 +68,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				canMoveRight = true;
 				this->rightEntity = nullptr;
 			}
-			if (attackUp && upEntity)
+			else if (attackUp && upEntity)
 			{
 				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the top" << endl;
@@ -80,7 +80,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				canMoveUp = true;
 				this->upEntity = nullptr;
 			}
-			if (attackDown && downEntity)
+			else if (attackDown && downEntity)
 			{
 				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
 				cout << "attacking " << targetObj->name << " to the bottom" << endl;

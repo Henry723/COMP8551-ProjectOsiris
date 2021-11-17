@@ -23,6 +23,7 @@ struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, E
 	void ResetCollisionEntities(); //Convenience function for resetting detected entities
 
 	bool enemyTurn = false;
+	int currentTurnCounter = 0;
 
 	//Attack input flags
 	bool attackLeft = true;

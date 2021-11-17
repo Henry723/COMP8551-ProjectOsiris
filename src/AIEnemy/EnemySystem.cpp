@@ -7,7 +7,8 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 	if (enemyTurn)
 	
 	{
-		cout << "Resolving enemy turn" << endl;
+		++currentTurnCounter;
+		cout << "Resolving enemy turn " << currentTurnCounter << endl;
 
 		/* initialize random seed: */
 		srand(time(NULL));
@@ -23,12 +24,13 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			// Iterate over enemies.
 			if (object && object->name == "enemy")
 			{
+				// === THIS Block checks the enemy's current state, and sets according flags.
 
-				/* generate random number between 1 and 4: */
-				randy = (rand() % 4) + 1;
-
-				switch (randy)
+				// If the enemy moves on this turn, perform the action in the saved direction.
+				if (currentTurnCounter % 2 == 0)
 				{
+					switch (commands->nextMoveDir)
+					{
 					case 1:
 						commands->canMoveLeft = true;
 						commands->left = true;
@@ -48,8 +50,51 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 					default:
 						cout << "Random number generator failed - received " << randy << endl;
+					}
 				}
 
+				// If the enemy doesn't move on this turn, instead signal it's intended direction.
+				else
+				{
+					randy = (rand() % 4) + 1;
+					commands->nextMoveDir = randy;
+
+					switch (commands->nextMoveDir)
+					{
+					// LEFT
+					case 1:
+						transform->position = transform->position + glm::vec3(1.0f, 0, 0);
+						transform->rotation = glm::vec4(0, 1, 0, 20.5f);
+						break;
+
+					// UP
+					case 2:
+						transform->position = transform->position + glm::vec3(0, 0, -1.0f);
+						transform->rotation = glm::vec4(0, 1, 0, 0);
+						break;
+
+					// RIGHT
+					case 3:
+						transform->position = transform->position + glm::vec3(-1.0f, 0, 0);
+						transform->rotation = glm::vec4(0, -1, 0, 20.5f);
+						break;
+
+					// DOWN
+					case 4:
+						transform->position = transform->position + glm::vec3(0, 0, 1.0f);
+						transform->rotation = glm::vec4(0, 1, 0, 9.5f);
+						break;
+
+					default:
+						cout << "Random number generator failed - received " << randy << endl;
+					}
+				}
+
+				// === 
+
+
+				// ===  This block acts on the required flag.
+				
 				//First get current position
 				glm::vec2 position = rigidbody->GetPosition();
 				//For each direction, check if the movement flag is set and if you can move in that direction
