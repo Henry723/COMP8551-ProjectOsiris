@@ -82,6 +82,8 @@ void CCfgMgrPhysical::LoadObjects(EntityManager& em)
                                                                                     text_src->GetText());
             }
 
+    
+
             //Check for transform data and add if exists
             tinyxml2::XMLElement* transform_data = object->FirstChildElement("transform");
             if (transform_data)

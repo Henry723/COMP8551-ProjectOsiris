@@ -12,7 +12,6 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		//Probably poor practice, but works for testing
 		if (object && object->name == "player") 
 		{
-			cout << "player updatE" << endl;
 			//First get current position
 			glm::vec2 position = rigidbody->GetPosition();
 			//For each direction, check if the movement flag is set and if you can move in that direction
