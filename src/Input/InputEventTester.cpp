@@ -63,3 +63,25 @@ void InputEventTester::receive(const AttackInput& event) {
 		break;
 	}
 }
+
+void InputEventTester::receive(const InteractInput& event) {
+	cout << "EVENT SYSTEM: INTERACTING..." << endl;
+}
+
+void InputEventTester::receive(const EnemyDebugInput& event) {
+	EnemyDebugInput::InpDir dir = event.dir;
+	switch (dir) {
+	case EnemyDebugInput::UP:
+		cout << "EVENT SYSTEM: ENEMY DEBUG INPUT - UP!" << endl;
+		break;
+	case EnemyDebugInput::LEFT:
+		cout << "EVENT SYSTEM: ENEMY DEBUG INPUT - LEFT!" << endl;
+		break;
+	case EnemyDebugInput::DOWN:
+		cout << "EVENT SYSTEM: ENEMY DEBUG INPUT - DOWN!" << endl;
+		break;
+	case EnemyDebugInput::RIGHT:
+		cout << "EVENT SYSTEM: ENEMY DEBUG INPUT - RIGHT!" << endl;
+		break;
+	}
+}
