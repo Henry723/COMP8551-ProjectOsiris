@@ -2,6 +2,7 @@
 #include "../components.hpp"
 #include <FMOD/fmod_studio_common.h>
 #include <FMOD/fmod_studio.hpp>
+#include <FMOD/fmod.hpp>
 #include <string>
 #include <map>
 #include <vector>
@@ -16,9 +17,9 @@ struct Vector3 {
   float z;
 };
 
-struct Implementation {
-  Implementation();
-  ~Implementation();
+struct AudExec {
+  AudExec();
+  ~AudExec();
 
   void Update();
 
@@ -27,6 +28,7 @@ struct Implementation {
 
   int mnNextChannelId;
 
+  // Maps for sounds, channels and events for the system.
   typedef map<string, FMOD::Sound*> SoundMap;
   typedef map<int, FMOD::Channel*> ChannelMap;
   typedef map<string, FMOD::Studio::EventInstance*> EventMap;
@@ -40,7 +42,30 @@ struct Implementation {
 
 class AudioSystem : public System<AudioSystem> {
 public:
+	static void Init();
+	static void Update();
+	static void Shutdown();
+	static int ErrorCheck(FMOD_RESULT result);
 
+	void LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
+	void LoadEvent(const string& strEventName);
+	void LoadSound(const string& strSoundName, bool b3d = true, bool bLooping = false, bool bStream = false);
+	void UnloadSound(const string& strSoundName);
+	void Set3dListenerOrientation(const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumeDB = 0.0f);
+	int PlaySound(const string& strSoundName, const Vector3& vPos = Vector3{ 0, 0, 0 }, float fVolumeDB = 0.0f);
+	void PlayEvent(const string& strEventName);
+	void StopChannel(int nChannelId);
+	void StopEvent(const string& strEventName, bool bImmediate = false);
+	void GetEventParameter(const string& strEventName, const string& strEventParameter, float* parameter);
+	void SetEventParameter(const string& strEventName, const string& strParameterName, float fvalue);
+	void StopAllChannels();
+	void SetChannelPosition(int nChannelID, const Vector3& vPosition);
+	void SetChannelVolume(int nChannelId, float fvolumeDB);
+	bool IsPlaying(int nChannelId) const;
+	bool IsEventPlaying(const string& strEventName) const;
+	float DBToVolume(float db);
+	float VolumeToDB(float volume);
+	FMOD_VECTOR VectorToFMOD(const Vector3& vPosition);
 private:
 
 };
