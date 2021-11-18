@@ -39,7 +39,7 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
 {
   EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window); // Reference to Event Manager to emit input events.
 
-  // 鍏充簬娓告垙鐘舵�佺殑鎸夐敭杈撳叆 瀵瑰簲鐨勪簨浠跺彨control event The key input of the game state corresponds to the event called control event
+  // 关于游戏状态的按键输入 对应的事件叫control event
   if (find(controlKeys.begin(), controlKeys.end(), key) != controlKeys.end()) { // Handle control input group
     switch (action) { // Will emit control event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
