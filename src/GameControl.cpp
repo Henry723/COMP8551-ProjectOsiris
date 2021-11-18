@@ -52,24 +52,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entity.assign<Window>(window);
   entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
 
-  //Generate floor tiles
-  int mapMax = 3;
-  int mapMin = -2;
-  for (int i = mapMin; i < mapMax; i++)
-  {
-      for (int j = mapMin; j < mapMax; j++)
-      {
-          entityx::Entity floorTile1Entity = entities.create();
-          const char* src_Model = src_floorTile1Model;
-          const char* src_Texture = src_floorTile1Texture;
-          if ((i + j) % 3 == 1) src_Model = src_floorTile2Model;
-          if ((i + j) % 3 == 1) src_Texture = src_floorTile2Texture;
-          if ((i + j) % 3 == 2) src_Model = src_floorTile3Model;
-          if ((i + j) % 3 == 2) src_Texture = src_floorTile3Texture;
-          floorTile1Entity.assign<Model3D>(src_Model, vertSource, fragSource, src_Texture);
-          floorTile1Entity.assign<Transform>(glm::vec3(i * 2, -2.0f, j * 2), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.05f, 0.9f, 1.05f));
-      }
-  }
+
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
@@ -77,9 +60,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-  //Load up game objects from configuration file. Currently loading player.
-  CCfgMgrPhysical txml("./src/Game.xml");
-  txml.LoadObjects(entities);
+  CCfgMgrApplication cfgManager = CCfgMgrApplication();
+  cfgManager.loadConfig("./src/Game.xml", entities);
 }
 
 void GameControl::Update(TimeDelta dt)

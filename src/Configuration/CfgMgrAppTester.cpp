@@ -136,10 +136,8 @@ int CCfgMgrAppTester::failed()
 
 bool CCfgMgrAppTester::Test_load_Config()
 {
-    bool rslt = false;
-
-    // TODO : Complete test
-
+    bool rslt = true;
+    // To be tested manually, requires entity manager.
     return rslt;
 }
 

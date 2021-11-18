@@ -161,12 +161,12 @@ void PhysicsTest::receive(const Collision& event)
 					this->canMoveRight = false;
 					rightEntity = event.b;
 				}
-				else if (event.fA == "up")
+				else if (event.fA == "top")
 				{
 					this->canMoveUp = false;
 					upEntity = event.b;
 				}
-				else if (event.fA == "down")
+				else if (event.fA == "bottom")
 				{
 					this->canMoveDown = false;
 					downEntity = event.b;
@@ -189,12 +189,12 @@ void PhysicsTest::receive(const Collision& event)
 					this->canMoveRight = false;
 					rightEntity = event.a;
 				}
-				else if (event.fB == "up") 
+				else if (event.fB == "top") 
 				{
 					this->canMoveUp = false;
 					upEntity = event.a;
 				}
-				else if (event.fB == "down") 
+				else if (event.fB == "bottom") 
 				{
 					this->canMoveDown = false;
 					downEntity = event.a;

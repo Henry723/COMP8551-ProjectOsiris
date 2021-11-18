@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include "CfgMgrPhysical.h"
 
 enum class CKVType : char { Int_t, Float_t, String_t };
 
@@ -60,7 +61,7 @@ public:
     // Mandatory formatted data files
  
      // Load the inital game configuration
-    bool loadConfig(std::string fileName);
+    bool loadConfig(const char * fileName, EntityManager& em);
 
     // CUSTOM Data file Interface
  

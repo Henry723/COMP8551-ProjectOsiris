@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <game>
 	<entity>
+		<!--PLAYER ENTITY DATA-->
 		<gameobject name="player">
 			<model3D>
 				<model_src>./src/Renderer3D/Models/wayfarer.obj</model_src>
@@ -24,6 +25,7 @@
 				</colliders>
 			</rigidbody>
 		</gameobject>
+		<!--ENEMY ENTITY DATA-->
 		<gameobject name="enemy">
 			<model3D>
 				<model_src>./src/Renderer3D/Models/scarab.obj</model_src>
@@ -116,6 +118,7 @@
 				</colliders>
 			</rigidbody>
 		</gameobject>
+		<!--TREASURE ENTITY DATA-->
 		<gameobject name="treasure">
 			<model3D>
 				<model_src>./src/Renderer3D/Models/treasure_pile.obj</model_src>
@@ -172,6 +175,333 @@
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
+		</gameobject>
+		<!--TILE ENTITY DATA-->
+		<!--Tile are ordered from left to right, top to bottom, with randomly assigned models/textures-->
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-4.0, -2.0, -4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-2.0, -2.0, -4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>0.0, -2.0, -4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>2.0, -2.0, -4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>4.0, -2.0, -4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-4.0, -2.0, -2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-2.0, -2.0, -2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>0.0, -2.0, -2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>2.0, -2.0, -2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>4.0, -2.0, -2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-4.0, -2.0, 0.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-2.0, -2.0, 0.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>0.0, -2.0, 0.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>2.0, -2.0, 0.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>4.0, -2.0, 0.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-4.0, -2.0, 2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-2.0, -2.0, 2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>0.0, -2.0, 2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>2.0, -2.0, 2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>4.0, -2.0, 2.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-4.0, -2.0, 4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>-2.0, -2.0, 4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>0.0, -2.0, 4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>2.0, -2.0, 4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+		<gameobject name="tile">
+			<model3D>
+				<model_src>./src/Renderer3D/Models/stone_tile_2.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile2.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<position>4.0, -2.0, 4.0</position>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
 		</gameobject>
 	</entity>
 </game>

@@ -39,9 +39,11 @@ CCfgMgrApplication::~CCfgMgrApplication()
     // Add anything extra
 }
 
-bool CCfgMgrApplication::loadConfig(std::string fileName)
+bool CCfgMgrApplication::loadConfig(const char * fileName, EntityManager& em)
 {
-    // TODO : Finish Implementation
+    //Load up game objects from configuration file. Currently loading player.
+    CCfgMgrPhysical txml(fileName);
+    txml.LoadObjects(em);
     return false;
 }
 
