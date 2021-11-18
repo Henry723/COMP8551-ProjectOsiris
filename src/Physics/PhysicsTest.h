@@ -4,6 +4,8 @@
 #include <entityx/Event.h>
 #include "../components.hpp"
 
+#include "../gamestate.h"
+
 using entityx::EventManager;
 using entityx::Event;
 using entityx::Receiver;

@@ -4,6 +4,28 @@
 void InputEventTester::configure(EventManager& em) {
 	em.subscribe<MoveInput>(*this);
 	em.subscribe<AttackInput>(*this);
+	em.subscribe<ControlInput>(*this);
+}
+
+void InputEventTester::receive(const ControlInput& event) {
+	ControlInput::Cmd cmd = event.cmd;
+	switch (cmd) {
+	case ControlInput::X:
+		cout << "EVENT SYSTEM: Control INPUT - X!" << endl;
+		break;
+	case ControlInput::Y:
+		cout << "EVENT SYSTEM: Control INPUT - Y!" << endl;
+		break;
+	//case MoveInput::LEFT:
+	//	cout << "EVENT SYSTEM: MOVE INPUT - LEFT!" << endl;
+	//	break;
+	//case MoveInput::DOWN:
+	//	cout << "EVENT SYSTEM: MOVE INPUT - DOWN!" << endl;
+	//	break;
+	//case MoveInput::RIGHT:
+	//	cout << "EVENT SYSTEM: MOVE INPUT - RIGHT!" << endl;
+	//	break;
+	}
 }
 
 void InputEventTester::receive(const MoveInput& event) {

@@ -7,6 +7,8 @@
 #include "UI/UI.h"
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
+//#include "gamestate.h"
+
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"
@@ -17,7 +19,9 @@
 class GameControl : public EntityX
 {
 public:
+
   GameControl(GLFWwindow*, string);
   void Update(TimeDelta);
+
 };
 

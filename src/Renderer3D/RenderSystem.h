@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include "../UI/UI.h"
 
+#include "../gamestate.h"
+
 
 class RenderSystem : public System<RenderSystem>
 {

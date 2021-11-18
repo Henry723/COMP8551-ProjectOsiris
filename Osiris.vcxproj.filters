@@ -212,6 +212,9 @@
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -224,6 +227,9 @@
       <Filter>Source Files\UI\shaders</Filter>
     </None>
     <None Include="src\UI\shaders\Default.vert">
+      <Filter>Source Files\UI\shaders</Filter>
+    </None>
+    <None Include="src\UI\shaders\shape2d.frag">
       <Filter>Source Files\UI\shaders</Filter>
     </None>
   </ItemGroup>

@@ -2,6 +2,7 @@
 
 void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
+	if (gameState != RUNNING) return; // 只有运行状态做物理更新
 	ComponentHandle<Rigidbody> rigidbody;
 	for (Entity entity : es.entities_with_components(rigidbody))
 	{

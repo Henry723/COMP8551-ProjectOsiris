@@ -1,10 +1,14 @@
 #include "RenderSystem.h"
 
+//GameState gamestate = PREPARING;
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
+	if (gameState == PREPARING) { // 开始状态不绘制场景
+		return;
+	}
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
@@ -42,6 +46,9 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	// Loop through Model3D components
 	auto modelEntities = es.entities_with_components(hmodel, htransform);
+	enum GameMode{ModePreparing=0, ModeRunning, ModeMenu};
+	//GameModeEnum GameMode = ModeRunning;
+	GameMode gameMode;// = ModePreparing;
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
 		Model3D* model = (*entity).component<Model3D>().get();
 		Transform* transform = (*entity).component<Transform>().get();
@@ -64,10 +71,14 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		ui.setup();
 		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		//scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		//scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		ui.configured = true;
 	}
 	else {
 		ui.RenderAll(); // Render all text elements which are set as active
+		//ui.RenderStartMenu(); // Render all text elements which are set as active
+		if (gameState == MENU) ui.RenderMenuText(); //结束状态增加绘制菜单文字
 	}
 
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
@@ -79,6 +90,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		//update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
 		glfwSwapBuffers((*entity).component<Window>().get()->window);
 	}
+	//glfwSwapBuffers((*en.begin()).component<Window>().get()->window);
 }
 
 void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
