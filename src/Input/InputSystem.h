@@ -3,8 +3,6 @@
 #include "../SceneManager.hpp"
 #include "../Events/EventSystem.h"
 
-#include "../gamestate.h"
-
 using namespace std;
 
 class InputSystem : public System<InputSystem>
