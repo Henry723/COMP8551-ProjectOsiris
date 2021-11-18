@@ -33,6 +33,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<PhysicsEngine>();
   systems.add<PhysicsTest>();
   systems.add<EnemySystem>();
+  systems.add<TurnEvents>();
   systems.add<UISystem>();
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
@@ -146,7 +147,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
           if ((i + j) % 3 == 2) src_Model = src_floorTile3Model;
           if ((i + j) % 3 == 2) src_Texture = src_floorTile3Texture;
           floorTile1Entity.assign<Model3D>(src_Model, vertSource, fragSource, src_Texture);
-          floorTile1Entity.assign<Transform>(glm::vec3(i * 2, -2.0f, j * 2), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f));
+          floorTile1Entity.assign<Transform>(glm::vec3(i * 2, -2.0f, j * 2), glm::vec4(0.0, 1.0, 0, 0), glm::vec3(1.05f, 0.9f, 1.05f));
       }
   }
 
@@ -156,6 +157,10 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
+  entityx::Entity timerEntity = entities.create();
+  timerEntity.assign<Timer>();
+  timerEntity.assign<TurnOrder>(4.2f);
+
   //Load up game objects from configuration file. Currently loading player.
   CCfgMgrPhysical txml("./src/Game.xml");
   txml.LoadObjects(entities);
@@ -164,11 +169,12 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 void GameControl::Update(TimeDelta dt)
 {
   systems.update<InputSystem>(dt);
-  systems.update<RenderSystem>(dt);
   //systems.update<UISystem>(dt); Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
   systems.update<PhysicsTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
+  systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
-  
+  systems.update<RenderSystem>(dt);
+
 }

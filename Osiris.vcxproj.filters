@@ -150,6 +150,9 @@
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp">
       <Filter>Source Files\AIEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="src\Events\TurnEvents.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="src\AIEnemy\EnemySystem.h">
       <Filter>Header Files\AIEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\TurnEvents.h">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

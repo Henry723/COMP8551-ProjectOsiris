@@ -173,6 +173,37 @@ struct CommandFlags
 
 };
 
+struct Timer {
+	float timeElapsed;
+};
+
+struct TurnOrder {
+	
+	float timeInterval;
+	float timeUntilNextOrder;
+
+	void subtract_time(TimeDelta dt)
+	{
+		timeUntilNextOrder -= dt;
+	}
+
+	bool time_out()
+	{
+		return (timeUntilNextOrder <= 0);
+	}
+
+	void reset_interval()
+	{
+		timeUntilNextOrder = timeInterval;
+	}
+
+	TurnOrder(float interval)
+	{
+		timeInterval = interval;
+		reset_interval();
+	}
+};
+
 //Simple GameObject struct for tracking generic info, only includes name for now.
 struct GameObject
 {
