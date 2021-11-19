@@ -4,15 +4,6 @@
 const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
 const char* src_keyTexture = "./src/Renderer3D/Textures/tex_key_totem.jpg";
 
-const char* src_floorTile1Model = "./src/Renderer3D/Models/stone_tile_1.obj";
-const char* src_floorTile1Texture = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
-
-const char* src_floorTile2Model = "./src/Renderer3D/Models/stone_tile_2.obj";
-const char* src_floorTile2Texture = "./src/Renderer3D/Textures/tex_floorTile2.jpg";
-
-const char* src_floorTile3Model = "./src/Renderer3D/Models/stone_tile_3.obj";
-const char* src_floorTile3Texture = "./src/Renderer3D/Textures/tex_floorTile3.jpg";
-
 const char* vertSource = "./src/Renderer3D/Shaders/Default.vert";
 const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
 
@@ -51,8 +42,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   entityx::Entity entity = entities.create();
   entity.assign<Window>(window);
   entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
-
-
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
