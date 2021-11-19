@@ -38,7 +38,7 @@ public:
 	//void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
 	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
-	void action_callback(GLFWwindow* window);
+	void action_event(GLFWwindow* window);
 	
 
 };

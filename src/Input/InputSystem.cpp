@@ -46,19 +46,15 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
     case GLFW_PRESS: // decide what to do when the key is pressed
       if (key == movementKeys[UP]) {
         eve->emit<MoveInput>(MoveInput::UP);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::UP);
       }
       else if (key == movementKeys[LEFT]) {
         eve->emit<MoveInput>(MoveInput::LEFT);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::LEFT);
       }
       else if (key == movementKeys[DOWN]) {
         eve->emit<MoveInput>(MoveInput::DOWN);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::DOWN);
       }
       else if (key == movementKeys[RIGHT]) {
         eve->emit<MoveInput>(MoveInput::RIGHT);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::RIGHT);
       }
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
@@ -71,19 +67,15 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
     case GLFW_PRESS: // decide what to do when the key is pressed
       if (key == attackKeys[UP]) {
         eve->emit<AttackInput>(AttackInput::UP);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::UP);
       }
       else if (key == attackKeys[LEFT]) {
         eve->emit<AttackInput>(AttackInput::LEFT);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::LEFT);
       }
       else if (key == attackKeys[DOWN]) {
         eve->emit<AttackInput>(AttackInput::DOWN);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::DOWN);
       }
       else if (key == attackKeys[RIGHT]) {
         eve->emit<AttackInput>(AttackInput::RIGHT);
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::RIGHT);
       }
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
