@@ -16,6 +16,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 		for (Entity entity : es.entities_with_components(rigidbody))
 		{
+
 			ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
 			ComponentHandle<Transform> transform = entity.component<Transform>();
 			ComponentHandle<GameObject> object = entity.component<GameObject>();
@@ -63,25 +64,21 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 					// LEFT
 					case 1:
-						transform->position = transform->position + glm::vec3(1.0f, 0, 0);
 						transform->rotation = glm::vec4(0, 1, 0, 20.5f);
 						break;
 
 					// UP
 					case 2:
-						transform->position = transform->position + glm::vec3(0, 0, -1.0f);
 						transform->rotation = glm::vec4(0, 1, 0, 0);
 						break;
 
 					// RIGHT
 					case 3:
-						transform->position = transform->position + glm::vec3(-1.0f, 0, 0);
 						transform->rotation = glm::vec4(0, -1, 0, 20.5f);
 						break;
 
 					// DOWN
 					case 4:
-						transform->position = transform->position + glm::vec3(0, 0, 1.0f);
 						transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 						break;
 

@@ -10,7 +10,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		ComponentHandle<GameObject> object = entity.component<GameObject>();
 		//Only do this for rigidbodies that are the player
 		//Probably poor practice, but works for testing
-		if (object && object->name == "player") 
+		if (object && object->name == "player")
 		{
 			//First get current position
 			glm::vec2 position = rigidbody->GetPosition();
@@ -20,79 +20,45 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			//Velocity probably needs to be better scaled in-engine
 			//Spaces between centers of tiles is 2.
 			if (left && canMoveLeft)
-			{
-				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
-				transform->rotation = glm::vec4(0, -1, 0, 90);
-			}
-			else if (right && canMoveRight)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
-				transform->rotation = glm::vec4(0, 1, 0, 90);
-			}
-			else if (up && canMoveUp)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
-				transform->rotation = glm::vec4(0, 1, 0, 9.5f);
-			}
-			else if (down && canMoveDown)
-			{
-				ResetMoveFlags();
-				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
-				transform->rotation = glm::vec4(0, 1, 0, 0);
-			}
 
+			if (right && canMoveRight)
+				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
+
+			if (up && canMoveUp)
+				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
+			
+			if (down && canMoveDown)
+				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
+			
 			if (attackLeft && leftEntity)
 			{
 				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the left" << endl;
-				transform->rotation = glm::vec4(0, -1, 0, 90);
-
 				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				leftEntity->destroy();
-				canMoveLeft = true;
-				this->leftEntity = nullptr;
 			}
-			else if (attackRight && rightEntity)
+			if (attackRight && rightEntity)
 			{
 				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the right" << endl;
-				transform->rotation = glm::vec4(0, 1, 0, 90);
-
 				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				rightEntity->destroy();
-				canMoveRight = true;
-				this->rightEntity = nullptr;
 			}
-			else if (attackUp && upEntity)
+			if (attackUp && upEntity)
 			{
 				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the top" << endl;
-				transform->rotation = glm::vec4(0, 1, 0, 9.5f);
-
 				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				upEntity->destroy();
-				canMoveUp = true;
-				this->upEntity = nullptr;
 			}
-			else if (attackDown && downEntity)
+			if (attackDown && downEntity)
 			{
 				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the bottom" << endl;
-				transform->rotation = glm::vec4(0, 1, 0, 0);
-
 				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				downEntity->destroy();
-				canMoveDown = true;
-				this->downEntity = nullptr;
 			}
-
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
 			up = false;
@@ -113,7 +79,7 @@ void PhysicsTest::ResetMoveFlags()
 	canMoveRight = true;
 	canMoveUp = true;
 	canMoveDown = true;
-	ResetCollisionEntities(); //Will have to reset detected entities on move as well
+	//ResetCollisionEntities(); //Will have to reset detected entities on move as well
 }
 
 //Convenience function for resetting detected entities
@@ -128,56 +94,144 @@ void PhysicsTest::ResetCollisionEntities()
 void PhysicsTest::configure(EventManager& em) {
 	em.subscribe<MoveInput>(*this);
 	em.subscribe<Collision>(*this);
+	em.subscribe<EndCollision>(*this);
 	em.subscribe<AttackInput>(*this);
 }
 
 void PhysicsTest::receive(const Collision& event)
 {
-	cout << "collision event received for " << event.fA << " and " << event.fB << endl;
+	//Only game objects should be involved in collisions, so should be safe to grab these components.
+	ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+	ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 
-	//Direct body collision
-	if (event.fA == "body" && event.fB == "body")
+	//cout << "Collision start for " << objectA->name << " " << event.fA << ", and " << objectB->name << " " << event.fB << endl;
+
+	//We only care about collisions with at least one body for this implementation.
+	if (event.fA == "body" || event.fB == "body" || event.fA == "enemy_body" || event.fB == "enemy_body")
 	{
-		//So far we only have treasure entities so we can delete that
-		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-		if (objectA->name == "treasure") event.a->destroy();
-		else if (objectB->name == "treasure") event.b->destroy();
+		//Logic specific to player
+		//Colliding with a player body for left Object
+		if (objectA->name == "player" && event.fA == "body")
+			if (objectB->name == "treasure") event.b->destroy();
+		
+		//Colliding with a player body for right Object
+		else if (objectB->name == "player" && event.fB == "body")
+			if (objectA->name == "treasure") event.a->destroy();
+		
+		//Colliding with a player sensor for left Object
+		else if (objectA->name == "player" && event.fA != "body")
+		{
+			//Sensor colliding with an enemy body
+			if (objectB->name == "enemy" && event.fB == "enemy_body")
+			{
+				if (event.fA == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.b;
+				}
+				else if (event.fA == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.b;
+				}
+				else if (event.fA == "top")
+				{
+					this->canMoveUp = false;
+					upEntity = event.b;
+				}
+				else if (event.fA == "bottom")
+				{
+					this->canMoveDown = false;
+					downEntity = event.b;
+				}
+			}
+		}
+		//Colliding with a player sensor for right Object
+		else if (objectB->name == "player" && event.fB != "body")
+		{
+			//Sensor colliding with an enemy body
+			if (objectA->name == "enemy" && event.fA == "enemy_body")
+			{
+				if (event.fB == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.a;
+				}
+				else if (event.fB == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.a;
+				}
+				else if (event.fB == "top")
+				{
+					this->canMoveUp = false;
+					upEntity = event.a;
+				}
+				else if (event.fB == "bottom")
+				{
+					this->canMoveDown = false;
+					downEntity = event.a;
+				}
+			}
+		}
 	}
-	//One collider was a named sensor
-	else
+}
+
+void PhysicsTest::receive(const EndCollision& event)
+{
+	//Only game objects should be involved in collisions, so should be safe to grab these components.
+	if (event.a->valid())
 	{
-		if (event.fA == "left" || event.fB == "left")
+		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+		if (objectA->name == "player" && event.fA != "body")
 		{
-			this->leftEntity = event.fA == "left" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveLeft = false;
-			else if (objectB->name == "enemy") this->canMoveLeft = false;
+			if (event.fA == "left")
+			{
+				this->canMoveLeft = true;
+				leftEntity = nullptr;
+			}
+			else if (event.fA == "right")
+			{
+				this->canMoveRight = true;
+				rightEntity = nullptr;
+			}
+			else if (event.fA == "top")
+			{
+				this->canMoveUp = true;
+				upEntity = nullptr;
+			}
+			else if (event.fA == "bottom")
+			{
+				this->canMoveDown = true;
+				downEntity = nullptr;
+			}
 		}
-		else if (event.fA == "right" || event.fB == "right")
+	}
+	if (event.b->valid())
+	{
+		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+		if (objectB->name == "player" && event.fB != "body")
 		{
-			this->rightEntity = event.fA == "right" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveRight = false;
-			else if (objectB->name == "enemy") this->canMoveRight = false;
-		}
-		else if (event.fA == "top" || event.fB == "top")
-		{
-			this->upEntity = event.fA == "top" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveUp = false;
-			else if (objectB->name == "enemy") this->canMoveUp = false;
-		}
-		else if (event.fA == "bottom" || event.fB == "bottom")
-		{
-			this->downEntity = event.fA == "bottom" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveDown = false;
-			else if (objectB->name == "enemy") this->canMoveDown = false;
+			if (event.fB == "left")
+			{
+				this->canMoveLeft = true;
+				leftEntity = nullptr;
+			}
+			else if (event.fB == "right")
+			{
+				this->canMoveRight = true;
+				rightEntity = nullptr;
+			}
+			else if (event.fB == "top")
+			{
+				this->canMoveUp = true;
+				upEntity = nullptr;
+			}
+			else if (event.fB == "bottom")
+			{
+				this->canMoveDown = true;
+				downEntity = nullptr;
+			}
 		}
 	}
 }

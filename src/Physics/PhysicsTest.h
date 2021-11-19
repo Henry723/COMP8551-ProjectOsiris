@@ -12,6 +12,7 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
 	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
+	void receive(const EndCollision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
 	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
 	void ResetMoveFlags(); //Convenience function for reset collision flags
