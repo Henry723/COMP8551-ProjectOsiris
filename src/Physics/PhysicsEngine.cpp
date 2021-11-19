@@ -23,28 +23,26 @@ class CollisionListener : public b2ContactListener
 public: 
     void BeginContact(b2Contact* contact) 
     {
-        //Grab the bodies from the collision
-        b2Body* bodyA = contact->GetFixtureA()->GetBody();
-        b2Body* bodyB = contact->GetFixtureB()->GetBody();
+        //Grab the colliding fixtures.
+        b2Fixture* fixA = contact->GetFixtureA();
+        b2Fixture* fixB = contact->GetFixtureB();
+
+        //Grab the bodies associated with the fixtures.
+        b2Body* bodyA = fixA->GetBody();
+        b2Body* bodyB = fixB->GetBody();
+
         //If two bodies exist...
         if (bodyA && bodyB)
         {
             //Get the user data from the bodies
-            CollisionData* dataA = (CollisionData*)bodyA->GetUserData().pointer;
-            CollisionData* dataB = (CollisionData*)bodyB->GetUserData().pointer;
-            //Check if either fixture is a sensor
-            if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureB()->IsSensor())
-            {
-                //If it's a sensor, add sensor names to the collision.
-                FixtureData* fA = (FixtureData*)contact->GetFixtureA()->GetUserData().pointer;
-                FixtureData* fB = (FixtureData*)contact->GetFixtureB()->GetUserData().pointer;
-                collisions.push(Collision(&dataA->e, &dataB->e, fA->name, fB->name));
-            }
-            else
-            {
-                //No sensors, regular body collision
-                collisions.push(Collision(&dataA->e, &dataB->e));
-            }
+            CollisionData* bodyDataA = (CollisionData*)bodyA->GetUserData().pointer;
+            CollisionData* bodyDataB = (CollisionData*)bodyB->GetUserData().pointer;
+
+            //Get the fixture data from the fixtures
+            FixtureData* fixDataA = (FixtureData*)fixA->GetUserData().pointer;
+            FixtureData* fixDataB = (FixtureData*)fixB->GetUserData().pointer;
+
+            collisions.push(Collision(&bodyDataA->e, &bodyDataB->e, fixDataA->name, fixDataB->name));
         }
     }
     void EndContact(b2Contact* contact) {}
@@ -81,15 +79,7 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         {
             bodiesForDeletion.push(body);
         }
-        /* This moves the entity Transform based on b2Body->GetPosition.
-         * Was having some issues updating based on body user data so this might be needed again.
-        else
-        {
-            b2Vec2 pos = body->body->GetPosition();
-            ComponentHandle<Transform> transform = entity.component<Transform>();
-            if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
-        }
-        */
+
         //If the body is being moved by the MoveToPoint function...
         if (body->moveBody)
         {
@@ -208,7 +198,7 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
 
             //Setup fixture data with name if it was given one
             FixtureData* fData = new FixtureData;
-            fData->name = c.type == "body" ? "body" : c.type;
+            fData->name = c.type;
             fixture.userData.pointer = reinterpret_cast<uintptr_t>(fData);
 
             //Setup box collider

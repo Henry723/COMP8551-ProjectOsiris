@@ -125,51 +125,81 @@ void PhysicsTest::configure(EventManager& em) {
 
 void PhysicsTest::receive(const Collision& event)
 {
-	cout << "collision event received for " << event.fA << " and " << event.fB << endl;
+	//Only game objects should be involved in collisions, so should be safe to grab these components.
+	ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+	ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
 
-	//Direct body collision
-	if (event.fA == "body" && event.fB == "body")
+	//We only care about collisions with at least one body for this implementation.
+	if (event.fA == "body" || event.fB == "body")
 	{
-		//So far we only have treasure entities so we can delete that
-		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-		if (objectA->name == "treasure") event.a->destroy();
-		else if (objectB->name == "treasure") event.b->destroy();
-	}
-	//One collider was a named sensor
-	else
-	{
-		if (event.fA == "left" || event.fB == "left")
+		//Logic specific to player
+		//Colliding with a player body for left Object
+		if (objectA->name == "player" && event.fA == "body")
 		{
-			this->leftEntity = event.fA == "left" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveLeft = false;
-			else if (objectB->name == "enemy") this->canMoveLeft = false;
+			//Player body colliding with treasure body
+			if (objectB->name == "treasure") event.b->destroy();
 		}
-		else if (event.fA == "right" || event.fB == "right")
+		//Colliding with a player body for right Object
+		else if (objectB->name == "player" && event.fA == "body")
 		{
-			this->rightEntity = event.fA == "right" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveRight = false;
-			else if (objectB->name == "enemy") this->canMoveRight = false;
+			//Player body colliding with treasure body
+			if (objectA->name == "treasure") event.a->destroy();
 		}
-		else if (event.fA == "top" || event.fB == "top")
+		//Colliding with a player sensor for left Object
+		else if (objectA->name == "player" && event.fA != "body")
 		{
-			this->upEntity = event.fA == "top" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveUp = false;
-			else if (objectB->name == "enemy") this->canMoveUp = false;
+			//Sensor colliding with an enemy body
+			if (objectB->name == "enemy" && event.fB == "body")
+			{
+				if (event.fA == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.b;
+				}
+				else if (event.fA == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.b;
+				}
+				else if (event.fA == "top")
+				{
+					this->canMoveUp = false;
+					upEntity = event.b;
+				}
+				else if (event.fA == "bottom")
+				{
+					this->canMoveDown = false;
+					downEntity = event.b;
+				}
+			}
 		}
-		else if (event.fA == "bottom" || event.fB == "bottom")
+		//Colliding with a player sensor for right Object
+		else if (objectB->name == "player" && event.fB != "body")
 		{
-			this->downEntity = event.fA == "bottom" ? event.b : event.a;
-			ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-			ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-			if (objectA->name == "enemy") this->canMoveDown = false;
-			else if (objectB->name == "enemy") this->canMoveDown = false;
+			//Sensor colliding with an enemy body
+			if (objectA->name == "enemy" && event.fA == "body")
+			{
+				if (event.fB == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.a;
+				}
+				else if (event.fB == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.a;
+				}
+				else if (event.fB == "top") 
+				{
+					this->canMoveUp = false;
+					upEntity = event.a;
+				}
+				else if (event.fB == "bottom") 
+				{
+					this->canMoveDown = false;
+					downEntity = event.a;
+				}
+			}
 		}
 	}
 }
