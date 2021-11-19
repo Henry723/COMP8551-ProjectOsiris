@@ -5,6 +5,7 @@ const float MAX_TIMESTEP = 1.0f / 60.0f; //Timestep for Box2D (60 FPS)
 const int NUM_VEL_ITERATIONS = 20; //Velocity iterations
 const int NUM_POS_ITERATIONS = 3; //Position iterations
 stack<Collision> collisions; //Track collisions from the listener
+stack<EndCollision> endCollisions; //Track collisions from the listener
 
 //Struct for b2Body user data
 struct CollisionData
@@ -45,7 +46,30 @@ public:
             collisions.push(Collision(&bodyDataA->e, &bodyDataB->e, fixDataA->name, fixDataB->name));
         }
     }
-    void EndContact(b2Contact* contact) {}
+    void EndContact(b2Contact* contact) {
+        //Grab the colliding fixtures.
+        b2Fixture* fixA = contact->GetFixtureA();
+        b2Fixture* fixB = contact->GetFixtureB();
+
+        //Grab the bodies associated with the fixtures.
+        b2Body* bodyA = fixA->GetBody();
+        b2Body* bodyB = fixB->GetBody();
+
+        //If two bodies exist...
+        if (bodyA && bodyB)
+        {
+            //Get the user data from the bodies
+            CollisionData* bodyDataA = (CollisionData*)bodyA->GetUserData().pointer;
+            CollisionData* bodyDataB = (CollisionData*)bodyB->GetUserData().pointer;
+
+            //Get the fixture data from the fixtures
+            FixtureData* fixDataA = (FixtureData*)fixA->GetUserData().pointer;
+            FixtureData* fixDataB = (FixtureData*)fixB->GetUserData().pointer;
+
+            endCollisions.push(EndCollision(&bodyDataA->e, &bodyDataB->e, fixDataA->name, fixDataB->name));
+        }
+    
+    }
     void PreSolve(b2Contact* contact, const b2Manifold* oldManifold){}
     void PostSolve(b2Contact* contact, const b2Manifold* oldManifold) {}
 };
@@ -124,6 +148,14 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         //Emit the event and remove collision data from stack
         ev.emit(collisions.top());
         collisions.pop();
+    }
+
+    //Check if there's collisions ending
+    if (!endCollisions.empty())
+    {
+        //Emit the event and remove collision data from stack
+        ev.emit(endCollisions.top());
+        endCollisions.pop();
     }
 
     //World step
