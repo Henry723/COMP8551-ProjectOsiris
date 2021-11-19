@@ -157,10 +157,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-  entityx::Entity timerEntity = entities.create();
-  timerEntity.assign<Timer>();
-  timerEntity.assign<TurnOrder>(4.2f);
-
   //Load up game objects from configuration file. Currently loading player.
   CCfgMgrPhysical txml("./src/Game.xml");
   txml.LoadObjects(entities);
