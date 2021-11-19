@@ -111,12 +111,16 @@ void PhysicsTest::receive(const Collision& event)
 	{
 		//Logic specific to player
 		//Colliding with a player body for left Object
-		if (objectA->name == "player" && event.fA == "body")
-			if (objectB->name == "treasure") event.b->destroy();
-		
+		if (objectA->name == "player" && event.fA == "body") 
+		{
+			if (objectB->name == "treasure") event.b->destroy();		
+		}
+
 		//Colliding with a player body for right Object
 		else if (objectB->name == "player" && event.fB == "body")
+		{
 			if (objectA->name == "treasure") event.a->destroy();
+		}
 		
 		//Colliding with a player sensor for left Object
 		else if (objectA->name == "player" && event.fA != "body")

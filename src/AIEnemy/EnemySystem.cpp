@@ -8,7 +8,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 	
 	{
 		++currentTurnCounter;
-		cout << "Resolving enemy turn " << currentTurnCounter << endl;
+		//cout << "Resolving enemy turn " << currentTurnCounter << endl;
 
 		/* initialize random seed: */
 		srand(time(NULL));
@@ -237,7 +237,7 @@ void EnemySystem::receive(const EnemyDebugInput& event) {
 
 void EnemySystem::receive(const Collision& event)
 {
-	cout << "collision event received for " << event.fA << " and " << event.fB << endl;
+	//cout << "collision event received for " << event.fA << " and " << event.fB << endl;
 
 	//Direct body collision
 	//if (event.fA == "body" && event.fB == "body")
