@@ -1,22 +1,21 @@
 #include "Model3D.h"
-#define TEST_MODEL3D       false
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	
-#if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
 	cout << endl << "Model3D is being created." << endl;
+
+	ModelImporter importer = ModelImporter();
+	/*vector<float> attributes;
+	vector<unsigned int> indices;*/
 	
 	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
 	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
 	cout << "=====================================" << endl;
-#endif
 
-	ModelImporter importer = ModelImporter();
 	importer.loadModel(modelSource, attributes, indices);
 
-	//cout << "In Model3D: AFTER index load: " << indices.size() << endl;
+	cout << "In Model3D: AFTER index load: " << indices.size() << endl;
 	numIndices = indices.size();
 
 	// ..:: Initialization code (done once (unless your object frequently changes)) ::..
@@ -122,9 +121,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
-#if TEST_MODEL3D
-	//cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
-#endif
+	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 }
 
 void Model3D::translate(glm::vec3 translation) {

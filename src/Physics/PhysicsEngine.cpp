@@ -38,7 +38,7 @@ public:
                 //If it's a sensor, add sensor names to the collision.
                 FixtureData* fA = (FixtureData*)contact->GetFixtureA()->GetUserData().pointer;
                 FixtureData* fB = (FixtureData*)contact->GetFixtureB()->GetUserData().pointer;
-                collisions.push(Collision(&dataA->e, &dataB->e, fA->name, fB->name));
+                collisions.push(Collision(&dataA->e, &dataB->e, fA->name, fA->name));
             }
             else
             {
@@ -77,10 +77,7 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         //If the body has not been created, create it.
         if (!body->isCreated) body->body = CreateBody(entity, body);
         //If the body is marked for deletion, add it to deletion stack.
-        else if (body->toDelete)
-        {
-            bodiesForDeletion.push(body);
-        }
+        else if (body->toDelete) bodiesForDeletion.push(body);
         /* This moves the entity Transform based on b2Body->GetPosition.
          * Was having some issues updating based on body user data so this might be needed again.
         else
@@ -96,7 +93,7 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
             //Get distance between points
             glm::vec2 dist = body->dest - body->GetPosition();
             //If distance is close, assume collisions have happened, stop movement
-            if (abs(dist.x) < 0.1 && abs(dist.y) < 0.1)
+            if (dist.x < 0.1 && dist.y < 0.1)
             {
                 body->SetVelocity(glm::vec2(0, 0));
                 body->SetPosition(body->dest);
@@ -104,6 +101,9 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
             }
         }
     }
+
+    //Clean up any bodies meanth for deletion before world step.
+    CleanupBodies();
 
     //Iterate over the bodies in the simulation
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
@@ -115,18 +115,10 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         //Get entity from body data
         Entity entity = bodyData->e;
         //Get entity's Transform
-        if (entity)
-        {
-            ComponentHandle<Transform> transform = entity.component<Transform>();
-            if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
-        }
-        else
-        {
-            b2BodiesForDeletion.push(b);
-        }
+        ComponentHandle<Transform> transform = entity.component<Transform>();
+        //If there's a transform, update it with the body's position
+        if (transform) transform->position = glm::vec3(pos.x, transform->position.y, pos.y);
     }
-    //Clean up any bodies meanth for deletion before world step.
-    CleanupBodies();
 
     //Check if there's collisions
     if (!collisions.empty())
@@ -160,11 +152,6 @@ void PhysicsEngine::CleanupBodies()
         world->DestroyBody(bodiesForDeletion.top()->body);
         bodiesForDeletion.top()->toDelete = false;
         bodiesForDeletion.pop();
-    }
-    while (!b2BodiesForDeletion.empty())
-    {
-        world->DestroyBody(b2BodiesForDeletion.top());
-        b2BodiesForDeletion.pop();
     }
 }
 
@@ -208,7 +195,7 @@ b2Body* PhysicsEngine::CreateBody(Entity entity, Rigidbody* rb)
 
             //Setup fixture data with name if it was given one
             FixtureData* fData = new FixtureData;
-            fData->name = c.type == "body" ? "body" : c.type;
+            fData->name = c.type != "" ? c.type : "body";
             fixture.userData.pointer = reinterpret_cast<uintptr_t>(fData);
 
             //Setup box collider

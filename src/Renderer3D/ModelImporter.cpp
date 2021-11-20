@@ -1,5 +1,4 @@
 #include "ModelImporter.h"
-#define TEST_MODELIMPORTER      false
 
 void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
 	Assimp::Importer import;
@@ -10,8 +9,8 @@ void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArra
         cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
         return;
     }
+    //directory = path.substr(0, path.find_last_of('/'));
 
-#if TEST_MODEL3D
     cout << "In ModelImporter: Assigning " << modelSource << endl;
     cout << "Attributes assigned to vector ID #0x" << &attribArray << endl;
     cout << "Indices assigned to vector ID #0x" << &indexArray << endl;
@@ -19,21 +18,14 @@ void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArra
     // Attribute loading / assigning
     cout << "=====================================" << endl;
     cout << "In Importer: BEFORE attrib load: " << attribArray.size() << endl;
-#endif
     processNodeAttributes(scene->mRootNode, scene, attribArray);
-
-#if TEST_MODEL3D
     cout << "In Importer: AFTER load complete: " << attribArray.size() << endl;
 
     // Index loading / assigning
     cout << "In Importer: BEFORE index load: " << indexArray.size() << endl;
-#endif
     processNodeIndices(scene->mRootNode, scene, indexArray);
-
-#if TEST_MODEL3D
     cout << "In Importer: AFTER load complete: " << indexArray.size() << endl;
     cout << "=====================================" << endl;
-#endif
 
 }
 

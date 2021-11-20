@@ -3,7 +3,7 @@
 // Set up the 'groups' of keys using the keycodes
 vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
 vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
-vector<int> controlKeys = { GLFW_KEY_X, GLFW_KEY_Y, GLFW_KEY_P}; // Up Left Down Right arrow keys
+vector<int> controlKeys = { GLFW_KEY_X, GLFW_KEY_Y, GLFW_KEY_SPACE}; // Up Left Down Right arrow keys
 
 void InputSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -39,16 +39,15 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
 {
   EventManager* eve = (EventManager*)glfwGetWindowUserPointer(window); // Reference to Event Manager to emit input events.
 
-  // ������Ϸ״̬�İ������� ��Ӧ���¼���control event
-  if (find(controlKeys.begin(), controlKeys.end(), key) != controlKeys.end()) { // Handle control input group
-    switch (action) { // Will emit control event containing direction based on key input
+  if (find(controlKeys.begin(), controlKeys.end(), key) != controlKeys.end()) { // Handle attack input group
+    switch (action) { // Will emit attack event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
       if (key == controlKeys[0]) //X 
         eve->emit<ControlInput>(ControlInput::X);
       else if (key == controlKeys[1]) //Y
         eve->emit<ControlInput>(ControlInput::Y);
-      else if (key == controlKeys[2]) // P 
-        eve->emit<ControlInput>(ControlInput::P);
+      else if (key == controlKeys[2]) // space
+        eve->emit<ControlInput>(ControlInput::SPACE);
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
       break;
@@ -83,35 +82,6 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
         eve->emit<AttackInput>(AttackInput::DOWN);
       else if (key == attackKeys[RIGHT])
         eve->emit<AttackInput>(AttackInput::RIGHT);
-      break;
-    case GLFW_RELEASE: // decide what to do when the key is released
-      break;
-    }
-  }
-
-  if (find(interactKeys.begin(), interactKeys.end(), key) != interactKeys.end()) { // Handle interact input group
-    switch (action) { // Will emit interact event based on key input
-    case GLFW_PRESS: // decide what to do when the key is pressed
-      if (key == interactKeys[INTERACT])
-        eve->emit<InteractInput>();
-      break;
-    case GLFW_RELEASE: // decide what to do when the key is released
-      break;
-    }
-  }
-
-  //DEBUGGING ONLY, REMOVE FOR RELEASE ---------------------------------------------------------------------------------
-  if (find(enemyDebug.begin(), enemyDebug.end(), key) != enemyDebug.end()) { // Handle Enemy Debugging input group
-    switch (action) { // Will emit enemy movement event containing direction based on key input
-    case GLFW_PRESS: // decide what to do when the key is pressed
-      if (key == enemyDebug[UP])
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::UP);
-      else if (key == enemyDebug[LEFT])
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::LEFT);
-      else if (key == enemyDebug[DOWN])
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::DOWN);
-      else if (key == enemyDebug[RIGHT])
-        eve->emit<EnemyDebugInput>(EnemyDebugInput::RIGHT);
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
       break;

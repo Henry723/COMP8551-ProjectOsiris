@@ -38,7 +38,6 @@
 #define __ConfigurationManager__CfgMgrPhysical__
 
 #include "tinyxml2.h"
-#include "../components.hpp"
 #include <iostream>
 
 using namespace std;
@@ -51,13 +50,8 @@ public:
 
 	CCfgMgrPhysical(const char* fileName);
 	void PrintDocument();
-	void LoadObjects(EntityManager& em);
-	glm::vec2 ParseVec2(const char* data);
-	glm::vec3 ParseVec3(const char* data);
-	glm::vec4 ParseVec4(const char* data);
 	void test();
 	const char* getAttribute(const char* name, const char* attribute);
-	const char* GetElement(const char* name);
 };
 
 #endif /* defined(__ConfigurationManager__CfgMgrPhysical__) */

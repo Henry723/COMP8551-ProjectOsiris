@@ -15,7 +15,6 @@ public:
 private:
 	b2World* world;
 	stack<Rigidbody*> bodiesForDeletion;
-	stack<b2Body*> b2BodiesForDeletion;
 };
 
 

@@ -172,7 +172,6 @@ void UISystem::RenderText(TextShader &shader, std::string text, float x, float y
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-//绘制开始菜单（2d shape）
 void UISystem::RenderShape2d(Shader& shader, Shape2D& shape) {
     // activate corresponding render state	
     shader.use();
@@ -221,7 +220,7 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
     return numElements - 1; // returns element "ID" used to access the element in textElements
 }
    
-void UISystem::generateMenuText() { // 设置菜单文字
+void UISystem::generateMenuText() {
     TextElement textHiScore = {"Hi-Score: 100", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
     textMenuElements.push_back(textHiScore);
 
@@ -234,7 +233,7 @@ void UISystem::generateMenuText() { // 设置菜单文字
     TextElement textTime = {"Time Elapsed: 00:10:25", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
     textMenuElements.push_back(textTime);
 
-    TextElement textReset = {"Press P to restart", 270.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
+    TextElement textReset = {"Press [ ] to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
     textMenuElements.push_back(textReset);
 
     TextElement textExit = {"Press esc to exit", 275.f, 130.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true};
@@ -243,7 +242,7 @@ void UISystem::generateMenuText() { // 设置菜单文字
 //		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 }
 
-void UISystem::RenderMenuText() { // 绘制菜单文字
+void UISystem::RenderMenuText() {
     for (int i = 0; i < textMenuElements.size(); i++)
     {
         TextElement curElement = textMenuElements.at(i);
@@ -272,7 +271,6 @@ void UISystem::ShaderSetup() // Create and return a shader for text rendering
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
 
-    // 2d Shape 渲染用的Shader
     shapeShader = Shader("./src/UI/shaders/Default.vert", "./src/UI/shaders/shape2d.frag"); // Initialize the shader program
     shapeShader.use();
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -289,7 +287,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		configured = true;
 	}
 
-    if (gameState != PREPARING) return; // 只有开始状态绘制2d shape
+    if (gameState != PREPARING) return;
 
     ////ComponentHandle<Color> hcolor;
     ComponentHandle<Window> hwindow;
@@ -347,13 +345,13 @@ void UISystem::configure(EventManager& em) {
 void UISystem::receive(const ControlInput& event) {
 	ControlInput::Cmd cmd = event.cmd;
 	switch (cmd) {
-	case ControlInput::X: // 开始状态下按X
+	case ControlInput::X:
         if (gameState == PREPARING) gameState = RUNNING;
 		break;
-    case ControlInput::Y: // 运行状态下按Y触发结束
+    case ControlInput::Y:
         if (gameState == RUNNING) gameState = MENU;
 		break;
-    case ControlInput::P: // 结束状态下按P，restart
+    case ControlInput::SPACE:
         if (gameState == MENU) {
             SceneManager::getInstance().setScene("filename");
             gameState = PREPARING;

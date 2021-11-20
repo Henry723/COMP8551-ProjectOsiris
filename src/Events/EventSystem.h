@@ -38,7 +38,7 @@ struct ControlInput {
 	enum Cmd {
 		X,
 		Y,
-		P,
+		SPACE,
 	};
 	explicit ControlInput(Cmd cmd) : cmd(cmd) {}
 	Cmd cmd;

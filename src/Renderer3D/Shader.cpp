@@ -19,8 +19,8 @@ Shader::Shader(const char* vertShaderPath, const char* fragShaderPath)
 	try
 	{
 		// a. Open files
-		//std::cout << "Opening Vert: " << vertShaderPath << std::endl;
-		//std::cout << "Opening Frag: " << fragShaderPath << std::endl;
+		std::cout << "Opening Vert: " << vertShaderPath << std::endl;
+		std::cout << "Opening Frag: " << fragShaderPath << std::endl;
 
 		vShaderFile.open(vertShaderPath);
 		fShaderFile.open(fragShaderPath);
