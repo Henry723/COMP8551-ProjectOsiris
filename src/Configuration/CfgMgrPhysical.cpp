@@ -177,7 +177,7 @@ void CCfgMgrPhysical::LoadLevel(EntityManager& em)
         {
             //First, create floor tile here
             tinyxml2::XMLElement* tileData = FindObject("tile", game);
-            if (tileData)
+            if (tileData && symbols[i] != 'W' && symbols[i] != '_') //excludes squares with walls and '_' for blank
             {
                 cout << "creating at " << rowCount << ", " << colCount << endl;
                 elementtostring(tileData);

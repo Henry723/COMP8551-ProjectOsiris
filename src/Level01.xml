@@ -6,24 +6,24 @@
 		<key id="T">treasure</key>
     <key id="W">wall</key>
 		<layout>
-      <row>--WWWWWWWWWWWWWWWWWWWWWWWWW</row>
-      <row>--W-T-------W----WT--E--E-W</row>
-      <row>--W-E--E--E------WT-----E-W</row>
-      <row>--W---------W----W------E-W</row>
-      <row>--WWWW---WWWW----WWWW--WWWW</row>
-      <row>-----W---W--WT-E---E-E----W</row>
-      <row>-----W---W--W--T--T--E---TW</row>
-      <row>-----W-E-W--WWWWWWWWWWWWWW</row>
-      <row>-----W---W</row>
-      <row>WWWWWW---WWWWWW</row>
+      <row>___WWWWWWWWW-WWWW-WWWWWWWW</row>
+      <row>__W-T-------W----WT--E--E-W</row>
+      <row>__W-E--E--E------WT-----E-W</row>
+      <row>__W---------W----W------E-W</row>
+      <row>___WWW---WWWW----WWWW--WWW</row>
+      <row>_____W---W__WT-E---E-E----W</row>
+      <row>_____W---W__W--T--T--E---TW</row>
+      <row>_____W-E-W___WWWWWWWWWWWWW</row>
+      <row>_____W---W</row>
+      <row>_WWWWW---WWWWW</row>
       <row>WTT--W---W-T--W</row>
       <row>W-E---E-E-----W</row>
       <row>W----W---W-E--W</row>
-      <row>WWWWWW---WWWWWW</row>
+      <row>_WWWWW---WWWWW</row>
       <row>W----W-E---E--W</row>
       <row>W-P------W----W</row>
       <row>W----W-T-W-TT-W</row>
-      <row>WWWWWWWWWWWWWWW</row>
+      <row>_WWWWWWWWWWWWW</row>
 		</layout>
 	</level>
 		<!--PLAYER ENTITY DATA-->
