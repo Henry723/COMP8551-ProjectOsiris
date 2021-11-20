@@ -175,6 +175,30 @@ void PhysicsTest::receive(const Collision& event)
 					downEntity = event.b;
 				}
 			}
+			//Sensor colliding with a wall
+			else if (objectB->name == "wall" && event.fB == "body")
+			{
+				if (event.fA == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.b;
+				}
+				else if (event.fA == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.b;
+				}
+				else if (event.fA == "top")
+				{
+					this->canMoveUp = false;
+					upEntity = event.b;
+				}
+				else if (event.fA == "bottom")
+				{
+					this->canMoveDown = false;
+					downEntity = event.b;
+				}
+			}
 		}
 		//Colliding with a player sensor for right Object
 		else if (objectB->name == "player" && event.fB != "body")
@@ -198,6 +222,29 @@ void PhysicsTest::receive(const Collision& event)
 					upEntity = event.a;
 				}
 				else if (event.fB == "bottom") 
+				{
+					this->canMoveDown = false;
+					downEntity = event.a;
+				}
+			}
+			else if (objectA->name == "wall" && event.fA == "body")
+			{
+				if (event.fB == "left")
+				{
+					this->canMoveLeft = false;
+					leftEntity = event.a;
+				}
+				else if (event.fB == "right")
+				{
+					this->canMoveRight = false;
+					rightEntity = event.a;
+				}
+				else if (event.fB == "top")
+				{
+					this->canMoveUp = false;
+					upEntity = event.a;
+				}
+				else if (event.fB == "bottom")
 				{
 					this->canMoveDown = false;
 					downEntity = event.a;
