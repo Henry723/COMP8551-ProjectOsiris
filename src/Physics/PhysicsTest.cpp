@@ -19,17 +19,25 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			//Then move the Rigidbody which will update the Transform as well
 			//Velocity probably needs to be better scaled in-engine
 			//Spaces between centers of tiles is 2.
-			if (left && canMoveLeft)
+			if (left && canMoveLeft) {
+				transform->rotation = glm::vec4(0, -1, 0, 90);
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
-
-			if (right && canMoveRight)
+			}
+				
+			else if (right && canMoveRight) {
+				transform->rotation = glm::vec4(0, 1, 0, 90);
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
-
-			if (up && canMoveUp)
+			}
+				
+			else if (up && canMoveUp) {
+				transform->rotation = glm::vec4(0, 1, 0, 110);
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
-			
-			if (down && canMoveDown)
+			}
+				
+			else if (down && canMoveDown) {
+				transform->rotation = glm::vec4(0, 1, 0, 0);
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
+			}
 			
 			if (attackLeft && leftEntity)
 			{

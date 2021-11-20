@@ -19,7 +19,9 @@ struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, E
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
 	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
+	void receive(const EndCollision& event);
 	void receive(const EnemyDebugInput& event);
+	void ResetCommandFlags(CommandFlags* flags);
 	void ResetCollisionEntities(); //Convenience function for resetting detected entities
 
 	bool enemyTurn = false;

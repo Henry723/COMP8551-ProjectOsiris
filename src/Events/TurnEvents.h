@@ -13,7 +13,7 @@ struct TurnEvents : public System<TurnEvents>, public Receiver<TurnEvents>, Enti
 private:
 	//ComponentHandle<TurnOrder> turnOrder;
 	float timeElapsed = 0;
-	float timeInterval = 4.2f;
+	float timeInterval = 10.2f;
 	float timeUntilNextOrder = 4.2f;
 
 	void subtract_time(TimeDelta dt)
