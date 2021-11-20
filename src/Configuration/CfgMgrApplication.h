@@ -62,7 +62,7 @@ public:
  
      // Load the inital game configuration
     bool loadConfig(const char * fileName, EntityManager& em);
-
+    bool loadLevel(const char* fileName, EntityManager& em);
     // CUSTOM Data file Interface
  
      // Load a custom data file to get a handle to the file contents. Will create the file name if it doesn't exist.

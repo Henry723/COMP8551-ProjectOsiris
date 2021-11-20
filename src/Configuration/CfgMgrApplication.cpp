@@ -47,6 +47,14 @@ bool CCfgMgrApplication::loadConfig(const char * fileName, EntityManager& em)
     return false;
 }
 
+bool CCfgMgrApplication::loadLevel(const char* fileName, EntityManager& em)
+{
+    //Load up game objects from configuration file. Currently loading player.
+    CCfgMgrPhysical txml(fileName);
+    txml.LoadLevel(em);
+    return false;
+}
+
 int CCfgMgrApplication::loadCustomData(std::string fileName)
 {
     int newHndl = -1;
