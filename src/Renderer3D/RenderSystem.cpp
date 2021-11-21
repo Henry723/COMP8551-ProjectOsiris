@@ -80,6 +80,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 	else {
 		ui.RenderAll(); // Render all text elements which are set as active
+		if (gameState == MENU)
+			ui.RenderMenuText();
 	}
 
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.

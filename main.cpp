@@ -1,4 +1,7 @@
 #include "src/GameControl.h"
+#include "src/gamestate.h"
+enum GameState;
+GameState gameState = GameState::PREPARING;
 
 // ---
 // (TEMP) Global Properties
