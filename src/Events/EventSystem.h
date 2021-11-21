@@ -49,6 +49,17 @@ struct EnemyDebugInput {
 	InpDir dir;
 };
 
+// Custom event for Game State Control
+struct ControlInput {
+	enum Cmd {
+		X,
+		Y,
+		SPACE,
+	};
+	explicit ControlInput(Cmd cmd) : cmd(cmd) {}
+	Cmd cmd;
+};
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}

@@ -129,12 +129,6 @@
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="src\Configuration\CfgMgrPresentation.cpp">
-      <Filter>Source Files\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Configuration\CfgMgrData.cpp">
-      <Filter>Source Files\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer3D\Camera.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
@@ -146,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="src\Physics\PhysicsTest.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
+      <Filter>Source Files\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioSystem.cpp">
       <Filter>Source Files\Audio</Filter>
@@ -179,9 +176,6 @@
     <ClInclude Include="src\Renderer3D\ModelImporter.h">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h">
       <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
@@ -189,12 +183,6 @@
       <Filter>Header Files\MemoryManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrApplication.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
-      <Filter>Header Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Configuration\CfgMgrData.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer3D\Camera.h">
@@ -221,6 +209,15 @@
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Audio\AudioSystem.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -238,6 +235,7 @@
     <None Include="src\UI\shaders\Default.vert">
       <Filter>Source Files\UI\shaders</Filter>
     </None>
+    <None Include="src\UI\shaders\shape2d.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg">
@@ -249,6 +247,12 @@
     <ClInclude Include="src\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <Image Include="src\UI\textures\brickwall.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\UI\textures\startmenu.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="src\UI\fonts\ariblk.ttf">
@@ -278,5 +282,13 @@
     <Font Include="src\UI\fonts\ARIALNI.TTF">
       <Filter>Source Files\UI\fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="src\Game.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
+    <Xml Include="src\Level01.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
