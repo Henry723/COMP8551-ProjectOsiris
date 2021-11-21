@@ -4,21 +4,11 @@
 // Defines Application Layer Class for the Configuration Manager subsystem.
 //
 // The Configuration Manager Subsystem purpose is to read external source(s)
-// information containing game objects data backand forth through 4 layers.
-// The four layers and their purpose are defined as :
+// information containing game objects data or custom data back and forth
+// through 2 layers. The two layers and their purpose are defined as:
 //
 //  Layer 1. Application : Implements the API between its clients and the
-//                         link between the presentation layers.It hides
-//                         from clients any management or access for
-//                         configuration. Configuration access is with the
-//                         use of game objects of a type IDand a given
-//                         instance of type.
-//        2. Presentation : Implements the link between layer 1 and 3 by
-//                          unwrapping app game objects to the data layer
-//                          format or wrapping data layer data into usable
-//                          layer 1 app objects.
-//        3. Data : Implements the link between layer 2 and 4 containing a
-//                  raw data format of game object collections.
+//                         link between the physical layer.
 //        4. Physical : Implements the mechanism to retrieve or write data
 //                      from sources presented in their correct formats.
 //
@@ -36,74 +26,74 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include "CfgMgrPhysical.h"
 
-enum class CMGameObjType : char {
-    sound, input, shader, texture, model, entity, score, highscore };
-enum class CKVType : char { 
-    Int_t, Float_t, String_t, Block_t };
+enum class CKVType : char { Int_t, Float_t, String_t };
 
-template< class T >
+//template< class T >
 class CKeyValue
 {
 public:
-    CKeyValue(T Type)
-    {
-        if (std::is_same<T, int> : value) { type_m = CKVType:Int_t; }
-        else if (std::is_same<T, float> : value) { type_m = CKVType:Float_t; }
-        else if (std::is_same<T, std::string> : value) { type_m = CKVType:String_t; }
-        else if (std::is_same<T, char*> : value) { type_m = CKVType:Block_t; }
-        else { static_assert(false, "Type must be int, float, std::string, or char*"); }
-    }
+    CKeyValue(CKVType type) : m_Type(type), m_RawValue(""), m_Size(0) { }
 
-    inline CKVType getType() { return _type; } 
-    inline void setValue(T newValue, int size) { value_m = newValue; size_m = size; } 
-    inline T getValue() { return value_m; } 
+    inline CKVType getType() { return m_Type; } 
+    inline void setValue(int newValue) { m_RawValue = std::to_string(newValue); m_Size = sizeof(int); }
+    inline void setValue(float newValue) { m_RawValue = std::to_string(newValue); m_Size = sizeof(float); }
+    inline void setValue(std::string newValue) { m_RawValue = newValue; m_Size = m_RawValue.size(); }
+    inline int getValueInt() { return stoi(m_RawValue); }
+    inline float getValueFloat() { return stof(m_RawValue); }
+    inline std::string getValueString() { return m_RawValue; }
 
 private:
-    CKVType type_m;
-    T value_m;
-    int size_m;
+    CKVType m_Type;
+    std::string m_RawValue;
+    int m_Size;
 };
 
 class CCfgMgrApplication
 {
 public:
+    typedef std::pair<std::string, CKVType> AKey_t;
+
     CCfgMgrApplication();
     ~CCfgMgrApplication();
 
     // Mandatory formatted data files
  
      // Load the inital game configuration
-    bool loadConfig();
-
-//
-// TODO: Define the object type classes derived from a base so gameobject is returned or something similar
-// 
-     // Get a game object of type.
-    void* getGameObjByType(CMGameObjType type, int index);
-     // Get all game objects of type.
-    bool getAllGameObjByType(CMGameObjType type, std::vector<void*>& emptyList);
-
-    // CUSTOM Data files
+    bool loadConfig(const char * fileName, EntityManager& em);
+    bool loadLevel(const char* fileName, EntityManager& em);
+    // CUSTOM Data file Interface
  
-     // Load a custom data file to get a handle to the file contents (file must be in XML format)
-    int loadCustomData(std::string filename);
+     // Load a custom data file to get a handle to the file contents. Will create the file name if it doesn't exist.
+    int loadCustomData(std::string fileName);
+     // Saves the local changes to the file.
     bool saveCustomData(int fileHandle);
      // Retrieve the keys found in a loaded file
-    bool getDataKeys(int fileHandle, std::vector<std::pair<std::string, CKVType>>& emptyList);
+
+    bool getDataKeys(int fileHandle, std::vector<AKey_t>& emptyList);
      // Using a key pair get the data. Client responsible for correct CKeyValue
-    bool getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& theValue);
-    bool getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& theValue);
-    bool getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<std::string>& theValue);
-    bool getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& theValue);
-     // Stash the keys found in a loaded file. Client responsible for correct CKeyValue
-    bool setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& newValue);
-    bool setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& newValue);
-    bool setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<std::string>& newValue);
-    bool setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& newValue);
+    bool getDataValue(int fileHandle, AKey_t key, CKeyValue& value);
+     // Stash the keys found in a loaded file or add your own. Client responsible for correct CKeyValue
+    bool setDataValue(int fileHandle, AKey_t key, CKeyValue* pNewValue);
 
 private:
-    std::vector<std::pair<int, std::string>> fileHandles;
+    struct keyInfo_t {
+        std::string keyName;  
+        CKVType type = CKVType::String_t;
+        std::string value;
+    };
+    struct handleData_t {
+        int handle = -1; 
+        std::string fileName; 
+        bool isLoaded = false; 
+        bool isDirty = false; 
+        std::vector<keyInfo_t> keys;
+    };
+    std::vector<handleData_t> fileHandles;
+    int handleCount;
+
+    int findRecordSet(int fileHandle);
 };
 
 #endif /* defined(__ConfigurationManager__CfgMgrApplication__) */
