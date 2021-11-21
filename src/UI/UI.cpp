@@ -222,19 +222,19 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
 }
 
 void UISystem::generateMenuText() {
-    TextElement textHiScore = { "Hi-Score: 100", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    TextElement textHiScore = { "Hi-Score: 0000", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textHiScore);
 
     TextElement textGameOver = { "Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textGameOver);
 
-    TextElement textScore = { "Score: 100", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    TextElement textScore = { "Score: 0000", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textScore);
 
-    TextElement textTime = { "Time Elapsed: 00:10:25", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textTime);
 
-    TextElement textReset = { "Press [ ] to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    TextElement textReset = { "Press space to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textReset);
 
     TextElement textExit = { "Press esc to exit", 275.f, 130.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };

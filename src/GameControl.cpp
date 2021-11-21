@@ -10,6 +10,7 @@ const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
 
 GameControl::GameControl(GLFWwindow* window, string filename)
 {
+  gameState = PREPARING;
   // Create systems
   systems.add<InputSystem>();
   systems.add<RenderSystem>();

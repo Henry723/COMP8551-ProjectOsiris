@@ -5,6 +5,9 @@ int healthText, scoreText; // Create int IDs for each of the text elements you w
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
+	if (gameState == PREPARING) {
+		return;
+	}
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;

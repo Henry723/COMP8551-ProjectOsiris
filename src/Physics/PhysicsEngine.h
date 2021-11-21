@@ -2,6 +2,7 @@
 #include "../components.hpp"
 #include "box2d/box2d.h"
 #include <stack>
+#include "../gamestate.h"
 
 class PhysicsEngine : public System<PhysicsEngine>
 {
