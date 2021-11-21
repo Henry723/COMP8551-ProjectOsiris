@@ -21,6 +21,8 @@
 using namespace std;
 using std::copy;
 
+static ModelImporter MODEL_IMP;
+
 struct Vertex {
 	glm::vec3 Position;
 	glm::vec3 Normal;

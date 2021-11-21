@@ -18,9 +18,21 @@
 #include <vector>
 using namespace std;
 
+struct LoadedModelData {
+	vector<float> attribs;
+	vector<unsigned int> indices;
+
+	LoadedModelData(vector<float>& a, vector<unsigned int>& i) {
+		attribs = a;
+		indices = i;
+	}
+};
+
 struct ModelImporter {
 
 private:
+	map<const char*, LoadedModelData*> models;
+	bool model_loaded(const char* modelSource);
 
 	// Attribute processing
 	void processNodeAttributes(aiNode* node, const aiScene* scene, vector<float>& attribArray);
@@ -32,5 +44,6 @@ private:
 
 public:
 	void loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray);
-
+	ModelImporter();
+	~ModelImporter();
 };

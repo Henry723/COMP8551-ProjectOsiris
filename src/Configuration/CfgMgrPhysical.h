@@ -48,6 +48,7 @@ class CCfgMgrPhysical
 {
 private:
 	tinyxml2::XMLDocument doc;
+
 public:
 
 	CCfgMgrPhysical(const char* fileName);
