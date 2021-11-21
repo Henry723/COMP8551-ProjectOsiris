@@ -5,6 +5,9 @@ int healthText, scoreText; // Create int IDs for each of the text elements you w
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
+	if (gameState == PREPARING) {
+		return;
+	}
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
@@ -80,6 +83,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 	else {
 		ui.RenderAll(); // Render all text elements which are set as active
+		if (gameState == MENU)
+			ui.RenderMenuText();
 	}
 
 	// This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.

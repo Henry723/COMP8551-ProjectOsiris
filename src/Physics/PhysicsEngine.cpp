@@ -95,6 +95,8 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         }
     }
 
+    if (gameState != RUNNING) return;
+
     //Iterate over the bodies in the simulation
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
     {
