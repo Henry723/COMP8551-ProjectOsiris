@@ -22,6 +22,7 @@ struct ScoreTest : public System<ScoreTest>, public Receiver<ScoreTest>, EntityX
 
 	int totalScore;
 
-	//Treasure flags
+	//Flags for score
 	bool collectedTreasure = false;
+	bool killedEnemy = false;
 };
