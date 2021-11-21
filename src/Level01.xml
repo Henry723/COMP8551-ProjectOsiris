@@ -55,7 +55,7 @@
 			</transform>
 			<rigidbody type="wall">
 				<colliders>
-					<collider shape="circle" sensor="false" size="0.5" name="body">0.0, 0.0</collider>
+          <collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
 		</gameobject>
