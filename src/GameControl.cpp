@@ -1,4 +1,5 @@
 #include "GameControl.h"
+#include "gamestate.h"
 
 // TEMP - These will likely be adapted into an asset system
 const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
@@ -9,6 +10,7 @@ const char* fragSource = "./src/Renderer3D/Shaders/Default.frag";
 
 GameControl::GameControl(GLFWwindow* window, string filename)
 {
+  gameState = PREPARING;
   // Create systems
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
@@ -57,7 +59,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 void GameControl::Update(TimeDelta dt)
 {
   systems.update<InputSystem>(dt);
-  //systems.update<UISystem>(dt); Currently disabled as rendering UI within the UI System was causing issues
+  systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
   systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);

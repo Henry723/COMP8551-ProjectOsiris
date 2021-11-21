@@ -138,6 +138,7 @@
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
     <ClInclude Include="src\GameControl.h" />
+    <ClInclude Include="src\gamestate.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\Input\InputEventTester.h" />
     <ClInclude Include="src\Input\InputSystem.h" />
@@ -159,11 +160,14 @@
     <None Include="src\Renderer3D\Shaders\Default.vert" />
     <None Include="src\UI\shaders\Default.frag" />
     <None Include="src\UI\shaders\Default.vert" />
+    <None Include="src\UI\shaders\shape2d.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
     <ClInclude Include="src\SceneManager.hpp" />
+    <Image Include="src\UI\textures\brickwall.jpg" />
+    <Image Include="src\UI\textures\startmenu.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="src\UI\fonts\arial.ttf" />

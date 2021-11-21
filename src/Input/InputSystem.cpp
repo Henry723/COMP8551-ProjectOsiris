@@ -4,6 +4,7 @@
 vector<int> movementKeys = { GLFW_KEY_W, GLFW_KEY_A, GLFW_KEY_S, GLFW_KEY_D }; // W A S D
 vector<int> attackKeys = { GLFW_KEY_UP, GLFW_KEY_LEFT, GLFW_KEY_DOWN, GLFW_KEY_RIGHT }; // Up Left Down Right arrow keys
 vector<int> interactKeys = { GLFW_KEY_E }; // E button
+vector<int> controlKeys = { GLFW_KEY_X, GLFW_KEY_Y, GLFW_KEY_SPACE }; // Up Left Down Right arrow keys
 
 vector<int> enemyDebug = { GLFW_KEY_I, GLFW_KEY_J, GLFW_KEY_K, GLFW_KEY_L }; // Enemy movement debugging: I J K L
 
@@ -84,6 +85,21 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
     case GLFW_RELEASE: // decide what to do when the key is released
       break;
     }
+  }
+
+  if (find(controlKeys.begin(), controlKeys.end(), key) != controlKeys.end()) { // Handle attack input group
+      switch (action) { // Will emit attack event containing direction based on key input
+      case GLFW_PRESS: // decide what to do when the key is pressed
+          if (key == controlKeys[0]) //X 
+              eve->emit<ControlInput>(ControlInput::X);
+          else if (key == controlKeys[1]) //Y
+              eve->emit<ControlInput>(ControlInput::Y);
+          else if (key == controlKeys[2]) // space
+              eve->emit<ControlInput>(ControlInput::SPACE);
+          break;
+      case GLFW_RELEASE: // decide what to do when the key is released
+          break;
+      }
   }
 
   //DEBUGGING ONLY, REMOVE FOR RELEASE ---------------------------------------------------------------------------------

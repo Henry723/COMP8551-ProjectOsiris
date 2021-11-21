@@ -212,6 +212,9 @@
     <ClInclude Include="src\Physics\ScoreTest.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\gamestate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -226,6 +229,7 @@
     <None Include="src\UI\shaders\Default.vert">
       <Filter>Source Files\UI\shaders</Filter>
     </None>
+    <None Include="src\UI\shaders\shape2d.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg">
@@ -234,6 +238,12 @@
     <ClInclude Include="src\Physics\PhysicsEngine.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <Image Include="src\UI\textures\brickwall.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\UI\textures\startmenu.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="src\UI\fonts\ariblk.ttf">
