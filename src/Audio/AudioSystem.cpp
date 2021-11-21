@@ -1,11 +1,18 @@
 #include "AudioSystem.h"
 
+AudExec* AudioSystem::instAudExec = NULL;
+
 AudExec::AudExec() {
 	mpStudioSystem = NULL;
 	AudioSystem::ErrorCheck(FMOD::Studio::System::create(&mpStudioSystem));
 	AudioSystem::ErrorCheck(mpStudioSystem->initialize(32, FMOD_STUDIO_INIT_LIVEUPDATE, FMOD_INIT_PROFILE_ENABLE, NULL));
 
 	mpSystem = NULL;
+	AudioSystem::ErrorCheck(FMOD::System_Create(&mpSystem));
+	AudioSystem::ErrorCheck(mpSystem->init(512, FMOD_INIT_NORMAL, nullptr));
+
+	mnNextChannelId = NULL;
+	
 //	AudioSystem::ErrorCheck(mpStudioSystem->getLowLevelSystem(&mpSystem));
 //	This isn't in any of the API references? Not in FMOD::Studio::System.
 
@@ -174,9 +181,7 @@ void AudioSystem::GetEventParameter(const string& strEventName, const string& st
 	if (tFoundIt == instAudExec->mEvents.end())
 		return;
 
-	FMOD::Studio::ParameterInstance* pParameter = NULL;
-	AudioSystem::ErrorCheck(tFoundIt->second->getParameter(strParameterName.c_str(), &pParameter));
-	AudioSystem::ErrorCheck(pParameter->getValue(parameter));
+	AudioSystem::ErrorCheck(tFoundIt->second->getParameterByName(strParameterName.c_str(), parameter));
 }
 
 void AudioSystem::SetEventParameter(const string& strEventName, const string& strParameterName, float fValue) {
@@ -184,9 +189,7 @@ void AudioSystem::SetEventParameter(const string& strEventName, const string& st
 	if (tFoundIt == instAudExec->mEvents.end())
 		return;
 
-	FMOD::Studio::ParameterInstance* pParameter = NULL;
-	AudioSystem::ErrorCheck(tFoundIt->second->getParameter(strParameterName.c_str(), &pParameter));
-	AudioSystem::ErrorCheck(pParameter->setValue(fValue));
+	AudioSystem::ErrorCheck(tFoundIt->second->setParameterByName(strParameterName.c_str(), fValue));
 }
 
 FMOD_VECTOR AudioSystem::VectorToFMOD(const Vector3& vPosition) {
