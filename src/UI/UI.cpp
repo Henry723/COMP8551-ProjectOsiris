@@ -74,6 +74,46 @@ int UISystem::LoadFreeType() {
     return 1;
 }
 
+
+int UISystem::LoadStartMenu() {
+    glGenTextures(1, &StartMenu.TextureID);
+
+    int width, height, nrComponents;
+    const char* path = "./src/UI/textures/startmenu.jpg";
+    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+
+    if (data) {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, StartMenu.TextureID);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Set texture image 4byte-alignment
+
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return 1;
+}
+
 void UISystem::CreateVAOVBO() {
     // configure VAO/VBO for texture quads
 // -----------------------------------
@@ -89,7 +129,7 @@ void UISystem::CreateVAOVBO() {
     cout << "UI System: Created VAO & VBOs" << endl;
 }
 
-void UISystem::RenderText(TextShader &shader, std::string text, float x, float y, float scale, glm::vec3 color)
+void UISystem::RenderText(TextShader& shader, std::string text, float x, float y, float scale, glm::vec3 color)
 {
     // activate corresponding render state	
     shader.use();
@@ -133,6 +173,33 @@ void UISystem::RenderText(TextShader &shader, std::string text, float x, float y
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void UISystem::RenderShape2d(Shader& shader, Shape2D& shape) {
+    // activate corresponding render state	
+    shader.use();
+    //glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(VAO);
+
+
+    glBindTexture(GL_TEXTURE_2D, shape.TextureID);
+    // update content of VBO memory
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(shape.Vertices), &shape.Vertices);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(shape.Vertices), &shape.Vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // render quad
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+void UISystem::RenderStartMenu() {
+    RenderShape2d(shapeShader, StartMenu);
+}
+
 void UISystem::RenderAll()
 {
     for (int i = 0; i < textElements.size(); i++)
@@ -154,31 +221,84 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
     return numElements - 1; // returns element "ID" used to access the element in textElements
 }
 
+void UISystem::generateMenuText() {
+    TextElement textHiScore = { "Hi-Score: 0000", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textHiScore);
+
+    TextElement textGameOver = { "Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textGameOver);
+
+    TextElement textScore = { "Score: 0000", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textScore);
+
+    TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textTime);
+
+    TextElement textReset = { "Press space to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textReset);
+
+    TextElement textExit = { "Press esc to exit", 275.f, 130.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    textMenuElements.push_back(textExit);
+    //		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+    //		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+}
+
+void UISystem::RenderMenuText() {
+    for (int i = 0; i < textMenuElements.size(); i++)
+    {
+        TextElement curElement = textMenuElements.at(i);
+        if (curElement.active) // Only render the element if it is active
+        {
+            RenderText(shader, curElement.value, curElement.posX, curElement.posY, curElement.scale, curElement.color);
+        }
+    }
+}
+
 void UISystem::setup() {
     // Currently only calls the LoadFreeType function and sets up the shader. Other setup steps can also be added here
     LoadFreeType();
+    LoadStartMenu();
     ShaderSetup();
+    generateMenuText();
     numElements = 0;
 }
 
 void UISystem::ShaderSetup() // Create and return a shader for text rendering
 {
-    shader = TextShader("./src/UI/shaders/Default.vert", "./src/UI/shaders/Default.frag"); // Initialize the shader program
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
+
+    shader = TextShader("./src/UI/shaders/Default.vert", "./src/UI/shaders/Default.frag"); // Initialize the shader program
     shader.use();
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+
+    shapeShader = Shader("./src/UI/shaders/Default.vert", "./src/UI/shaders/shape2d.frag"); // Initialize the shader program
+    shapeShader.use();
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
 
 void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
-    ComponentHandle<Color> hcolor;
+    if (!configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
+        setup();
+        //healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+        //scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+        //scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+        //scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+        configured = true;
+    }
+
+    if (gameState != PREPARING) return;
+
+    ////ComponentHandle<Color> hcolor;
     ComponentHandle<Window> hwindow;
 
     // Loop through window components (there will likely only be one.)
-    auto en = es.entities_with_components(hwindow, hcolor);
+    ////auto en = es.entities_with_components(hwindow, hcolor);
+    auto en = es.entities_with_components(hwindow);
     for (auto entity = en.begin(); entity != en.end(); ++entity)
     {
-        Color* col = (*entity).component<Color>().get();
+        ////Color* col = (*entity).component<Color>().get();
         // rendering commands
         // ...
         //glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
@@ -187,7 +307,16 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         // Enable these properties so FreeType can properly render text
         glEnable(GL_CULL_FACE);
         glEnable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        //RenderShape2d(shapeShader, StartMenu);
+        RenderStartMenu();
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+        ////update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
+        glfwSwapBuffers((*entity).component<Window>().get()->window);
     }
 
     //if (!configured) { // Initialize FreeType and VAO/VBOs 
@@ -197,12 +326,38 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     //}
 
     // This is broken up, unfortunately, since the swapBuffers call must be after the Draw Call.
-    for (auto entity = en.begin(); entity != en.end(); ++entity)
-    {
-        // Disable these properties so the RenderSystem can properly render
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_BLEND);
-        //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
-        glfwSwapBuffers((*entity).component<Window>().get()->window);
+    //for (auto entity = en.begin(); entity != en.end(); ++entity)
+    //{
+    //    // Disable these properties so the RenderSystem can properly render
+    //    glDisable(GL_CULL_FACE);
+    //    glDisable(GL_BLEND);
+    //    //update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
+    //    glfwSwapBuffers((*entity).component<Window>().get()->window);
+    //}
+}
+
+
+void UISystem::configure(EventManager& em) {
+    em.subscribe<ControlInput>(*this);
+    //em.subscribe<Collision>(*this);
+}
+
+
+void UISystem::receive(const ControlInput& event) {
+    ControlInput::Cmd cmd = event.cmd;
+    switch (cmd) {
+    case ControlInput::X:
+        if (gameState == PREPARING) gameState = RUNNING;
+        break;
+    case ControlInput::Y:
+        if (gameState == RUNNING) gameState = MENU;
+        break;
+    case ControlInput::SPACE:
+        if (gameState == MENU) {
+            SceneManager::getInstance().setScene("filename");
+            gameState = PREPARING;
+            //gameState = RUNNING;
+        }
+        break;
     }
 }

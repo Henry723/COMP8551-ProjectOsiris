@@ -13,6 +13,7 @@
 #include "MemoryManager/CMMPoolTester.h"
 #include "Physics/PhysicsTest.h"
 #include "AIEnemy/EnemySystem.h"
+#include "Configuration/CfgMgrAppTester.h"
 // TESTING -- End --
 
 // TODO Create Game Control for menus & game

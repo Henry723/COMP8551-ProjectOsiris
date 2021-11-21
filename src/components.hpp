@@ -37,7 +37,7 @@ struct Collider
 	glm::vec2 position; //Position of the fixture relative to the body
 
 	//Basic constructor
-	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type = "body") : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
+	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type) : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
 };
 
 //Rigidbody to handle movement and collision of bodies.
@@ -123,8 +123,8 @@ struct Collision
 	Entity* a; //Left colliding element
 	Entity* b; //Right colliding element
 
-	string fA = "body"; //Fixture name for left element
-	string fB = "body"; //Fixture name for right element
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
 
 	//Regular collider, no fixture data
 	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}

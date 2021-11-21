@@ -3,6 +3,7 @@
 void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
 	ComponentHandle<Rigidbody> rigidbody;
+	if (gameState != RUNNING) return;
 
 	if (enemyTurn)
 	

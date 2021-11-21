@@ -2,6 +2,7 @@
 #include "../components.hpp"
 #include "../SceneManager.hpp"
 #include "../Events/EventSystem.h"
+#include "../gamestate.h"
 
 using namespace std;
 

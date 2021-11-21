@@ -40,6 +40,7 @@
 #include "tinyxml2.h"
 #include "../components.hpp"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -52,12 +53,24 @@ public:
 	CCfgMgrPhysical(const char* fileName);
 	void PrintDocument();
 	void LoadObjects(EntityManager& em);
+	void LoadLevel(EntityManager& em);
+	tinyxml2::XMLElement* FindObject(const char* name, tinyxml2::XMLElement* root);
+	void CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityManager& em, int x, int y);
+	void elementtostring(tinyxml2::XMLElement* element);
+	Transform CreateTransformAtPosition(tinyxml2::XMLElement* data, int x, int y);
+	Rigidbody CreateRigidbodyAtPosition(tinyxml2::XMLElement* data, int x, int y);
+
+
+
+	//Component loaders
+	Model3D GetModel3DComponent(tinyxml2::XMLElement* data);
+	Transform GetTransformComponent(tinyxml2::XMLElement* data);
+	Rigidbody GetRigidbodyComponent(tinyxml2::XMLElement* data);
+
+	//Vector parsers
 	glm::vec2 ParseVec2(const char* data);
 	glm::vec3 ParseVec3(const char* data);
 	glm::vec4 ParseVec4(const char* data);
-	void test();
-	const char* getAttribute(const char* name, const char* attribute);
-	const char* GetElement(const char* name);
 };
 
 #endif /* defined(__ConfigurationManager__CfgMgrPhysical__) */

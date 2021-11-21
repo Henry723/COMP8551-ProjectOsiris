@@ -23,22 +23,22 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				transform->rotation = glm::vec4(0, -1, 0, 90);
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
 			}
-				
+
 			else if (right && canMoveRight) {
 				transform->rotation = glm::vec4(0, 1, 0, 90);
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
 			}
-				
+
 			else if (up && canMoveUp) {
 				transform->rotation = glm::vec4(0, 1, 0, 110);
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
 			}
-				
+
 			else if (down && canMoveDown) {
 				transform->rotation = glm::vec4(0, 1, 0, 0);
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
 			}
-			
+
 			if (attackLeft && leftEntity)
 			{
 				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
@@ -119,9 +119,9 @@ void PhysicsTest::receive(const Collision& event)
 	{
 		//Logic specific to player
 		//Colliding with a player body for left Object
-		if (objectA->name == "player" && event.fA == "body") 
+		if (objectA->name == "player" && event.fA == "body")
 		{
-			if (objectB->name == "treasure") event.b->destroy();		
+			if (objectB->name == "treasure") event.b->destroy();
 		}
 
 		//Colliding with a player body for right Object
@@ -129,7 +129,7 @@ void PhysicsTest::receive(const Collision& event)
 		{
 			if (objectA->name == "treasure") event.a->destroy();
 		}
-		
+
 		//Colliding with a player sensor for left Object
 		else if (objectA->name == "player" && event.fA != "body")
 		{
