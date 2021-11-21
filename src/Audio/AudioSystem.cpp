@@ -31,8 +31,6 @@ void AudExec::Update() {
 	AudioSystem::ErrorCheck(mpStudioSystem->update());
 }
 
-AudExec* instAudExec = nullptr;
-
 void AudioSystem::Init() {
 	instAudExec = new AudExec;
 }
@@ -87,7 +85,7 @@ int AudioSystem::PlaySound(const string& strSoundName, const Vector3& vPosition,
 			FMOD_VECTOR position = VectorToFMOD(vPosition);
 			AudioSystem::ErrorCheck(pChannel->set3DAttributes(&position, nullptr));
 		}
-		AudioSystem::ErrorCheck(pChannel->setVolume(DBToVolume(fVolumeDB)));
+		AudioSystem::ErrorCheck(pChannel->setVolume(dBToVolume(fVolumeDB)));
 		AudioSystem::ErrorCheck(pChannel->setPaused(false));
 		instAudExec->mChannels[nChannelID] = pChannel;
 	}
@@ -108,7 +106,7 @@ void AudioSystem::SetChannelVolume(int nChannelID, float fVolumeDB) {
 	if (foundChannel != instAudExec->mChannels.end())
 		return;
 
-	AudioSystem::ErrorCheck(foundChannel->second->setVolume(DBToVolume(fVolumeDB)));
+	AudioSystem::ErrorCheck(foundChannel->second->setVolume(dBToVolume(fVolumeDB)));
 }
 
 void AudioSystem::LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags) {
@@ -121,4 +119,103 @@ void AudioSystem::LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAG
 	if (pBank) {
 		instAudExec->mBanks[strBankName] = pBank;
 	}
+}
+
+void AudioSystem::LoadEvent(const std::string& strEventName) {
+	auto tFoundit = instAudExec->mEvents.find(strEventName);
+	if (tFoundit != instAudExec->mEvents.end())
+		return;
+	FMOD::Studio::EventDescription* pEventDescription = NULL;
+	AudioSystem::ErrorCheck(instAudExec->mpStudioSystem->getEvent(strEventName.c_str(), &pEventDescription));
+	if (pEventDescription) {
+		FMOD::Studio::EventInstance* pEventInstance = NULL;
+		AudioSystem::ErrorCheck(pEventDescription->createInstance(&pEventInstance));
+		if (pEventInstance) {
+			instAudExec->mEvents[strEventName] = pEventInstance;
+		}
+	}
+}
+
+void AudioSystem::PlayEvent(const string& strEventName) {
+	auto tFoundit = instAudExec->mEvents.find(strEventName);
+	if (tFoundit == instAudExec->mEvents.end()) {
+		LoadEvent(strEventName);
+		tFoundit = instAudExec->mEvents.find(strEventName);
+		if (tFoundit == instAudExec->mEvents.end())
+			return;
+	}
+	tFoundit->second->start();
+}
+
+void AudioSystem::StopEvent(const string& strEventName, bool bImmediate) {
+	auto tFoundIt = instAudExec->mEvents.find(strEventName);
+	if (tFoundIt == instAudExec->mEvents.end())
+		return;
+
+	FMOD_STUDIO_STOP_MODE eMode;
+	eMode = bImmediate ? FMOD_STUDIO_STOP_IMMEDIATE : FMOD_STUDIO_STOP_ALLOWFADEOUT;
+	AudioSystem::ErrorCheck(tFoundIt->second->stop(eMode));
+}
+
+bool AudioSystem::IsEventPlaying(const string& strEventName) const {
+	auto tFoundIt = instAudExec->mEvents.find(strEventName);
+	if (tFoundIt == instAudExec->mEvents.end())
+		return false;
+
+	FMOD_STUDIO_PLAYBACK_STATE* state = NULL;
+	if (tFoundIt->second->getPlaybackState(state) == FMOD_STUDIO_PLAYBACK_PLAYING) {
+		return true;
+	}
+	return false;
+}
+
+void AudioSystem::GetEventParameter(const string& strEventName, const string& strParameterName, float* parameter) {
+	auto tFoundIt = instAudExec->mEvents.find(strEventName);
+	if (tFoundIt == instAudExec->mEvents.end())
+		return;
+
+	FMOD::Studio::ParameterInstance* pParameter = NULL;
+	AudioSystem::ErrorCheck(tFoundIt->second->getParameter(strParameterName.c_str(), &pParameter));
+	AudioSystem::ErrorCheck(pParameter->getValue(parameter));
+}
+
+void AudioSystem::SetEventParameter(const string& strEventName, const string& strParameterName, float fValue) {
+	auto tFoundIt = instAudExec->mEvents.find(strEventName);
+	if (tFoundIt == instAudExec->mEvents.end())
+		return;
+
+	FMOD::Studio::ParameterInstance* pParameter = NULL;
+	AudioSystem::ErrorCheck(tFoundIt->second->getParameter(strParameterName.c_str(), &pParameter));
+	AudioSystem::ErrorCheck(pParameter->setValue(fValue));
+}
+
+FMOD_VECTOR AudioSystem::VectorToFMOD(const Vector3& vPosition) {
+	FMOD_VECTOR fVec;
+	fVec.x = vPosition.x;
+	fVec.y = vPosition.y;
+	fVec.z = vPosition.z;
+	return fVec;
+}
+
+float  AudioSystem::dBToVolume(float dB)
+{
+	return powf(10.0f, 0.05f * dB);
+}
+
+float  AudioSystem::VolumeTodB(float volume)
+{
+	return 20.0f * log10f(volume);
+}
+
+int AudioSystem::ErrorCheck(FMOD_RESULT result) {
+	if (result != FMOD_OK) {
+		cout << "FMOD ERROR " << result << endl;
+		return 1;
+	}
+	// cout << "FMOD all good" << endl;
+	return 0;
+}
+
+void AudioSystem::Shutdown() {
+	delete instAudExec;
 }

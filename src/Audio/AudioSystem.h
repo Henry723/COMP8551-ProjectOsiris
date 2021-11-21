@@ -63,9 +63,9 @@ public:
 	void SetChannelVolume(int nChannelId, float fvolumeDB);
 	bool IsPlaying(int nChannelId) const;
 	bool IsEventPlaying(const string& strEventName) const;
-	float DBToVolume(float db);
-	float VolumeToDB(float volume);
+	float dBToVolume(float db);
+	float VolumeTodB(float volume);
 	FMOD_VECTOR VectorToFMOD(const Vector3& vPosition);
 private:
-
+	static AudExec* instAudExec;
 };
