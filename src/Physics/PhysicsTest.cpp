@@ -50,6 +50,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				targetRb->DeleteBody();
 				leftEntity->destroy();
 				leftEntity = nullptr;
+				canMoveLeft = true;
 			}
 			if (attackRight && rightEntity)
 			{
@@ -58,6 +59,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				targetRb->DeleteBody();
 				rightEntity->destroy();
 				rightEntity = nullptr;
+				canMoveRight = true;
 			}
 			if (attackUp && upEntity)
 			{
@@ -66,6 +68,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				targetRb->DeleteBody();
 				upEntity->destroy();
 				upEntity = nullptr;
+				canMoveUp = true;
 			}
 			if (attackDown && downEntity)
 			{
@@ -74,6 +77,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				targetRb->DeleteBody();
 				downEntity->destroy();
 				downEntity = nullptr;
+				canMoveDown = true;
 			}
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
