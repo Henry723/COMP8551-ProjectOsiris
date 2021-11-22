@@ -2,6 +2,11 @@
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
+int totalScore;
+
+void RenderSystem::configure(EventManager& em) {
+	em.subscribe<ScoreUpdate>(*this);
+}
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
@@ -82,6 +87,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		ui.configured = true;
 	}
 	else {
+		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
 		ui.RenderAll(); // Render all text elements which are set as active
 		if (gameState == MENU)
 			ui.RenderMenuText();
@@ -220,4 +226,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	// 5. Unbind the VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	modelComponent->resetModelMatrix();
+}
+
+void RenderSystem::receive(const ScoreUpdate& event) {
+	totalScore += event.score;
 }

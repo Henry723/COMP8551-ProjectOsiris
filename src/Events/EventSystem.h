@@ -60,6 +60,12 @@ struct ControlInput {
 	Cmd cmd;
 };
 
+//Custom event for keeping track of the score
+struct ScoreUpdate {
+	explicit ScoreUpdate(int score) : score(score) {}
+	int score;
+};
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}

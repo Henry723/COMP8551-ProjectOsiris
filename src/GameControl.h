@@ -13,6 +13,7 @@
 #include "MemoryManager/CMMPoolTester.h"
 #include "Physics/PhysicsTest.h"
 #include "AIEnemy/EnemySystem.h"
+#include "Physics/ScoreTest.h"
 #include "Configuration/CfgMgrAppTester.h"
 // TESTING -- End --
 
