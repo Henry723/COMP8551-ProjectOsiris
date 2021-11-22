@@ -7,10 +7,12 @@
 #include "UI/UI.h"
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
+#include "Events/TurnEvents.h"
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"
 #include "Physics/PhysicsTest.h"
+#include "AIEnemy/EnemySystem.h"
 #include "Physics/ScoreTest.h"
 #include "Configuration/CfgMgrAppTester.h"
 // TESTING -- End --

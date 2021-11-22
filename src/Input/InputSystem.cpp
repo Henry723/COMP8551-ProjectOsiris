@@ -45,14 +45,18 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
   if (find(movementKeys.begin(), movementKeys.end(), key) != movementKeys.end()) { // Handle movement input group
     switch (action) { // Will emit movement event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
-      if (key == movementKeys[UP])
+      if (key == movementKeys[UP]) {
         eve->emit<MoveInput>(MoveInput::UP);
-      else if (key == movementKeys[LEFT])
+      }
+      else if (key == movementKeys[LEFT]) {
         eve->emit<MoveInput>(MoveInput::LEFT);
-      else if (key == movementKeys[DOWN])
+      }
+      else if (key == movementKeys[DOWN]) {
         eve->emit<MoveInput>(MoveInput::DOWN);
-      else if (key == movementKeys[RIGHT])
+      }
+      else if (key == movementKeys[RIGHT]) {
         eve->emit<MoveInput>(MoveInput::RIGHT);
+      }
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
       break;
@@ -62,14 +66,18 @@ void InputSystem::keyCallback(GLFWwindow* window, int key, int scancode, int act
   if (find(attackKeys.begin(), attackKeys.end(), key) != attackKeys.end()) { // Handle attack input group
     switch (action) { // Will emit attack event containing direction based on key input
     case GLFW_PRESS: // decide what to do when the key is pressed
-      if (key == attackKeys[UP])
+      if (key == attackKeys[UP]) {
         eve->emit<AttackInput>(AttackInput::UP);
-      else if (key == attackKeys[LEFT])
+      }
+      else if (key == attackKeys[LEFT]) {
         eve->emit<AttackInput>(AttackInput::LEFT);
-      else if (key == attackKeys[DOWN])
+      }
+      else if (key == attackKeys[DOWN]) {
         eve->emit<AttackInput>(AttackInput::DOWN);
-      else if (key == attackKeys[RIGHT])
+      }
+      else if (key == attackKeys[RIGHT]) {
         eve->emit<AttackInput>(AttackInput::RIGHT);
+      }
       break;
     case GLFW_RELEASE: // decide what to do when the key is released
       break;

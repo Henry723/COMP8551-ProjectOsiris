@@ -72,13 +72,16 @@
 				<scale>1.0, 1.0, 1.0</scale>
 				<rotation>0.0, 1.0, 0.0, -90.0</rotation>
 			</transform>
+			<commandflags>
+				<!--no required properties-->
+			</commandflags>
 			<rigidbody type="enemy">
 				<colliders>
-					<collider shape="circle" sensor="false" size="0.5" name="body">0.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="right">2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="left">-2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="bottom">0.0, 2.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="top">0.0, -2.0</collider>
+					<collider shape="circle" sensor="false" size="0.5" name="enemy_body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.5" name="enemy_right">2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.5" name="enemy_left">-2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.5" name="enemy_bottom">0.0, 2.0</collider>
+					<collider shape="circle" sensor="true" size="0.5" name="enemy_top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
 		</gameobject>
