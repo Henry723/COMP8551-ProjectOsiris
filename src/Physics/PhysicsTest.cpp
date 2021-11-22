@@ -134,7 +134,7 @@ void PhysicsTest::receive(const Collision& event)
 		else if (objectA->name == "player" && event.fA != "body")
 		{
 			//Sensor colliding with an enemy body
-			if (objectB->name == "enemy" && event.fB == "enemy_body")
+			if ( (objectB->name == "enemy" && event.fB == "enemy_body") || (objectB->name == "wall" && event.fB == "body"))
 			{
 				if (event.fA == "left")
 				{
@@ -162,7 +162,7 @@ void PhysicsTest::receive(const Collision& event)
 		else if (objectB->name == "player" && event.fB != "body")
 		{
 			//Sensor colliding with an enemy body
-			if (objectA->name == "enemy" && event.fA == "enemy_body")
+			if (( objectA->name == "enemy" && event.fA == "enemy_body") || (objectA->name == "wall" && event.fA == "body") )
 			{
 				if (event.fB == "left")
 				{
