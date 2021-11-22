@@ -235,137 +235,66 @@ void EnemySystem::receive(const EnemyDebugInput& event) {
 
 void EnemySystem::receive(const Collision& event)
 {
-	
-	if (event.a->valid() && event.b->valid()) {
-		cout << "ENEMY - valid colllision detected " << endl;
-		
+	//Check for valid events
+	if (event.a->valid() && event.b->valid())
+	{
 		//Only game objects should be involved in collisions, so should be safe to grab these components.
 		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
 		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-
-		if (event.fA == "body" || event.fB == "body" || event.fA == "enemy_body" || event.fB == "enemy_body")
+		if (!objectA || !objectB) return; //Invalid collision, objects dont exist
+		if (objectA->name == "enemy" || objectB->name == "enemy") //Enemy collision
 		{
-			//Colliding with a enemy sensor for left Object
-			if (objectA->name == "enemy" && event.fA != "enemy_body")
+			//Grab enemy data
+			Entity* enemy = objectA->name == "enemy" ? event.a : event.b;
+			string enemyCollider = objectA->name == "enemy" ? event.fA : event.fB;
+			ComponentHandle<CommandFlags> flags = enemy->component<CommandFlags>();
+			//Grab other entity data
+			Entity* other = objectA->name == "enemy" ? event.b : event.a;
+			string otherName = objectA->name == "enemy" ? objectB->name : objectA->name;
+			string otherType = objectA->name == "enemy" ? event.fB : event.fA;
+			//If we hit a player, wall, or enemy and their body collider with our sensor...
+			if ((otherName == "wall" || otherName == "player" || otherName == "enemy") 
+				&& (otherType == "body" || otherType == "enemy_body")
+				&& enemyCollider != "enemy_body")
 			{
-				//Sensor colliding with an player body
-				if ( ( (objectB->name == "player" || objectB->name == "wall") && event.fB == "body") || (objectB->name == "enemy" && event.fB == "enemy_body"))
-				{
-					ComponentHandle<CommandFlags> flags = event.a->component<CommandFlags>();
-
-					if (event.fA == "enemy_left")
-					{
-						flags->canMoveLeft = false;
-						flags->leftEntity = event.b;
-					}
-					else if (event.fA == "enemy_right")
-					{
-						flags->canMoveRight = false;
-						flags->rightEntity = event.b;
-					}
-					else if (event.fA == "enemy_top")
-					{
-						flags->canMoveUp = false;
-						flags->upEntity = event.b;
-					}
-					else if (event.fA == "enemy_bottom")
-					{
-						flags->canMoveDown = false;
-						flags->downEntity = event.b;
-					}
-				}
-			}
-			else if (objectB->name == "enemy" && event.fB != "enemy_body")
-			{
-				//Sensor colliding with an player body
-				if ( ((objectA->name == "player" || objectA->name == "wall") && event.fA == "body" ) || (objectA->name == "enemy" && event.fA == "enemy_body") )
-				{
-					ComponentHandle<CommandFlags> flags = event.b->component<CommandFlags>();
-
-					if (event.fB == "enemy_left")
-					{
-						flags->canMoveLeft = false;
-						flags->leftEntity = event.a;
-					}
-					else if (event.fB == "enemy_right")
-					{
-						flags->canMoveRight = false;
-						flags->rightEntity = event.a;
-					}
-					else if (event.fB == "enemy_top")
-					{
-						flags->canMoveUp = false;
-						flags->upEntity = event.a;
-					}
-					else if (event.fB == "enemy_bottom")
-					{
-						flags->canMoveDown = false;
-						flags->downEntity = event.a;
-					}
-				}
+				//Set movement flags
+				if (enemyCollider == "enemy_left") flags->canMoveLeft = false;
+				if (enemyCollider == "enemy_right") flags->canMoveRight = false;
+				if (enemyCollider == "enemy_top") flags->canMoveUp = false;
+				if (enemyCollider == "enemy_bottom") flags->canMoveDown = false;
 			}
 		}
 	}
-	
 }
 
 void EnemySystem::receive(const EndCollision& event)
 {
 	//Only game objects should be involved in collisions, so should be safe to grab these components.
-	if (event.a->valid())
+	if (event.a->valid() && event.b->valid())
 	{
 		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-		if (objectA->name == "enemy" && event.fA != "enemy_body")
-		{
-			ComponentHandle<CommandFlags> flags = event.a->component<CommandFlags>();
-			if (event.fA == "enemy_left")
-			{
-				flags->canMoveLeft = true;
-				flags->leftEntity = nullptr;
-			}
-			else if (event.fA == "enemy_right")
-			{
-				flags->canMoveRight = true;
-				flags->rightEntity = nullptr;
-			}
-			else if (event.fA == "enemy_top")
-			{
-				flags->canMoveUp = true;
-				flags->upEntity = nullptr;
-			}
-			else if (event.fA == "enemy_bottom")
-			{
-				flags->canMoveDown = true;
-				flags->downEntity = nullptr;
-			}
-		}
-	}
-	if (event.b->valid())
-	{
 		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-		if (objectB->name == "enemy" && event.fB != "enemy_body")
+		if (!objectA || !objectB) return; //Invalid collision, objects dont exist
+		if (objectA->name == "enemy" || objectB->name == "enemy") //Enemy collision
 		{
+			//Enemy data
+			Entity* enemy = objectA->name == "enemy" ? event.a : event.b;
+			string enemyCollider = objectA->name == "enemy" ? event.fA : event.fB;
+			ComponentHandle<CommandFlags> flags = enemy->component<CommandFlags>();
 
-			ComponentHandle<CommandFlags> flags = event.b->component<CommandFlags>();
-			if (event.fB == "enemy_left")
+			//Other entity data
+			Entity* other = objectA->name == "enemy" ? event.b : event.a;
+			string otherName = objectA->name == "enemy" ? objectB->name : objectA->name;
+			string otherType = objectA->name == "enemy" ? event.fB : event.fA;
+
+			//If we've ended collision with a body.
+			if (otherType == "body" || otherType == "enemy_body")
 			{
-				flags->canMoveLeft = true;
-				flags->leftEntity = nullptr;
-			}
-			else if (event.fB == "enemy_right")
-			{
-				flags->canMoveRight = true;
-				flags->rightEntity = nullptr;
-			}
-			else if (event.fB == "enemy_top")
-			{
-				flags->canMoveUp = true;
-				flags->upEntity = nullptr;
-			}
-			else if (event.fB == "enemy_bottom")
-			{
-				flags->canMoveDown = true;
-				flags->downEntity = nullptr;
+				//Unset the directional data if one of our sensors ended the collision
+				if (enemyCollider == "enemy_left") flags->canMoveLeft = true;
+				else if (enemyCollider == "enemy_right")flags->canMoveRight = true;
+				else if (enemyCollider == "enemy_top")flags->canMoveUp = true;
+				else if (enemyCollider == "enemy_bottom")flags->canMoveDown = true;
 			}
 		}
 	}
