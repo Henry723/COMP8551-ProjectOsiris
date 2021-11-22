@@ -166,7 +166,7 @@ void GameControl::Update(TimeDelta dt)
   systems.update<PhysicsTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
   systems.update<TurnEvents>(dt);
-  //systems.update<EnemySystem>(dt);
+  systems.update<EnemySystem>(dt);
   systems.update<RenderSystem>(dt);
 
 }

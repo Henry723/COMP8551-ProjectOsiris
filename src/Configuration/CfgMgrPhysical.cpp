@@ -4,28 +4,18 @@
 // Implements Physical Layer Class for the Configuration Manager subsystem.
 //
 // The Configuration Manager Subsystem purpose is to read external source(s)
-// information containing game objects data backand forth through 4 layers.
-// The four layers and their purpose are defined as :
+// information containing game objects data or custom data back and forth
+// through 2 layers. The two layers and their purpose are defined as:
 //
 //  Layer 1. Application : Implements the API between its clients and the
-//                         link between the presentation layers.It hides
-//                         from clients any management or access for
-//                         configuration. Configuration access is with the
-//                         use of game objects of a type IDand a given
-//                         instance of type.
-//        2. Presentation : Implements the link between layer 1 and 3 by
-//                          unwrapping app game objects to the data layer
-//                          format or wrapping data layer data into usable
-//                          layer 1 app objects.
-//        3. Data : Implements the link between layer 2 and 4 containing a
-//                  raw data format of game object collections.
+//                         link between the physical layer.
 //        4. Physical : Implements the mechanism to retrieve or write data
 //                      from sources presented in their correct formats.
 //
 //  This layer methodology assures that each layer is independent and could
 //  change without affecting its adjacent layer providing the signatures
 //  between the two remain the same.
-// 
+//
 //  NOTE: We are using XML as the physical protocol using TinyXML2 module
 //        to do the work. So this is a wrapper as it should be. See the 
 //        TinyXML2 module for appropriate credit of the work.
@@ -248,6 +238,10 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     //Check for rigidbody data and add if exists
     tinyxml2::XMLElement* rigidbody_data = data->FirstChildElement("rigidbody");
     if (rigidbody_data) e.assign<Rigidbody>(CreateRigidbodyAtPosition(rigidbody_data, x, y));
+
+    //Check for commandflags data and add if exists
+    tinyxml2::XMLElement* cmdflags_data = data->FirstChildElement("commandflags");
+    if (cmdflags_data) e.assign<CommandFlags>(CreateCommandFlags(cmdflags_data));
 }
 
 Transform CCfgMgrPhysical::CreateTransformAtPosition(tinyxml2::XMLElement* data, int x, int y)
@@ -391,6 +385,11 @@ Rigidbody CCfgMgrPhysical::GetRigidbodyComponent(tinyxml2::XMLElement* data)
 
     //Make sure all neccesary data is present.
     return Rigidbody(collider_list, type_value, position_value);
+}
+
+CommandFlags CCfgMgrPhysical::CreateCommandFlags(tinyxml2::XMLElement* data)
+{
+    return CommandFlags();
 }
 
 glm::vec2 CCfgMgrPhysical::ParseVec2(const char* data)
