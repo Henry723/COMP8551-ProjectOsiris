@@ -37,7 +37,7 @@ struct Collider
 	glm::vec2 position; //Position of the fixture relative to the body
 
 	//Basic constructor
-	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type = "body") : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
+	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type) : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
 };
 
 //Rigidbody to handle movement and collision of bodies.
@@ -123,14 +123,101 @@ struct Collision
 	Entity* a; //Left colliding element
 	Entity* b; //Right colliding element
 
-	string fA = "body"; //Fixture name for left element
-	string fB = "body"; //Fixture name for right element
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
 
 	//Regular collider, no fixture data
 	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
 
 	//Collider including fixture names
 	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+//Collision struct to be created for collision events
+struct EndCollision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	EndCollision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+struct CommandFlags
+{
+	int nextMoveDir = 0;
+	int moveTurn = 0;
+	bool move_on_evens() { return moveTurn % 2 == 0; }
+
+	// Enemy Command input flags
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
+
+	//Attack input flags
+	bool attackLeft = true;
+	bool attackRight = true;
+	bool attackUp = true;
+	bool attackDown = true;
+
+	//Collision flags for available movement.
+	//		These will only be false if obstacles are detected.
+	bool canMoveUp = true;
+	bool canMoveDown = true;
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
+
+	//Directional entities relative to body
+	Entity* leftEntity = nullptr;
+	Entity* rightEntity = nullptr;
+	Entity* upEntity = nullptr;
+	Entity* downEntity = nullptr;
+
+	CommandFlags()
+	{
+		srand(time(NULL));
+		/* generate random number between 1 and 2: */
+		moveTurn = (rand() % 2) + 1;
+	}
+
+};
+
+struct Timer {
+	float timeElapsed;
+};
+
+struct TurnOrder {
+	
+	float timeInterval;
+	float timeUntilNextOrder;
+
+	void subtract_time(TimeDelta dt)
+	{
+		timeUntilNextOrder -= dt;
+	}
+
+	bool time_out()
+	{
+		return (timeUntilNextOrder <= 0);
+	}
+
+	void reset_interval()
+	{
+		timeUntilNextOrder = timeInterval;
+	}
+
+	TurnOrder(float interval)
+	{
+		timeInterval = interval;
+		reset_interval();
+	}
 };
 
 //Simple GameObject struct for tracking generic info, only includes name for now.

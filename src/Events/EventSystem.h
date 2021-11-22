@@ -32,6 +32,40 @@ struct AttackInput {
 	InpDir dir;
 };
 
+// Custom event for Interact Inputs
+struct InteractInput {
+	explicit InteractInput(){}
+};
+
+// Custom event for Enemy movement debugging
+struct EnemyDebugInput {
+	enum InpDir {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT
+	};
+	explicit EnemyDebugInput(InpDir dir) : dir(dir){}
+	InpDir dir;
+};
+
+// Custom event for Game State Control
+struct ControlInput {
+	enum Cmd {
+		X,
+		Y,
+		SPACE,
+	};
+	explicit ControlInput(Cmd cmd) : cmd(cmd) {}
+	Cmd cmd;
+};
+
+//Custom event for keeping track of the score
+struct ScoreUpdate {
+	explicit ScoreUpdate(int score) : score(score) {}
+	int score;
+};
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}

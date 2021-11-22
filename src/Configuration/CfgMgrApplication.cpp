@@ -4,21 +4,11 @@
 // Implements Application Layer Class for the Configuration Manager subsystem.
 //
 // The Configuration Manager Subsystem purpose is to read external source(s)
-// information containing game objects data backand forth through 4 layers.
-// The four layers and their purpose are defined as :
+// information containing game objects data or custom data back and forth
+// through 2 layers. The two layers and their purpose are defined as:
 //
 //  Layer 1. Application : Implements the API between its clients and the
-//                         link between the presentation layers.It hides
-//                         from clients any management or access for
-//                         configuration. Configuration access is with the
-//                         use of game objects of a type IDand a given
-//                         instance of type.
-//        2. Presentation : Implements the link between layer 1 and 3 by
-//                          unwrapping app game objects to the data layer
-//                          format or wrapping data layer data into usable
-//                          layer 1 app objects.
-//        3. Data : Implements the link between layer 2 and 4 containing a
-//                  raw data format of game object collections.
+//                         link between the physical layer.
 //        4. Physical : Implements the mechanism to retrieve or write data
 //                      from sources presented in their correct formats.
 //
@@ -31,97 +21,244 @@
 //============================================================================
 
 #include "CfgMgrApplication.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
 
 CCfgMgrApplication::CCfgMgrApplication()
+    : handleCount(0)
 {
-    // TODO : Finish Implementation
+    // Add anything extra
 }
 
 CCfgMgrApplication::~CCfgMgrApplication()
 {
-    // TODO : Finish Implementation
+    // Add anything extra
 }
 
-bool CCfgMgrApplication::loadConfig()
+bool CCfgMgrApplication::loadConfig(const char * fileName, EntityManager& em)
 {
-    // TODO : Finish Implementation
+    //Load up game objects from configuration file. Currently loading player.
+    CCfgMgrPhysical txml(fileName);
+    txml.LoadObjects(em);
     return false;
 }
 
-void* CCfgMgrApplication::getGameObjByType(CMGameObjType type, int index)
+bool CCfgMgrApplication::loadLevel(const char* fileName, EntityManager& em)
 {
-    // TODO : Finish Implementation
-    return nullptr;
-}
-
-bool CCfgMgrApplication::getAllGameObjByType(CMGameObjType type, std::vector<void*>& emptyList)
-{
-    // TODO : Finish Implementation
+    //Load up game objects from configuration file. Currently loading player.
+    CCfgMgrPhysical txml(fileName);
+    txml.LoadLevel(em);
     return false;
 }
 
-int CCfgMgrApplication::loadCustomData(std::string filename)
+int CCfgMgrApplication::loadCustomData(std::string fileName)
 {
-    // TODO : Finish Implementation
-    return 0;
+    int newHndl = -1;
+    ifstream cfgFile;
+
+    // Open the file
+    cfgFile.open(fileName, fstream::in);
+
+    // If success add the file info to filehandles
+    if (cfgFile)
+    {
+        handleData_t fileData;
+        string rawLnData;
+
+        fileData.handle = ++handleCount;
+        fileData.fileName = fileName;
+
+        // Populate the file data by reading through the file (one time read)
+        while (getline(cfgFile, rawLnData))
+        {
+            // Parse through the line using proper format { keyName, type, value }
+            keyInfo_t keyInfo;
+            string type;
+            istringstream data(rawLnData);
+            stringstream ss;
+            getline(data, keyInfo.keyName, '\t');
+            getline(data, type, '\t');
+            ss << type;
+            int itype;
+            ss >> itype;
+            keyInfo.type = (CKVType)itype;
+            getline(data, keyInfo.value, '\t');
+
+            // Push to the vector the key record if it is a valid type
+            if (keyInfo.type >= CKVType::Int_t && keyInfo.type <= CKVType::String_t)
+            {
+                fileData.keys.push_back(keyInfo);
+            }
+        }
+
+        // close the file and return the file handle reference to client
+        cfgFile.close();
+        fileData.isLoaded = true;
+        fileHandles.push_back(fileData);
+        newHndl = fileData.handle;
+    }
+
+    return newHndl;
 }
 
+// Re-writes the file (if records dirty) with current values
 bool CCfgMgrApplication::saveCustomData(int fileHandle)
 {
-    // TODO : Finish Implementation
-    return false;
+    bool rslt = false;
+
+    // Lookup the key records for file handle
+    int fDIdx = findRecordSet(fileHandle);
+
+    // Did we find a handle thats loaded and dirty?
+    if (fDIdx != -1 && fileHandles[fDIdx].isDirty)
+    {
+        fstream cfgFile;
+
+        // Open the file erasing content and for output
+        cfgFile.open(fileHandles[fDIdx].fileName, fstream::out | fstream::trunc);
+
+        // If success add the file info to filehandles
+        if (cfgFile)
+        {
+            // Loop through the key records writing each to file as a line
+            for (auto aKey : fileHandles[fDIdx].keys)
+            {
+                stringstream rawLnData;
+
+                rawLnData << aKey.keyName << '\t' << (int)aKey.type << '\t' << aKey.value << endl;
+                cfgFile << rawLnData.str();
+            }
+
+            // close the file and return the result
+            cfgFile.close();
+            fileHandles[fDIdx].isDirty = false; // Now that saved they are no longer dirty
+            rslt = true;
+        }
+    }
+
+    return rslt;
 }
 
-bool CCfgMgrApplication::getDataKeys(int fileHandle, std::vector<std::pair<std::string, CKVType>>& emptyList)
+
+bool CCfgMgrApplication::getDataKeys(int fileHandle, std::vector<AKey_t>& emptyList)
 {
-    // TODO : Finish Implementation
-    return false;
+    bool rslt = false;
+    int fDIdx = findRecordSet(fileHandle);
+
+    // Did we find a handle thats loaded?
+    if (fDIdx != -1)
+    {
+        // Loop through all the key records adding them to the return vector
+        for (auto key : fileHandles[fDIdx].keys)
+        {
+            AKey_t AKey;
+            AKey.first = key.keyName;
+            AKey.second = key.type;
+
+            // Push to the provided emptyList
+            emptyList.push_back(AKey);
+        }
+        rslt = true;
+    }
+
+    return rslt;
 }
 
-bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& theValue)
+bool CCfgMgrApplication::getDataValue(int fileHandle, AKey_t key, CKeyValue& value)
 {
-    // TODO : Finish Implementation
-    return false;
+    bool rslt = false;
+
+    // Lookup the key records for file handle
+    int fDIdx = findRecordSet(fileHandle);
+
+    // Did we find a handle thats loaded?
+    if (fDIdx != -1)
+    {
+        // Search through key records for matching key
+        for (auto aKey : fileHandles[fDIdx].keys)
+        {
+            if (aKey.keyName == key.first)
+            {
+                // Key found so copy over values
+                CKeyValue rtrnVal(key.second);
+
+                rtrnVal.setValue(aKey.value);
+                value = rtrnVal;
+                rslt = true;
+                break;
+            }
+        }
+    }
+
+    return rslt;
 }
 
-bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& theValue)
+bool CCfgMgrApplication::setDataValue(int fileHandle, AKey_t key, CKeyValue* pNewValue)
 {
-    // TODO : Finish Implementation
-    return false;
+    bool rslt = false;
+
+    // Lookup the key records for file handle
+    int fDIdx = findRecordSet(fileHandle);
+
+    // Did we find a handle thats loaded?
+    if (fDIdx != -1)
+    {
+        // Search through key records for matching key
+        for (int i = 0; i < fileHandles[fDIdx].keys.size() ; i++)
+        {
+            if (   fileHandles[fDIdx].keys[i].keyName == key.first 
+                && fileHandles[fDIdx].keys[i].type == key.second)
+            {
+                // Key found so copy over values
+                fileHandles[fDIdx].keys[i].value = pNewValue->getValueString();
+                fileHandles[fDIdx].isDirty = true;
+                rslt = true;
+                break;
+            }
+        }
+
+        // If no key was found then create a new one and add it.
+        if (rslt == false)
+        {
+            // Add as a new key
+            keyInfo_t newKey;
+            newKey.keyName = key.first;
+            newKey.type = key.second;
+            newKey.value = pNewValue->getValueString();
+            fileHandles[fDIdx].keys.push_back(newKey);
+
+            // Very important to update dirty or it will never save
+            fileHandles[fDIdx].isDirty = true; 
+            rslt = true;
+        }
+    }
+
+    return rslt;
 }
 
-bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue <std::string> & theValue)
+
+int CCfgMgrApplication::findRecordSet(int fileHandle)
 {
-    // TODO : Finish Implementation
-    return false;
+    int fDIdx = -1;
+
+    // Try and find the handle data
+    for (int i = 0; i < fileHandles.size(); i++)
+    {
+        if (fileHandles[i].handle == fileHandle)
+        {
+            if (fileHandles[i].isLoaded)
+            {
+                // Have a matching handle so break and process
+                fDIdx = i;
+            }
+            break;
+        }
+    }
+
+    return fDIdx;
 }
 
-bool CCfgMgrApplication::getDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& theValue)
-{
-    // TODO : Finish Implementation
-    return false;
-}
-
-bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<int>& newValue)
-{
-    // TODO : Finish Implementation
-    return false;
-}
-
-bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<float>& newValue)
-{
-    // TODO : Finish Implementation
-    return false;
-}
-
-bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<std::string>& newValue)
-{
-    // TODO : Finish Implementation
-    return false;
-}
-
-bool CCfgMgrApplication::setDataValue(int fileHandle, std::pair<std::string, CKVType> key, CKeyValue<char*>& newValue)
-{
-    // TODO : Finish Implementation
-    return false;
-}

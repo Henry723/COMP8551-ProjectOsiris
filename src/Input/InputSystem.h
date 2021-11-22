@@ -2,6 +2,7 @@
 #include "../components.hpp"
 #include "../SceneManager.hpp"
 #include "../Events/EventSystem.h"
+#include "../gamestate.h"
 
 using namespace std;
 
@@ -14,6 +15,10 @@ private:
 		DOWN,
 		RIGHT
 	};
+	enum IntAct {
+		INTERACT
+	};
+
 public:
 	void update(EntityManager&, EventManager&, TimeDelta) override;
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

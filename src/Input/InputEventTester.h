@@ -17,4 +17,8 @@ struct InputEventTester : public System<InputEventTester>, public Receiver<Input
 	void receive(const MoveInput& event); // Prints Movement Direction to console on event caught
 
 	void receive(const AttackInput& event);// Prints Attack Direction to console on event caught
+	
+	void receive(const InteractInput& event);// Prints Interaction to console on event caught
+	
+	void receive(const EnemyDebugInput& event);// Prints Enemy Movement Direction to console on event caught for DEBUG purposes
 };
