@@ -16,7 +16,7 @@ void ScoreTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 void ScoreTest::configure(EventManager& em) {
 	em.subscribe<EntityDestroyedEvent>(*this);
-	em.subscribe<ScoreUpdate>(*this);
+	//em.subscribe<ScoreUpdate>(*this);
 }
 
 //When an entity is destroyed, base off of the entity name, it will trigger the flags
@@ -28,7 +28,11 @@ void ScoreTest::receive(const EntityDestroyedEvent& events) {
 }
 
 //Updating score event
-void ScoreTest::receive(const ScoreUpdate& event) {
-	totalScore += event.a;
-	cout << "Total score: " << totalScore << endl;
-}
+//void ScoreTest::receive(const ScoreUpdate& event) {
+//	totalScore += event.score;
+//	cout << "Total score: " << totalScore << endl;
+//}
+//
+//int ScoreTest::getScore() {
+//	return totalScore;
+//}
