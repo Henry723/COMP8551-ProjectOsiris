@@ -278,5 +278,8 @@
     <Xml Include="src\Game.xml">
       <Filter>Source Files</Filter>
     </Xml>
+    <Xml Include="src\Level01.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
