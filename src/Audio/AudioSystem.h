@@ -42,10 +42,15 @@ struct AudExec {
 
 class AudioSystem : public System<AudioSystem> {
 public:
-	static void Init();
-	static void Update();
+	static void InitFMOD();
+	static void UpdateFMOD();
 	static void Shutdown();
 	static int ErrorCheck(FMOD_RESULT result);
+
+	void update(EntityManager&, EventManager&, TimeDelta) override;
+
+	AudioSystem();
+	~AudioSystem();
 
 	void LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
 	void LoadEvent(const string& strEventName);

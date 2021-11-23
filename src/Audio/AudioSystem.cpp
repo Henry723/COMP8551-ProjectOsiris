@@ -38,11 +38,23 @@ void AudExec::Update() {
 	AudioSystem::ErrorCheck(mpStudioSystem->update());
 }
 
-void AudioSystem::Init() {
+AudioSystem::AudioSystem() {
+	AudioSystem::InitFMOD();
+}
+
+AudioSystem::~AudioSystem() {
+	AudioSystem::Shutdown();
+}
+
+void AudioSystem::update(EntityManager&, EventManager&, TimeDelta)
+{
+}
+
+void AudioSystem::InitFMOD() {
 	instAudExec = new AudExec;
 }
 
-void AudioSystem::Update() {
+void AudioSystem::UpdateFMOD() {
 	instAudExec->Update();
 }
 
@@ -70,6 +82,10 @@ void AudioSystem::UnloadSound(const string& strSoundName) {
 
 	AudioSystem::ErrorCheck(foundSound->second->release());
 	instAudExec->mSounds.erase(foundSound);
+}
+
+void AudioSystem::Set3dListenerOrientation(const Vector3& vPos, float fVolumeDB)
+{
 }
 
 int AudioSystem::PlaySound(const string& strSoundName, const Vector3& vPosition, float fVolumeDB) {
@@ -154,6 +170,10 @@ void AudioSystem::PlayEvent(const string& strEventName) {
 	tFoundit->second->start();
 }
 
+void AudioSystem::StopChannel(int nChannelId)
+{
+}
+
 void AudioSystem::StopEvent(const string& strEventName, bool bImmediate) {
 	auto tFoundIt = instAudExec->mEvents.find(strEventName);
 	if (tFoundIt == instAudExec->mEvents.end())
@@ -190,6 +210,10 @@ void AudioSystem::SetEventParameter(const string& strEventName, const string& st
 		return;
 
 	AudioSystem::ErrorCheck(tFoundIt->second->setParameterByName(strParameterName.c_str(), fValue));
+}
+
+void AudioSystem::StopAllChannels()
+{
 }
 
 FMOD_VECTOR AudioSystem::VectorToFMOD(const Vector3& vPosition) {

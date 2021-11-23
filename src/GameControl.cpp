@@ -1,5 +1,4 @@
 #include "GameControl.h"
-#include "gamestate.h"
 
 // TEMP - These will likely be adapted into an asset system
 const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
@@ -18,6 +17,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<PhysicsTest>();
   systems.add<UISystem>();
   systems.add<InputEventTester>();
+  systems.add<AudioSystem>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
   systems.configure();

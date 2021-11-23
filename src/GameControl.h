@@ -7,6 +7,8 @@
 #include "UI/UI.h"
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
+#include "gamestate.h"
+#include "Audio/AudioSystem.h"
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"
