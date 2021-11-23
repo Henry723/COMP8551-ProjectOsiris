@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{d530d6fe-139e-4a40-9276-d57a4d878526}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AIEnemy">
+      <UniqueIdentifier>{4d4429ad-0b00-4afb-a56f-e0c4c5867938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AIEnemy">
+      <UniqueIdentifier>{ab834fa1-c64b-4e6b-ac9b-957515b7a1b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -141,8 +147,17 @@
     <ClCompile Include="src\Physics\PhysicsTest.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\AIEnemy\EnemySystem.cpp">
+      <Filter>Source Files\AIEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Events\TurnEvents.cpp">
+      <Filter>Source Files\Events</Filter>
+	</ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
       <Filter>Source Files\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\ScoreTest.cpp">
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioSystem.cpp">
       <Filter>Source Files\Audio</Filter>
@@ -212,11 +227,20 @@
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\AIEnemy\EnemySystem.h">
+      <Filter>Header Files\AIEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\TurnEvents.h">
+      <Filter>Header Files\Events</Filter>
+	</ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\ScoreTest.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\gamestate.h">
       <Filter>Header Files</Filter>

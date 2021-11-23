@@ -10,7 +10,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		ComponentHandle<GameObject> object = entity.component<GameObject>();
 		//Only do this for rigidbodies that are the player
 		//Probably poor practice, but works for testing
-		if (object && object->name == "player") 
+		if (object && object->name == "player")
 		{
 			//First get current position
 			glm::vec2 position = rigidbody->GetPosition();
@@ -19,71 +19,65 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			//Then move the Rigidbody which will update the Transform as well
 			//Velocity probably needs to be better scaled in-engine
 			//Spaces between centers of tiles is 2.
-			if (left && canMoveLeft)
-			{
-				//ResetMoveFlags();
+			if (left && canMoveLeft) {
+				transform->rotation = glm::vec4(0, -1, 0, 90);
+				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
 			}
-			if (right && canMoveRight)
-			{
-				//ResetMoveFlags();
+
+			else if (right && canMoveRight) {
+				transform->rotation = glm::vec4(0, 1, 0, 90);
+				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
 			}
-			if (up && canMoveUp)
-			{
-				//ResetMoveFlags();
+
+			else if (up && canMoveUp) {
+				transform->rotation = glm::vec4(0, 1, 0, 110);
+				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
 			}
-			if (down && canMoveDown)
-			{
-				//ResetMoveFlags();
+
+			else if (down && canMoveDown) {
+				transform->rotation = glm::vec4(0, 1, 0, 0);
+				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
 			}
+
 			if (attackLeft && leftEntity)
 			{
 				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the left" << endl;
-
 				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
-
-
 				targetRb->DeleteBody();
 				leftEntity->destroy();
-				//canMoveLeft = true;
-				//this->leftEntity = nullptr;
+				leftEntity = nullptr;
+				canMoveLeft = true;
 			}
 			if (attackRight && rightEntity)
 			{
 				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the right" << endl;
-
 				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				rightEntity->destroy();
-				//canMoveRight = true;
-				//this->rightEntity = nullptr;
+				rightEntity = nullptr;
+				canMoveRight = true;
 			}
 			if (attackUp && upEntity)
 			{
 				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the top" << endl;
-
 				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				upEntity->destroy();
-				//canMoveUp = true;
-				//this->upEntity = nullptr;
+				upEntity = nullptr;
+				canMoveUp = true;
 			}
 			if (attackDown && downEntity)
 			{
 				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
-				cout << "attacking " << targetObj->name << " to the bottom" << endl;
-
 				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
 				targetRb->DeleteBody();
 				downEntity->destroy();
-				//canMoveDown = true;
-				//this->downEntity = nullptr;
+				downEntity = nullptr;
+				canMoveDown = true;
 			}
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
@@ -126,128 +120,46 @@ void PhysicsTest::configure(EventManager& em) {
 
 void PhysicsTest::receive(const Collision& event)
 {
-	//Only game objects should be involved in collisions, so should be safe to grab these components.
-	ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-	ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-
-	cout << "Collision start for " << objectA->name << " " << event.fA << ", and " << objectB->name << " " << event.fB << endl;
-
-	//We only care about collisions with at least one body for this implementation.
-	if (event.fA == "body" || event.fB == "body")
+	//Check for valid entities
+	if (event.a->valid() && event.b->valid())
 	{
-		//Logic specific to player
-		//Colliding with a player body for left Object
-		if (objectA->name == "player" && event.fA == "body")
+		//Only game objects should be involved in collisions, so should be safe to grab these components.
+		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
+		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
+		if (!objectA || !objectB) return; //Invalid collision, gmae objects not found
+		if (objectA->name == "player" || objectB->name == "player") //Player collision
 		{
-			//Player body colliding with treasure body
-			if (objectB->name == "treasure") event.b->destroy();
-		}
-		//Colliding with a player body for right Object
-		else if (objectB->name == "player" && event.fB == "body")
-		{
-			//Player body colliding with treasure body
-			if (objectA->name == "treasure") event.a->destroy();
-		}
-		//Colliding with a player sensor for left Object
-		else if (objectA->name == "player" && event.fA != "body")
-		{
-			//Sensor colliding with an enemy body
-			if (objectB->name == "enemy" && event.fB == "body")
+			//Store data for player
+			Entity* player = objectA->name == "player" ? event.a : event.b;
+			string playerCollider = objectA->name == "player" ? event.fA : event.fB;
+
+			//Store data for other entity
+			Entity* other = objectA->name == "player" ? event.b : event.a;
+			string otherName = objectA->name == "player" ? objectB->name : objectA->name;
+			string otherType = objectA->name == "player" ? event.fB : event.fA;
+			
+			//If we hit a treasure, destroy it.
+			if (otherName == "treasure" && playerCollider == "body") other->destroy();
+			//If a sensor hit the body of a wall or enemy...
+			else if ((otherName == "wall" || otherName == "enemy") && (otherType == "body" || otherType == "enemy_body") && playerCollider != "body")
 			{
-				if (event.fA == "left")
+				//Set the directional entity if an enemy, set the move flags regardless.
+				if (playerCollider == "left")
 				{
-					this->canMoveLeft = false;
-					leftEntity = event.b;
+					if (otherName == "enemy") leftEntity = other;
+					canMoveLeft = false;
 				}
-				else if (event.fA == "right")
-				{
-					this->canMoveRight = false;
-					rightEntity = event.b;
+				if (playerCollider == "right") {
+					if (otherName == "enemy") rightEntity = other;
+					canMoveRight = false;
 				}
-				else if (event.fA == "top")
-				{
-					this->canMoveUp = false;
-					upEntity = event.b;
+				if (playerCollider == "top") {
+					if (otherName == "enemy") upEntity = other;
+					canMoveUp = false;
 				}
-				else if (event.fA == "bottom")
-				{
-					this->canMoveDown = false;
-					downEntity = event.b;
-				}
-			}
-			//Sensor colliding with a wall
-			else if (objectB->name == "wall" && event.fB == "body")
-			{
-				if (event.fA == "left")
-				{
-					this->canMoveLeft = false;
-					leftEntity = event.b;
-				}
-				else if (event.fA == "right")
-				{
-					this->canMoveRight = false;
-					rightEntity = event.b;
-				}
-				else if (event.fA == "top")
-				{
-					this->canMoveUp = false;
-					upEntity = event.b;
-				}
-				else if (event.fA == "bottom")
-				{
-					this->canMoveDown = false;
-					downEntity = event.b;
-				}
-			}
-		}
-		//Colliding with a player sensor for right Object
-		else if (objectB->name == "player" && event.fB != "body")
-		{
-			//Sensor colliding with an enemy body
-			if (objectA->name == "enemy" && event.fA == "body")
-			{
-				if (event.fB == "left")
-				{
-					this->canMoveLeft = false;
-					leftEntity = event.a;
-				}
-				else if (event.fB == "right")
-				{
-					this->canMoveRight = false;
-					rightEntity = event.a;
-				}
-				else if (event.fB == "top") 
-				{
-					this->canMoveUp = false;
-					upEntity = event.a;
-				}
-				else if (event.fB == "bottom") 
-				{
-					this->canMoveDown = false;
-					downEntity = event.a;
-				}
-			}
-			else if (objectA->name == "wall" && event.fA == "body")
-			{
-				if (event.fB == "left")
-				{
-					this->canMoveLeft = false;
-					leftEntity = event.a;
-				}
-				else if (event.fB == "right")
-				{
-					this->canMoveRight = false;
-					rightEntity = event.a;
-				}
-				else if (event.fB == "top")
-				{
-					this->canMoveUp = false;
-					upEntity = event.a;
-				}
-				else if (event.fB == "bottom")
-				{
-					this->canMoveDown = false;
-					downEntity = event.a;
+				if (playerCollider == "bottom") {
+					if (otherName == "enemy") downEntity = other;
+					canMoveDown = false;
 				}
 			}
 		}
@@ -257,58 +169,42 @@ void PhysicsTest::receive(const Collision& event)
 void PhysicsTest::receive(const EndCollision& event)
 {
 	//Only game objects should be involved in collisions, so should be safe to grab these components.
-	if (event.a->valid())
+	if (event.a->valid() && event.b->valid()) //Check for valid entities
 	{
 		ComponentHandle<GameObject> objectA = event.a->component<GameObject>();
-		if (objectA->name == "player" && event.fA != "body")
-		{
-			cout << "objectA a" << endl;
-			if (event.fA == "left")
-			{
-				this->canMoveLeft = true;
-				leftEntity = nullptr;
-			}
-			else if (event.fA == "right")
-			{
-				this->canMoveRight = true;
-				rightEntity = nullptr;
-			}
-			else if (event.fA == "top")
-			{
-				this->canMoveUp = true;
-				upEntity = nullptr;
-			}
-			else if (event.fA == "bottom")
-			{
-				this->canMoveDown = true;
-				downEntity = nullptr;
-			}
-		}
-	}
-	if (event.b->valid())
-	{
 		ComponentHandle<GameObject> objectB = event.b->component<GameObject>();
-		if (objectB->name == "player" && event.fB != "body")
+		if (!objectA || !objectB) return; //Invalid collision, gmae objects not found
+		if (objectA->name == "player" || objectB->name == "player") //Player collision
 		{
-			if (event.fB == "left")
+			//Store data for player
+			Entity* player = objectA->name == "player" ? event.a : event.b;
+			string playerCollider = objectA->name == "player" ? event.fA : event.fB;
+
+			//Store data for other entity
+			Entity* other = objectA->name == "player" ? event.b : event.a;
+			string otherName = objectA->name == "player" ? objectB->name : objectA->name;
+			string otherType = objectA->name == "player" ? event.fB : event.fA;
+
+			//If we're colliding with a body a
+			if (otherType == "body" || otherType == "enemy_body")
 			{
-				this->canMoveLeft = true;
-				leftEntity = nullptr;
-			}
-			else if (event.fB == "right")
-			{
-				this->canMoveRight = true;
-				rightEntity = nullptr;
-			}
-			else if (event.fB == "top")
-			{
-				this->canMoveUp = true;
-				upEntity = nullptr;
-			}
-			else if (event.fB == "bottom")
-			{
-				this->canMoveDown = true;
-				downEntity = nullptr;
+				//Depending on the player collider, unset the directional entity and move flag.
+				if (playerCollider == "left") {
+					if (otherName == "enemy") leftEntity = nullptr;
+					canMoveLeft = true;
+				}
+				else if (playerCollider == "right") {
+					if (otherName == "enemy") rightEntity = nullptr;
+					canMoveRight = true;
+				}
+				else if (playerCollider == "top") {
+					if (otherName == "enemy") upEntity = nullptr;
+					canMoveUp = true;
+				}
+				else if (playerCollider == "bottom") {
+					if (otherName == "enemy") downEntity = nullptr;
+					canMoveDown = true;
+				}
 			}
 		}
 	}

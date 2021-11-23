@@ -21,8 +21,8 @@ struct FixtureData
 
 class CollisionListener : public b2ContactListener
 {
-public: 
-    void BeginContact(b2Contact* contact) 
+public:
+    void BeginContact(b2Contact* contact)
     {
         //Grab the colliding fixtures.
         b2Fixture* fixA = contact->GetFixtureA();
@@ -68,17 +68,17 @@ public:
 
             endCollisions.push(EndCollision(&bodyDataA->e, &bodyDataB->e, fixDataA->name, fixDataB->name));
         }
-    
+
     }
-    void PreSolve(b2Contact* contact, const b2Manifold* oldManifold){}
+    void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) {}
     void PostSolve(b2Contact* contact, const b2Manifold* oldManifold) {}
 };
 
 PhysicsEngine::PhysicsEngine()
 {
     //Engine is for top-down games, don't need gravity
-	b2Vec2* gravity = new b2Vec2(0.0f, 0.0f);
-	world = new b2World(*gravity);
+    b2Vec2* gravity = new b2Vec2(0.0f, 0.0f);
+    world = new b2World(*gravity);
     //Add collision listener
     CollisionListener* collisionListener = new CollisionListener();
     world->SetContactListener(collisionListener);
@@ -94,7 +94,7 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     //Grab all entities with rigidbody components
     ComponentHandle<Rigidbody> rigidbody;
     for (Entity entity : es.entities_with_components(rigidbody)) {
-        
+
         Rigidbody* body = entity.component<Rigidbody>().get();
         //If the body has not been created, create it.
         if (!body->isCreated) body->body = CreateBody(entity, body);
@@ -118,8 +118,6 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
             }
         }
     }
-
-    if (gameState != RUNNING) return;
 
     //Iterate over the bodies in the simulation
     for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())

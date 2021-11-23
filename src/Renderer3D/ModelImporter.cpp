@@ -1,6 +1,13 @@
 #include "ModelImporter.h"
 #define TEST_MODELIMPORTER      false
 
+struct ModelData {
+    vector<float>& attribArray;
+    vector<unsigned int>& indexArray;
+};
+
+// static Dictionary modelCollection = new Dictionary<const char*, ModelData&> ();
+
 void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
 	Assimp::Importer import;
 	const aiScene *scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
