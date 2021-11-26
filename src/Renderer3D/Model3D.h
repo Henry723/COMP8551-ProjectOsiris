@@ -43,6 +43,7 @@ private:
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
 	vector<Texture> textures;
+	vector<Model3D> poses;
 
 public:
 	unsigned int vao;
@@ -53,6 +54,7 @@ public:
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
 	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath);
+	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses);
 
 	// Tranformation Functions (for editing data)
 	void translate(glm::vec3 translation);

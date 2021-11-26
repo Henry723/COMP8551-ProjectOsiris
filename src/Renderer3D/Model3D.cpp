@@ -127,6 +127,13 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 #endif
 }
 
+Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses) {
+	Model3D::Model3D(modelSource, vertPath, fragPath, texPath);
+	for (Model3D m : poses) {
+		this->poses.push_back(m);
+	}
+}
+
 void Model3D::translate(glm::vec3 translation) {
 	transformation_matrix = glm::translate(transformation_matrix, translation);
 }

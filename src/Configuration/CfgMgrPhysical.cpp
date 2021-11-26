@@ -312,6 +312,7 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
     string m;
     while (getline(model_data, m, ',')) models.push_back(m); //Push models into vector
 
+
     //Texture files, same as models
     tinyxml2::XMLElement* text_src = data->FirstChildElement("text_src");
     vector<string> textures;
@@ -322,11 +323,35 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
     tinyxml2::XMLElement* vert_src = data->FirstChildElement("vert_src");
     tinyxml2::XMLElement* frag_src = data->FirstChildElement("frag_src");
 
-    //Make sure all neccesary data is present. Model and texture chosen randomly from list
-    return Model3D(models[rand() % models.size()].c_str(),
-        vert_src->GetText(),
-        frag_src->GetText(),
-        textures[rand() % textures.size()].c_str());
+    //Poses
+    if (data->IntAttribute("poseCount")) {
+        vector<Model3D> poses;
+        tinyxml2::XMLElement* pose_src = data->FirstChildElement("pose_src");
+        vector<string> pose_models; //Vector to store model strings
+        stringstream pose_model_data(pose_src->GetText()); //Stream in each string
+        string m;
+        while (getline(pose_model_data, m, ',')) pose_models.push_back(m); //Push models into vector
+          
+        for (int i = 0; i < data->IntAttribute("poseCount"); i++) {          
+            poses.push_back(Model3D(pose_models[i].c_str(),
+                vert_src->GetText(),
+                frag_src->GetText(),
+                textures[rand() % textures.size()].c_str()));
+        }       
+
+         //Make sure all neccesary data is present. Model and texture chosen randomly from list
+        return Model3D(models[rand() % models.size()].c_str(),
+            vert_src->GetText(),
+            frag_src->GetText(),
+            textures[rand() % textures.size()].c_str(), poses);
+    }
+    else {
+        //Make sure all neccesary data is present. Model and texture chosen randomly from list
+        return Model3D(models[rand() % models.size()].c_str(),
+            vert_src->GetText(),
+            frag_src->GetText(),
+            textures[rand() % textures.size()].c_str());
+    }   
 }
 
 Transform CCfgMgrPhysical::GetTransformComponent(tinyxml2::XMLElement* data)
