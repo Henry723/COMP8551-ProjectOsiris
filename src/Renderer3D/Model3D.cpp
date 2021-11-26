@@ -2,7 +2,7 @@
 #define TEST_MODEL3D       false
 
 // Member functions definitions including constructor
-Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
+Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses) {
 	
 #if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
@@ -122,17 +122,16 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
+	for (Model3D m : poses) {
+		this->poses.push_back(m);
+	}
+
 #if TEST_MODEL3D
 	//cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
 #endif
 }
 
-Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses) {
-	Model3D::Model3D(modelSource, vertPath, fragPath, texPath);
-	for (Model3D m : poses) {
-		this->poses.push_back(m);
-	}
-}
+
 
 void Model3D::translate(glm::vec3 translation) {
 	transformation_matrix = glm::translate(transformation_matrix, translation);

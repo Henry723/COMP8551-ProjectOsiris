@@ -53,8 +53,7 @@ public:
 
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
-	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath);
-	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses);
+	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses = vector<Model3D>());
 
 	// Tranformation Functions (for editing data)
 	void translate(glm::vec3 translation);
