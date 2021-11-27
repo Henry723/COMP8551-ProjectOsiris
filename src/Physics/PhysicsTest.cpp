@@ -45,39 +45,55 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 			if (attackLeft && leftEntity)
 			{
-				ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
-				ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				leftEntity->destroy();
-				leftEntity = nullptr;
-				canMoveLeft = true;
+				//ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
+				ComponentHandle<Health> targetH = leftEntity->component<Health>();
+				if (!--targetH->curHealth)
+				{
+					ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					leftEntity->destroy();
+					leftEntity = nullptr;
+					canMoveLeft = true;
+				}
 			}
 			if (attackRight && rightEntity)
 			{
-				ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
-				ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				rightEntity->destroy();
-				rightEntity = nullptr;
-				canMoveRight = true;
+				//ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
+				ComponentHandle<Health> targetH = rightEntity->component<Health>();
+				if (!--targetH->curHealth)
+				{
+					ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					rightEntity->destroy();
+					rightEntity = nullptr;
+					canMoveRight = true;
+				}
 			}
 			if (attackUp && upEntity)
 			{
-				ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
-				ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				upEntity->destroy();
-				upEntity = nullptr;
-				canMoveUp = true;
+				//ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
+				ComponentHandle<Health> targetH = upEntity->component<Health>();
+				if (!--targetH->curHealth)
+				{
+					ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					upEntity->destroy();
+					upEntity = nullptr;
+					canMoveUp = true;
+				}
 			}
 			if (attackDown && downEntity)
 			{
-				ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
-				ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
-				targetRb->DeleteBody();
-				downEntity->destroy();
-				downEntity = nullptr;
-				canMoveDown = true;
+				//ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
+				ComponentHandle<Health> targetH = downEntity->component<Health>();
+				if (!--targetH->curHealth)
+				{
+					ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
+					targetRb->DeleteBody();
+					downEntity->destroy();
+					downEntity = nullptr;
+					canMoveDown = true;
+				}
 			}
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;

@@ -227,3 +227,9 @@ struct GameObject
 	GameObject(string _name) : name(_name) {}
 };
 
+//Health
+struct Health
+{
+	int maxHealth, curHealth;
+	Health(int _health) : maxHealth(_health), curHealth(_health) {}
+};

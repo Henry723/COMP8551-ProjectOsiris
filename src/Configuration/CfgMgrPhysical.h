@@ -49,6 +49,7 @@ public:
 	void elementtostring(tinyxml2::XMLElement* element);
 	Transform CreateTransformAtPosition(tinyxml2::XMLElement* data, int x, int y);
 	Rigidbody CreateRigidbodyAtPosition(tinyxml2::XMLElement* data, int x, int y);
+	Health CreateHealth(tinyxml2::XMLElement* data);
 
 
 
