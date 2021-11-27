@@ -227,3 +227,9 @@ struct GameObject
 	GameObject(string _name) : name(_name) {}
 };
 
+//Health
+struct Health
+{
+	int health;
+	Health(int _health) : health(_health) {}
+};
