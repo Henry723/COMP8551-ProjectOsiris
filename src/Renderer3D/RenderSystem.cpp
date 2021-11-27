@@ -21,6 +21,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	ComponentHandle<Camera> hCamera;
 	ComponentHandle<Rigidbody> hRigidBody;
 
+	// Needed to write player health to ui
+	ComponentHandle<Health> playerHealth;
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
@@ -33,6 +35,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
 		if (object && object->name == "player") {
 			playerPosition = rigidbody->GetPosition();
+			playerHealth = entity.component<Health>();
 		}
 	}
 
@@ -82,7 +85,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
-		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		healthText = ui.NewTextElement("Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		ui.configured = true;
 	}

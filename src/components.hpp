@@ -230,6 +230,6 @@ struct GameObject
 //Health
 struct Health
 {
-	int health;
-	Health(int _health) : health(_health) {}
+	int maxHealth, curHealth;
+	Health(int _health) : maxHealth(_health), curHealth(_health) {}
 };

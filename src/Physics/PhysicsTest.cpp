@@ -47,7 +47,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				//ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
 				ComponentHandle<Health> targetH = leftEntity->component<Health>();
-				if (!--targetH->health)
+				if (!--targetH->curHealth)
 				{
 					ComponentHandle<Rigidbody> targetRb = leftEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
@@ -60,7 +60,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				//ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
 				ComponentHandle<Health> targetH = rightEntity->component<Health>();
-				if (!--targetH->health)
+				if (!--targetH->curHealth)
 				{
 					ComponentHandle<Rigidbody> targetRb = rightEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
@@ -73,7 +73,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				//ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
 				ComponentHandle<Health> targetH = upEntity->component<Health>();
-				if (!--targetH->health)
+				if (!--targetH->curHealth)
 				{
 					ComponentHandle<Rigidbody> targetRb = upEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
@@ -86,7 +86,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			{
 				//ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
 				ComponentHandle<Health> targetH = downEntity->component<Health>();
-				if (!--targetH->health)
+				if (!--targetH->curHealth)
 				{
 					ComponentHandle<Rigidbody> targetRb = downEntity->component<Rigidbody>();
 					targetRb->DeleteBody();
