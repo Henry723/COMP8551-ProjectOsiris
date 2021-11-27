@@ -141,6 +141,13 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     }
     //Clean up any bodies meanth for deletion before world step.
     CleanupBodies();
+    //Check if there's collisions ending
+    if (!endCollisions.empty())
+    {
+        //Emit the event and remove collision data from stack
+        ev.emit(endCollisions.top());
+        endCollisions.pop();
+    }
 
     //Check if there's collisions
     if (!collisions.empty())
@@ -148,14 +155,6 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         //Emit the event and remove collision data from stack
         ev.emit(collisions.top());
         collisions.pop();
-    }
-
-    //Check if there's collisions ending
-    if (!endCollisions.empty())
-    {
-        //Emit the event and remove collision data from stack
-        ev.emit(endCollisions.top());
-        endCollisions.pop();
     }
 
     //World step

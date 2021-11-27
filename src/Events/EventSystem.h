@@ -100,6 +100,5 @@ struct ExampleListenerSystem : public System<ExampleListenerSystem>, public Rece
 
 	void receive(const ExampleEvent& event) {
 		total += event.a * event.b;
-		cout << "Event system :" << total << endl;
 	}
 };

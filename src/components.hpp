@@ -2,6 +2,7 @@
 #include "headers.h"
 #include "Renderer3D/Model3D.h"
 #include "box2d/box2d.h"
+#include <stack>
 
 struct Window
 {
@@ -35,6 +36,7 @@ struct Collider
 	int size; //Size of the fixture
 	string type; //Optional type to name a fixture, helpful for custom hit detection
 	glm::vec2 position; //Position of the fixture relative to the body
+	b2Fixture* fixture;
 
 	//Basic constructor
 	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type) : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
@@ -151,7 +153,7 @@ struct EndCollision
 
 struct CommandFlags
 {
-	int nextMoveDir = 0;
+	int nextMoveDir = -1;
 	int moveTurn = 0;
 	bool move_on_evens() { return moveTurn % 2 == 0; }
 
@@ -174,11 +176,20 @@ struct CommandFlags
 	bool canMoveLeft = true;
 	bool canMoveRight = true;
 
+	string destination = "";
+
 	//Directional entities relative to body
 	Entity* leftEntity = nullptr;
 	Entity* rightEntity = nullptr;
 	Entity* upEntity = nullptr;
 	Entity* downEntity = nullptr;
+
+	Entity* playerEntity = nullptr;
+
+	stack<Entity*> leftContacts;
+	stack<Entity*> rightContacts;
+	stack<Entity*> upContacts;
+	stack<Entity*> downContacts;
 
 	CommandFlags()
 	{

@@ -10,10 +10,6 @@ void TurnEvents::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 	if (time_out())
 	{
-		cout << "== TIME OUT == " << endl;
-		cout << "Total time elapsed is " << timeElapsed << endl;
-			
-
 		// 1. Send enemy action flag
 		ComponentHandle<Window> hwindow;
 		for (Entity entity : es.entities_with_components(hwindow))
@@ -24,9 +20,6 @@ void TurnEvents::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 		// 2. Reset turn timer.
 		reset_interval();
-
-		cout << " Time before next timeout is " << timeUntilNextOrder << endl;
-
 	}
 }
 

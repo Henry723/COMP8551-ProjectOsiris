@@ -3,6 +3,7 @@
 #include "../Events/EventSystem.h"
 #include <entityx/Event.h>
 #include "../components.hpp"
+#include <stack>
 
 using entityx::EventManager;
 using entityx::Event;
@@ -38,4 +39,10 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	Entity* rightEntity = nullptr;
 	Entity* upEntity = nullptr;
 	Entity* downEntity = nullptr;
+	bool isMoving = false;
+
+	stack<Entity*> upContacts;
+	stack<Entity*> leftContacts;
+	stack<Entity*> downContacts;
+	stack<Entity*> rightContacts;
 };

@@ -21,21 +21,8 @@ struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, E
 	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const EndCollision& event);
 	void receive(const EnemyDebugInput& event);
-	void ResetCommandFlags(CommandFlags* flags);
-	void ResetCollisionEntities(); //Convenience function for resetting detected entities
 
 	bool enemyTurn = false;
 	int currentTurnCounter = 0;
 
-	//Attack input flags
-	bool attackLeft = true;
-	bool attackRight = true;
-	bool attackUp = true;
-	bool attackDown = true;
-
-	//Directional entities relative to body
-	Entity* leftEntity = nullptr;
-	Entity* rightEntity = nullptr;
-	Entity* upEntity = nullptr;
-	Entity* downEntity = nullptr;
 };

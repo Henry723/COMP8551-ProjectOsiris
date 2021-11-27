@@ -19,27 +19,24 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			//Then move the Rigidbody which will update the Transform as well
 			//Velocity probably needs to be better scaled in-engine
 			//Spaces between centers of tiles is 2.
-			if (left && canMoveLeft) {
+
+			if (left && leftContacts.size() == 0) {
 				transform->rotation = glm::vec4(0, -1, 0, 90);
-				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
 			}
 
-			else if (right && canMoveRight) {
+			else if (right && rightContacts.size() == 0) {
 				transform->rotation = glm::vec4(0, 1, 0, 90);
-				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
 			}
 
-			else if (up && canMoveUp) {
+			else if (up && upContacts.size() == 0) {
 				transform->rotation = glm::vec4(0, 1, 0, 110);
-				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
 			}
 
-			else if (down && canMoveDown) {
+			else if (down && downContacts.size() == 0) {
 				transform->rotation = glm::vec4(0, 1, 0, 0);
-				ResetMoveFlags();
 				rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
 			}
 
@@ -51,6 +48,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				leftEntity->destroy();
 				leftEntity = nullptr;
 				canMoveLeft = true;
+				leftContacts.pop();
 			}
 			if (attackRight && rightEntity)
 			{
@@ -60,6 +58,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				rightEntity->destroy();
 				rightEntity = nullptr;
 				canMoveRight = true;
+				rightContacts.pop();
 			}
 			if (attackUp && upEntity)
 			{
@@ -69,6 +68,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				upEntity->destroy();
 				upEntity = nullptr;
 				canMoveUp = true;
+				upContacts.pop();
 			}
 			if (attackDown && downEntity)
 			{
@@ -78,6 +78,7 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				downEntity->destroy();
 				downEntity = nullptr;
 				canMoveDown = true;
+				downContacts.pop();
 			}
 			//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 			right = false;
@@ -147,19 +148,19 @@ void PhysicsTest::receive(const Collision& event)
 				if (playerCollider == "left")
 				{
 					if (otherName == "enemy") leftEntity = other;
-					canMoveLeft = false;
+					leftContacts.push(other);
 				}
 				if (playerCollider == "right") {
 					if (otherName == "enemy") rightEntity = other;
-					canMoveRight = false;
+					rightContacts.push(other);
 				}
 				if (playerCollider == "top") {
 					if (otherName == "enemy") upEntity = other;
-					canMoveUp = false;
+					upContacts.push(other);
 				}
 				if (playerCollider == "bottom") {
 					if (otherName == "enemy") downEntity = other;
-					canMoveDown = false;
+					downContacts.push(other);
 				}
 			}
 		}
@@ -191,19 +192,19 @@ void PhysicsTest::receive(const EndCollision& event)
 				//Depending on the player collider, unset the directional entity and move flag.
 				if (playerCollider == "left") {
 					if (otherName == "enemy") leftEntity = nullptr;
-					canMoveLeft = true;
+					if(leftContacts.size() > 0) leftContacts.pop();
 				}
 				else if (playerCollider == "right") {
 					if (otherName == "enemy") rightEntity = nullptr;
-					canMoveRight = true;
+					if (rightContacts.size() > 0) rightContacts.pop();
 				}
 				else if (playerCollider == "top") {
 					if (otherName == "enemy") upEntity = nullptr;
-					canMoveUp = true;
+					if (upContacts.size() > 0) upContacts.pop();
 				}
 				else if (playerCollider == "bottom") {
 					if (otherName == "enemy") downEntity = nullptr;
-					canMoveDown = true;
+					if (downContacts.size() > 0) downContacts.pop();
 				}
 			}
 		}
@@ -212,6 +213,7 @@ void PhysicsTest::receive(const EndCollision& event)
 
 //Receive function just sets boolean flags to be picked up by update loop
 void PhysicsTest::receive(const MoveInput& event) {
+	cout << "Movement received" << endl;
 	MoveInput::InpDir dir = event.dir;
 	switch (dir) {
 	case MoveInput::UP:
