@@ -2,161 +2,190 @@
 
 void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
-	
-	if (gameState != RUNNING) return;
-	if (enemyTurn)
+	if (gameState != RUNNING) return; //Make sure game is running before applying update.
+	if (enemyTurn) //Check if enemy turn is active, based on TurnEvents
 	{
-		ComponentHandle<GameObject> gameObject;
-		for (Entity entity : es.entities_with_components(gameObject))
+		ComponentHandle<GameObject> gameObject; //Game object component handle
+		for (Entity entity : es.entities_with_components(gameObject)) //Iterate over game objects
 		{
-			ComponentHandle<GameObject> object = entity.component<GameObject>();
-			if (object && object->name == "enemy")
+			ComponentHandle<GameObject> object = entity.component<GameObject>(); //Get the component
+			if (object && object->name == "enemy") //If we've found an enemy...
 			{
+				//Get the rigidbody, transform, and commands from the entity components.
 				ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
 				ComponentHandle<Transform> transform = entity.component<Transform>();
 				ComponentHandle<CommandFlags> commands = entity.component<CommandFlags>();
-
-				if (commands->playerEntity)
+				//cout << "enemy start" << endl;
+				if (commands->isMoving && !rigidbody->moveBody)
 				{
-					cout << "ENEMY SYSTEM: attack here" << endl;
-				}
-				else
-				{
-				
-
-					int direction = rand() % 4;
-					glm::vec2 position = rigidbody->GetPosition();
-					switch(direction)
-					{
-						case 0:
-							if (commands->leftContacts.size() == 0)
-							{
-								cout << "ENEMY SYSTEM: moving left" << endl;
-								rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
-								transform->rotation = glm::vec4(0, 1, 0, 20.5f);
-								break;
-							}
-						case 1:
-							if (commands->upContacts.size() == 0)
-							{
-								cout << "ENEMY SYSTEM: moving up" << endl;
-								rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
-								transform->rotation = glm::vec4(0, 1, 0, 0);
-								break;
-							}
-						case 2:
-							if (commands->rightContacts.size() == 0)
-							{
-								cout << "ENEMY SYSTEM: moving right" << endl;
-								rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
-								transform->rotation = glm::vec4(0, -1, 0, 20.5f);
-								break;
-							}
-						case 3:
-							if (commands->downContacts.size() == 0)
-							{
-								cout << "ENEMY SYSTEM: moving down" << endl;
-								rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
-								transform->rotation = glm::vec4(0, 1, 0, 9.5f);
-								break;
-							}
-					}
-				}
-
-				// === THIS Block checks the enemy's current state, and sets according flags.
-
-				// If the enemy moves on this turn, perform the action in the saved direction.
-				/*
-				if (commands->playerEntity)
-				{
-					cout << endl << "should attack" << endl << endl;
-				}
-				else if (currentTurnCounter % 2 == 0)
-				{
-					switch (commands->nextMoveDir)
-					{
-					case 1:
-						commands->nextMoveDir = -1;
-						if (commands->leftContacts.size() == 0) {
-							commands->left = true;
-							commands->destination = "enemy_left";
-						}
-						
-						break;
-					case 2:
-						commands->nextMoveDir = -1;
-						if (commands->rightContacts.size() == 0) {
-							commands->right = true;
-							commands->destination = "enemy_right";
-						}
-						
-						break;
-					case 3:
-						commands->nextMoveDir = -1;
-						if (commands->upContacts.size() == 0) {
-							commands->up = true;
-							commands->destination = "enemy_up";
-						}
-						
-						break;
-					case 4:
-						commands->nextMoveDir = -1;
-						if (commands->downContacts.size() == 0) {
-							commands->down = true;
-							commands->destination = "enemy_bottom";
-						}
-						
-						break;
-
-					default:
-						cout << "Random number generator failed - received " << randy << endl;
-					}
-				}
-
-				// If the enemy doesn't move on this turn, instead signal it's intended direction.
-				else
-				{
-					// 1. Determine available moves.
-
-
-					randy = (rand() % 4) + 1;
-					commands->nextMoveDir = randy;
-				}
-
-				// === 
-
-
-				// ===  This block acts on the required flag.
-				
-				//First get current position
-				glm::vec2 position = rigidbody->GetPosition();
-				//For each direction, check if the movement flag is set and if you can move in that direction
-				//First reset move flags before moving so future collisions update them correctly.
-				//Then move the Rigidbody which will update the Transform as well
-				//Velocity probably needs to be better scaled in-engine
-				//Spaces between centers of tiles is 2.
-				if (commands->left )
-				{
-					rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), 0.5);
-					transform->rotation = glm::vec4(0, 1, 0, 20.5f);
-				}
-				if (commands->right )
-				{
-					rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), 0.5);
-					transform->rotation = glm::vec4(0, -1, 0, 20.5f);
-				}
-				if (commands->up )
-				{
-					rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), 0.5);
-					transform->rotation = glm::vec4(0, 1, 0, 0);
-				}
-				if (commands->down )
-				{
-					rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), 0.5);
-					transform->rotation = glm::vec4(0, 1, 0, 9.5f);
+					commands->isMoving = false;
+					movingEnemies--;
 					
 				}
-				*/
+
+				//If the playerEntity is set, then it's time to attack.
+				if (commands->playerEntity)
+				{
+					if (commands->attackLeft) //Player to the left.
+					{
+						//If we're facing the enemy, attack.
+						if (transform->rotation.y == 1 && transform->rotation.w == 20.5)
+							cout << "ENEMY SYSTEM: attacking left enemy" << endl;
+						//If not, rotate towards them
+						else
+							transform->rotation = glm::vec4(0, 1, 0, 20.5f);
+					}
+					else if (commands->attackUp) //Player above.
+					{
+						//If we're facing the enemy, attack.
+						if (transform->rotation.y == 1 && transform->rotation.w == 0)
+							cout << "ENEMY SYSTEM: attacking up enemy" << endl;
+						//If not, rotate towards them
+						else
+							transform->rotation = glm::vec4(0, 1, 0, 0);
+					}
+					else if (commands->attackRight) //Player to the right.
+					{
+						//If we're facing the enemy, attack.
+						if (transform->rotation.y == -1 && transform->rotation.w == 20.5)
+							cout << "ENEMY SYSTEM: attacking right enemy" << endl;
+						//If not, rotate towards them
+						else
+							transform->rotation = glm::vec4(0, -1, 0, 20.5f);
+					}
+					else if (commands->attackDown) //Player below.
+					{
+						//If we're facing the enemy, attack.
+						if (transform->rotation.y == 1 && transform->rotation.w == 9.5)
+							cout << "ENEMY SYSTEM: attacking down enemy" << endl;
+						//If not, rotate towards them
+						else
+							transform->rotation = glm::vec4(0, 1, 0, 9.5f);
+					}
+				}
+				else if(!commands->isMoving && !commands->moveComplete)
+				{
+					
+					vector<CommandFlags::EnemyCommand> possibleMoves;
+					if (!rigidbody->IsCollidingWithBody("enemy_left")) {
+						possibleMoves.push_back(CommandFlags::MOVE_LEFT);
+						cout << "do a move left" << endl;
+					}
+					else if (commands->nextCommand == CommandFlags::MOVE_LEFT)
+					{
+						commands->nextCommand = CommandFlags::WAITING;
+					}
+
+					if (!rigidbody->IsCollidingWithBody("enemy_top"))
+					{
+						possibleMoves.push_back(CommandFlags::MOVE_UP);
+						cout << "do a move up" << endl;
+					}
+					else if (commands->nextCommand == CommandFlags::MOVE_UP)
+					{
+						commands->nextCommand = CommandFlags::WAITING;
+					}
+					
+					if (!rigidbody->IsCollidingWithBody("enemy_right"))
+					{ 
+						possibleMoves.push_back(CommandFlags::MOVE_RIGHT);
+						cout << "do a move right" << endl;
+					}
+					else if (commands->nextCommand == CommandFlags::MOVE_RIGHT)
+					{
+						commands->nextCommand = CommandFlags::WAITING;
+					}
+
+					if (!rigidbody->IsCollidingWithBody("enemy_bottom")) 
+					{ 
+						possibleMoves.push_back(CommandFlags::MOVE_DOWN);
+						cout << "do a move down" << endl;
+					}
+					else if (commands->nextCommand == CommandFlags::MOVE_DOWN)
+					{
+						commands->nextCommand = CommandFlags::WAITING;
+					}
+
+
+					glm::vec2 position = rigidbody->GetPosition();
+					CommandFlags::EnemyCommand nextMove = commands->nextCommand;
+					if (nextMove == CommandFlags::WAITING)
+					{
+						nextMove = possibleMoves[rand() % possibleMoves.size()];
+						commands->nextCommand = nextMove;
+					}
+					switch (nextMove)
+					{
+					case CommandFlags::MOVE_LEFT:
+						if (transform->rotation.y == 1 && transform->rotation.w == 20.5)
+						{
+							rigidbody->MoveToPosition(glm::vec2(position.x - 2, position.y), enemySpeed);
+							commands->nextCommand = CommandFlags::EnemyCommand::WAITING;
+							commands->isMoving = true;
+							events.emit<EnemyMoveStart>();
+							movingEnemies++;
+							commands->moveComplete = true;
+
+						}
+						else
+						{
+							transform->rotation = glm::vec4(0, 1, 0, 20.5f);
+							commands->moveComplete = true;
+						}
+						break;
+					case CommandFlags::MOVE_UP:
+						if (transform->rotation.y == 1 && transform->rotation.w == 0)
+						{
+							rigidbody->MoveToPosition(glm::vec2(position.x, position.y - 2), enemySpeed);
+							commands->nextCommand = CommandFlags::EnemyCommand::WAITING;
+							commands->isMoving = true;
+							events.emit<EnemyMoveStart>();
+							movingEnemies++;
+							commands->moveComplete = true;
+						}
+						else
+						{
+							transform->rotation = glm::vec4(0, 1, 0, 0);
+							commands->moveComplete = true;
+						}
+						break;
+					case CommandFlags::MOVE_RIGHT:
+						if (transform->rotation.y == -1 && transform->rotation.w == 20.5)
+						{
+							rigidbody->MoveToPosition(glm::vec2(position.x + 2, position.y), enemySpeed);
+							commands->nextCommand = CommandFlags::EnemyCommand::WAITING;
+							commands->isMoving = true;
+							events.emit<EnemyMoveStart>();
+							movingEnemies++;
+							commands->moveComplete = true;
+							commands->moveComplete = true;
+
+						}
+						else
+						{
+							transform->rotation = glm::vec4(0, -1, 0, 20.5f);
+						}
+						break;
+					case CommandFlags::MOVE_DOWN:
+						if (transform->rotation.y == 1 && transform->rotation.w == 9.5)
+						{
+							rigidbody->MoveToPosition(glm::vec2(position.x, position.y + 2), enemySpeed);
+							commands->nextCommand = CommandFlags::EnemyCommand::WAITING;
+							commands->isMoving = true;
+							events.emit<EnemyMoveStart>();
+							movingEnemies++;
+							commands->moveComplete = true;
+
+						}
+						else
+						{
+							transform->rotation = glm::vec4(0, 1, 0, 9.5f);
+							commands->moveComplete = true;
+						}
+						break;
+					}
+
+				}
 
 
 				// Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
@@ -165,28 +194,39 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				commands->down = false;
 				commands->left = false;
 
-				commands->attackRight = false;
-				commands->attackUp = false;
-				commands->attackDown = false;
-				commands->attackLeft = false;
 
 			}
 		}
-
-		enemyTurn = false;
+		if (movingEnemies == 0)
+		{
+			ComponentHandle<GameObject> gameObject; //Game object component handle
+			for (Entity entity : es.entities_with_components(gameObject)) //Iterate over game objects
+			{
+				ComponentHandle<GameObject> object = entity.component<GameObject>(); //Get the component
+				if (object && object->name == "enemy") //If we've found an enemy...
+				{
+					ComponentHandle<CommandFlags> commands = entity.component<CommandFlags>();
+					commands->moveComplete = false;
+				}
+			}
+			cout << "end enemy turn" << endl;
+			enemyTurn = false; //Reset enemy turn flag.
+			events.emit<EnemyTurnEnd>();
+		}
+		
 	}
-	
 }
 
 void EnemySystem::configure(EventManager& em) {
-	
+
 	em.subscribe<Collision>(*this);
 	em.subscribe<EndCollision>(*this);
-	em.subscribe<EnemyDebugInput>(*this);
+	em.subscribe<PlayerTurnEnd>(*this);
+
 }
 
 //Receive function just sets boolean flags to be picked up by update loop
-void EnemySystem::receive(const EnemyDebugInput& event) {
+void EnemySystem::receive(const PlayerTurnEnd& event) {
 	enemyTurn = true;
 }
 
@@ -218,31 +258,27 @@ void EnemySystem::receive(const Collision& event)
 
 
 			//If we hit a player, wall, or enemy and their body collider with our sensor...
-			if ((otherName == "wall" || otherName == "player" || otherName == "enemy") 
+			if ((otherName == "wall" || otherName == "player" || otherName == "enemy")
 				&& (otherType == "body" || otherType == "enemy_body")
 				&& enemyCollider != "enemy_body")
 			{
 				//Set movement flags
 				if (enemyCollider == "enemy_left")
 				{
-					cout << "ENEMY SYSTEM: cannot move left" << endl;
 					flags->canMoveLeft = false;
 					flags->leftContacts.push(other);
 				}
 				if (enemyCollider == "enemy_right")
 				{
-					cout << "ENEMY SYSTEM: cannot move right" << endl;
 					flags->canMoveRight = false;
 					flags->rightContacts.push(other);
 				}
 				if (enemyCollider == "enemy_top")
 				{
-					cout << "ENEMY SYSTEM: cannot move up" << endl;
 					flags->canMoveUp = false;
 					flags->upContacts.push(other);
 				}
 				if (enemyCollider == "enemy_bottom") {
-					cout << "ENEMY SYSTEM: cannot move down" << endl;
 					flags->canMoveDown = false;
 					flags->downContacts.push(other);
 				}
@@ -250,10 +286,10 @@ void EnemySystem::receive(const Collision& event)
 			if (otherName == "player" && otherType == "body" && enemyCollider != "body")
 			{
 				flags->playerEntity = other;
-				if (otherType == "left") flags->attackLeft = true;
-				else if (otherType == "right") flags->attackRight = true;
-				else if (otherType == "top") flags->attackUp = true;
-				else if (otherType == "bottom") flags->attackDown = true;
+				if (enemyCollider == "enemy_left") { flags->attackLeft = true; }
+				else if (enemyCollider == "enemy_right") { flags->attackRight = true; }
+				else if (enemyCollider == "enemy_top") { flags->attackUp = true; }
+				else if (enemyCollider == "enemy_bottom") { flags->attackDown = true; }
 			}
 		}
 	}
@@ -283,14 +319,24 @@ void EnemySystem::receive(const EndCollision& event)
 			if (otherType == "body" || otherType == "enemy_body")
 			{
 				//Unset the directional data if one of our sensors ended the collision
-				if (enemyCollider == "enemy_left" && flags->leftContacts.size() > 0) { flags->leftContacts.pop(); cout << "ENEMY SYSTEM: can move left" << endl; }
-				else if (enemyCollider == "enemy_right" && flags->rightContacts.size() > 0) { flags->rightContacts.pop(); cout << "ENEMY SYSTEM: can move right" << endl;
+				if (enemyCollider == "enemy_left" && flags->leftContacts.size() > 0) { flags->leftContacts.pop(); }
+				else if (enemyCollider == "enemy_right" && flags->rightContacts.size() > 0) {
+					flags->rightContacts.pop(); 
 				}
-				else if (enemyCollider == "enemy_top" && flags->upContacts.size() > 0) { flags->upContacts.pop(); cout << "ENEMY SYSTEM: can move up" << endl;
+				else if (enemyCollider == "enemy_top" && flags->upContacts.size() > 0) {
+					flags->upContacts.pop(); 
 				}
-				else if (enemyCollider == "enemy_bottom" && flags->downContacts.size() > 0) { flags->downContacts.pop(); cout << "ENEMY SYSTEM: can move down" << endl;
+				else if (enemyCollider == "enemy_bottom" && flags->downContacts.size() > 0) {
+					flags->downContacts.pop(); 
 				}
-				if (otherName == "player") flags->playerEntity = nullptr;
+				if (otherName == "player")
+				{
+					flags->playerEntity = nullptr;
+					flags->attackDown = false;
+					flags->attackUp = false;
+					flags->attackRight = false;
+					flags->attackLeft = false;
+				}
 			}
 		}
 	}

@@ -7,8 +7,9 @@
     <key id="W">wall</key>
 		<layout>
 			<row>_WWWW_</row>
+			<row>W-TT-W</row>
 			<row>W--EEW</row>
-			<row>WP---W</row>
+			<row>WP-T-W</row>
 			<row>_WWWW_</row>
 		</layout>
 	</level>
@@ -50,7 +51,7 @@
 			</transform>
 			<rigidbody type="wall">
 				<colliders>
-          <collider shape="box" sensor="true" size="1" name="body">0.0, 0.0</collider>
+          <collider shape="box" sensor="false" size="1" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
 		</gameobject>

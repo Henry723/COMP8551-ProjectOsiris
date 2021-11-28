@@ -7,17 +7,7 @@ const int NUM_POS_ITERATIONS = 3; //Position iterations
 stack<Collision> collisions; //Track collisions from the listener
 stack<EndCollision> endCollisions; //Track collisions from the listener
 
-//Struct for b2Body user data
-struct CollisionData
-{
-    Entity e; //Parent entity of the body
-};
 
-//Struct for b2Fixture user data
-struct FixtureData
-{
-    string name; //Name given to the collider, used for sensors
-};
 
 class CollisionListener : public b2ContactListener
 {

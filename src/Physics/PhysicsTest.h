@@ -16,19 +16,13 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	void receive(const EndCollision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
 	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
-	void ResetMoveFlags(); //Convenience function for reset collision flags
-	void ResetCollisionEntities(); //Convenience function for resetting detected entities
+	void receive(const EnemyTurnEnd& event); // Toggles attack bools to be picked up by update
 
 	//Movement input flags
 	bool left = false;
 	bool right = false;
 	bool up = false;
 	bool down = false;
-	//Collision flags for available movement
-	bool canMoveLeft = true;
-	bool canMoveRight = true;
-	bool canMoveUp = true;
-	bool canMoveDown = true;
 	//Attack input flags
 	bool attackLeft = true;
 	bool attackRight = true;
@@ -40,9 +34,9 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	Entity* upEntity = nullptr;
 	Entity* downEntity = nullptr;
 	bool isMoving = false;
+	bool playerTurn = true;
 
-	stack<Entity*> upContacts;
-	stack<Entity*> leftContacts;
-	stack<Entity*> downContacts;
-	stack<Entity*> rightContacts;
+	float timeInterval = 40.2f;
+	float timeUntilNextOrder = 40.2f;
+	float playerSpeed = 0.5;
 };

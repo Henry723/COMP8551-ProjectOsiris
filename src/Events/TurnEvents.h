@@ -38,7 +38,16 @@ public:
 	//void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
 	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
+	void receive(const PlayerMoveFinish& event); // Toggles attack bools to be picked up by update
+	void receive(const PlayerMoveStart& event); // Toggles attack bools to be picked up by update
+	void receive(const EnemyMoveStart& event); // Toggles attack bools to be picked up by update
+	void receive(const EnemyMoveEnd& event); // Toggles attack bools to be picked up by update
+
+	void receive(const PlayerTurnEnd& event); // Toggles attack bools to be picked up by update
 	void action_event(GLFWwindow* window);
+
+	bool playerActing = false;
+	bool enemyActing = false;
 	
 
 };

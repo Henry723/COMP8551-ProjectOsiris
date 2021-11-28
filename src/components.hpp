@@ -42,6 +42,26 @@ struct Collider
 	Collider(Shape _shape, glm::vec2 _pos, bool sensor, int _size, string _type) : shape(_shape), position(_pos), isSensor(sensor), size(_size), type(_type) {};
 };
 
+//Struct for b2Body user data
+struct CollisionData
+{
+	Entity e; //Parent entity of the body
+};
+
+//Struct for b2Fixture user data
+struct FixtureData
+{
+	string name; //Name given to the collider, used for sensors
+};
+
+//Simple GameObject struct for tracking generic info, only includes name for now.
+struct GameObject
+{
+	string name;
+	GameObject(string _name) : name(_name) {}
+};
+
+
 //Rigidbody to handle movement and collision of bodies.
 struct Rigidbody
 {
@@ -100,6 +120,63 @@ struct Rigidbody
 		}
 	}
 
+	bool IsColliding(string fixtureName)
+	{
+		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
+		{
+			b2Fixture* fixA = edge->contact->GetFixtureA();
+			b2Fixture* fixB = edge->contact->GetFixtureB();
+
+			FixtureData* dataA = (FixtureData * )fixA->GetUserData().pointer;
+			FixtureData* dataB = (FixtureData*)fixB->GetUserData().pointer;
+
+			if (dataA->name == fixtureName && fixA->GetBody() == body) return true;
+			if (dataB->name == fixtureName && fixB->GetBody() == body) return true;
+		}
+		return false;
+	}
+
+	bool IsCollidingWithBody(string fixtureName)
+	{
+		vector<b2Fixture*> collisions;
+		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
+		{
+			b2Fixture* fixA = edge->contact->GetFixtureA();
+			b2Fixture* fixB = edge->contact->GetFixtureB();
+
+			FixtureData* dataA = (FixtureData*)fixA->GetUserData().pointer;
+			FixtureData* dataB = (FixtureData*)fixB->GetUserData().pointer;
+			
+			if (dataA->name == fixtureName && fixA->GetBody() == body) collisions.push_back(fixB);
+			if (dataB->name == fixtureName && fixB->GetBody() == body) collisions.push_back(fixA);
+		}
+		for (b2Fixture* fixture : collisions) if (!fixture->IsSensor()) return true;
+		return false;
+	}
+
+	bool IsCollidingWithSensor(string fixtureName)
+	{
+		vector<b2Fixture*> collisions;
+		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
+		{
+			b2Fixture* fixA = edge->contact->GetFixtureA();
+			b2Fixture* fixB = edge->contact->GetFixtureB();
+
+			FixtureData* dataA = (FixtureData*)fixA->GetUserData().pointer;
+			FixtureData* dataB = (FixtureData*)fixB->GetUserData().pointer;
+
+			if (dataA->name == fixtureName && fixA->GetBody() == body) collisions.push_back(fixB);
+			if (dataB->name == fixtureName && fixB->GetBody() == body) collisions.push_back(fixA);
+		}
+		for (b2Fixture* fixture : collisions) if (fixture->IsSensor()) return true;
+		return false;
+	}
+
+	vector<Collider> GetColliders()
+	{
+		return colliders;
+	}
+
 	//Set a body's deletion status to true
 	void DeleteBody()
 	{
@@ -118,6 +195,8 @@ struct Rigidbody
 	//Basic constructor
 	Rigidbody(vector<Collider> _colliders, ColliderType _ct, glm::vec2 _pos) : colliders(_colliders), type(_ct), position(_pos), dest(_pos) {}
 };
+
+
 
 //Collision struct to be created for collision events
 struct Collision
@@ -151,8 +230,26 @@ struct EndCollision
 	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
 };
 
+struct PlayerMoveStart {};
+struct PlayerMoveFinish {};
+struct PlayerTurnEnd {};
+struct PlayerTurnStart {};
+struct EnemyTurnStart {};
+struct EnemyTurnEnd {};
+struct EnemyMoveStart {};
+struct EnemyMoveEnd {};
+struct TimerEnd {};
+
 struct CommandFlags
 {
+	enum EnemyCommand {
+		MOVE_UP,
+		MOVE_DOWN,
+		MOVE_LEFT,
+		MOVE_RIGHT,
+		WAITING
+	};
+
 	int nextMoveDir = -1;
 	int moveTurn = 0;
 	bool move_on_evens() { return moveTurn % 2 == 0; }
@@ -163,11 +260,16 @@ struct CommandFlags
 	bool left = false;
 	bool right = false;
 
+	bool isMoving = false;
+	bool moveComplete = false;
+
+	EnemyCommand nextCommand = WAITING;
+
 	//Attack input flags
-	bool attackLeft = true;
-	bool attackRight = true;
-	bool attackUp = true;
-	bool attackDown = true;
+	bool attackLeft = false;
+	bool attackRight = false;
+	bool attackUp = false;
+	bool attackDown = false;
 
 	//Collision flags for available movement.
 	//		These will only be false if obstacles are detected.
@@ -197,44 +299,6 @@ struct CommandFlags
 		/* generate random number between 1 and 2: */
 		moveTurn = (rand() % 2) + 1;
 	}
-
 };
 
-struct Timer {
-	float timeElapsed;
-};
-
-struct TurnOrder {
-	
-	float timeInterval;
-	float timeUntilNextOrder;
-
-	void subtract_time(TimeDelta dt)
-	{
-		timeUntilNextOrder -= dt;
-	}
-
-	bool time_out()
-	{
-		return (timeUntilNextOrder <= 0);
-	}
-
-	void reset_interval()
-	{
-		timeUntilNextOrder = timeInterval;
-	}
-
-	TurnOrder(float interval)
-	{
-		timeInterval = interval;
-		reset_interval();
-	}
-};
-
-//Simple GameObject struct for tracking generic info, only includes name for now.
-struct GameObject
-{
-	string name;
-	GameObject(string _name) : name(_name) {}
-};
 
