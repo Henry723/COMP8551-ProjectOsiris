@@ -12,6 +12,12 @@ void ScoreTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 		events.emit<ScoreUpdate>(2);
 		killedEnemy = false;
 	}
+	if (capturedKey)
+	{
+		events.emit<KeyCaptureUpdate>(true);
+		isKeyCaptured = true;
+		capturedKey = false; // so we do not keep sending the message
+	}
 }
 
 void ScoreTest::configure(EventManager& em) {
@@ -25,6 +31,7 @@ void ScoreTest::receive(const EntityDestroyedEvent& events) {
 	ComponentHandle<GameObject> object = e.component<GameObject>();
 	if (object->name == "treasure") collectedTreasure = true;
 	if (object->name == "enemy") killedEnemy = true;
+	if (object->name == "key") capturedKey = true;
 }
 
 //Updating score event

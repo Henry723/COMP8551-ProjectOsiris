@@ -15,6 +15,8 @@ struct ScoreTest : public System<ScoreTest>, public Receiver<ScoreTest>, EntityX
 		static ScoreTest instance;
 		return instance;
 	}
+private:
+	bool isKeyCaptured = false;
 public:
 	static ScoreTest& getInstance()
 	{
@@ -30,4 +32,5 @@ public:
 	//Flags for score
 	bool collectedTreasure = false;
 	bool killedEnemy = false;
+	bool capturedKey = false;
 };

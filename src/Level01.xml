@@ -3,14 +3,16 @@
 	<level tilespacing="2" startX="-2" startY="-2">
 		<key id="P">player</key>
 		<key id="E">enemy</key>
-		<key id="T">treasure</key>
-    <key id="W">wall</key>
+        <key id="T">treasure</key>
+        <key id="K">key</key>
+        <key id="D">door</key>
+        <key id="W">wall</key>
 		<layout>
       <row>_WWWWWWW_</row>
-      <row>W---E--TW</row>
+      <row>WK--E--TW</row>
       <row>WTEW-E-W_</row>
       <row>_WWW---W_</row>
-      <row>W--E-W--W</row>
+      <row>WD-E-W--W</row>
       <row>WT----E-W</row>
       <row>W--WE--W_</row>
       <row>WP-WT-W__</row>
@@ -39,7 +41,7 @@
 					<collider shape="circle" sensor="true" size="0.5" name="top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+			<health amount="3"></health>
 		</gameobject>
 		<!--WALL ENTITY DATA-->
 		<gameobject name="wall">
@@ -56,7 +58,7 @@
 			</transform>
 			<rigidbody type="wall">
 				<colliders>
-          <collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
 		</gameobject>
@@ -85,7 +87,7 @@
 					<collider shape="circle" sensor="true" size="0.5" name="enemy_top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+            <health amount="3"></health>
 		</gameobject>
 		<!--TREASURE ENTITY DATA-->
 		<gameobject name="treasure">
@@ -101,6 +103,44 @@
 				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
 			</transform>
 			<rigidbody type="treasure">
+				<colliders>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--KEY ENTITY DATA-->
+		<gameobject name="key">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/key_totem.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_key_totem.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="key">
+				<colliders>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--KEY ENTITY DATA-->
+		<gameobject name="door">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/stone_door_closed_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_Door.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="door">
 				<colliders>
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>

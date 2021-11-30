@@ -155,7 +155,7 @@ void PhysicsTest::receive(const Collision& event)
 			string otherType = objectA->name == "player" ? event.fB : event.fA;
 			
 			//If we hit a treasure, destroy it.
-			if (otherName == "treasure" && playerCollider == "body") other->destroy();
+			if ((otherName == "treasure" || otherName == "key") && playerCollider == "body") other->destroy();
 			//If a sensor hit the body of a wall or enemy...
 			else if ((otherName == "wall" || otherName == "enemy") && (otherType == "body" || otherType == "enemy_body") && playerCollider != "body")
 			{
