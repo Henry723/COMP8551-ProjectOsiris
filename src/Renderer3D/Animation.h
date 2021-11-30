@@ -14,6 +14,6 @@ private:
 	string name;
 
 public:
-
+	Keyframe* getCurrentFrame();
 
 };

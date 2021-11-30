@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include <map>
 #include <string>
+#include "Keyframe.h"
 
 class Animator {
 
@@ -16,5 +17,6 @@ public:
 	void increaseAnimationTime(double timedelta);
 	void doAnimation(Animation animation);
 	void calculateCurrentAnimationFrame();
+	Keyframe getKeyFrame();
 
 };

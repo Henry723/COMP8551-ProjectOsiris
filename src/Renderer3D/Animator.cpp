@@ -20,9 +20,13 @@ void Animator::update(double timedelta) {
 
 void Animator::calculateCurrentAnimationFrame() {
 	//get current frame and next frame
-
+	
 	//compare time with next frame. If time is after next frame's timestamp, change animations current frame and tell the model3d to index the appropriate model.
 	
 
+	
+}
+
+Keyframe Animator::getNextFrame() {
 	
 }
