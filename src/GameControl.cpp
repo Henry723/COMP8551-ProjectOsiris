@@ -21,8 +21,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<UISystem>();
   systems.add<InputEventTester>();
   systems.add<AudioSystem>();
-  systems.add<ExampleEmitterSystem>();
-  systems.add<ExampleListenerSystem>();
+
   systems.configure();
 
   //Testing Scene Manager
@@ -68,7 +67,6 @@ void GameControl::Update(TimeDelta dt)
   systems.update<PhysicsEngine>(dt);
   systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);
-  systems.update<ExampleEmitterSystem>(dt);
   systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
   systems.update<RenderSystem>(dt);
