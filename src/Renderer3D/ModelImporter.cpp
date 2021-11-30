@@ -1,47 +1,74 @@
 #include "ModelImporter.h"
 #define TEST_MODELIMPORTER      false
 
-struct ModelData {
-    vector<float>& attribArray;
-    vector<unsigned int>& indexArray;
-};
-
-// static Dictionary modelCollection = new Dictionary<const char*, ModelData&> ();
-
 void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
-	Assimp::Importer import;
-	const aiScene *scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+    if (model_loaded(modelSource))
     {
-        cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
-        return;
+        cout << modelSource << " has already been loaded. Returning mapped values..." << endl;
+        //LoadedModelData& modelData = models[modelSource];
+
+        attribArray = models[modelSource]->attribs;
+        indexArray = models[modelSource]->indices;
+
+    }
+    else
+    {
+
+        Assimp::Importer import;
+        const aiScene* scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        {
+            cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
+            return;
+        }
+
+        // This is a new collection of attributes and indices.
+        vector<float>& loadedAttribs = vector<float>();
+        vector<unsigned int>& loadedIndices = vector<unsigned int>();
+
+        cout << modelSource << " not found in MAP. loading..." << endl;
+
+        // Load the attribs and indices, storing them in the newly created collections
+#if TEST_MODEL3D
+        cout << "In ModelImporter: Assigning " << modelSource << endl;
+        cout << "Attributes assigned to vector ID #0x" << &attribArray << endl;
+        cout << "Indices assigned to vector ID #0x" << &indexArray << endl;
+
+        // Attribute loading / assigning
+        cout << "=====================================" << endl;
+        cout << "In Importer: BEFORE attrib load: " << attribArray.size() << endl;
+#endif
+        processNodeAttributes(scene->mRootNode, scene, loadedAttribs);
+#if TEST_MODEL3D
+        cout << "In Importer: AFTER load complete: " << attribArray.size() << endl;
+
+        // Index loading / assigning
+        cout << "In Importer: BEFORE index load: " << indexArray.size() << endl;
+#endif
+        processNodeIndices(scene->mRootNode, scene, loadedIndices);
+#if TEST_MODEL3D
+        cout << "In Importer: AFTER load complete: " << indexArray.size() << endl;
+        cout << "=====================================" << endl;
+#endif
+
+        // Create a new struct to store the model data and insert it into the map.
+        LoadedModelData* modelData = new LoadedModelData(loadedAttribs, loadedIndices);
+
+        // Assign the newly loaded values to the target reference.
+        models.insert(pair<const char*, LoadedModelData*>(modelSource, modelData));
+
+        attribArray = modelData->attribs; // loadedAttribs;
+        indexArray = modelData->indices;  // loadedIndices;
+
     }
 
-#if TEST_MODEL3D
-    cout << "In ModelImporter: Assigning " << modelSource << endl;
-    cout << "Attributes assigned to vector ID #0x" << &attribArray << endl;
-    cout << "Indices assigned to vector ID #0x" << &indexArray << endl;
+}
 
-    // Attribute loading / assigning
-    cout << "=====================================" << endl;
-    cout << "In Importer: BEFORE attrib load: " << attribArray.size() << endl;
-#endif
-    processNodeAttributes(scene->mRootNode, scene, attribArray);
-
-#if TEST_MODEL3D
-    cout << "In Importer: AFTER load complete: " << attribArray.size() << endl;
-
-    // Index loading / assigning
-    cout << "In Importer: BEFORE index load: " << indexArray.size() << endl;
-#endif
-    processNodeIndices(scene->mRootNode, scene, indexArray);
-
-#if TEST_MODEL3D
-    cout << "In Importer: AFTER load complete: " << indexArray.size() << endl;
-    cout << "=====================================" << endl;
-#endif
-
+bool ModelImporter::model_loaded(const char* modelSource)
+{
+    return models.count(modelSource); // will be 1 if in the map
 }
 
 void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene, vector<float>& attribArray)
@@ -53,7 +80,7 @@ void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene, ve
         // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         //meshes.push_back(processMesh(mesh, scene));
-        
+
         // Here we try to grab all data from all the mesh
         processMeshAttributes(mesh, scene, attribArray);
     }
@@ -111,11 +138,11 @@ void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, ve
             normals.x = mesh->mNormals[i].x;
             normals.y = mesh->mNormals[i].y;
             normals.z = mesh->mNormals[i].z;
-            
+
             attributes.push_back(normals.x);
             attributes.push_back(normals.y);
             attributes.push_back(normals.z);
-            
+
         }
 
         // texture coordinates
@@ -126,10 +153,10 @@ void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, ve
             // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
             texCoordinates.x = mesh->mTextureCoords[0][i].x;
             texCoordinates.y = mesh->mTextureCoords[0][i].y;
-            
+
             attributes.push_back(texCoordinates.x);
             attributes.push_back(texCoordinates.y);
-            
+
             //// tangent
             //vector.x = mesh->mTangents[i].x;
             //vector.y = mesh->mTangents[i].y;
@@ -141,7 +168,7 @@ void ModelImporter::processMeshAttributes(aiMesh* mesh, const aiScene* scene, ve
             //vector.z = mesh->mBitangents[i].z;
             //vertex.Bitangent = vector;
         }
-        else 
+        else
         {
             glm::vec2 texCoordinates;
             texCoordinates = glm::vec2(0.0f, 0.0f);
@@ -161,4 +188,13 @@ void ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene, vecto
         for (unsigned int j = 0; j < face.mNumIndices; j++)
             indexArray.push_back(face.mIndices[j]);
     }
+}
+
+ModelImporter::ModelImporter() {
+
+}
+
+ModelImporter::~ModelImporter()
+{
+    // TODO Iterate through map and deallocate pointers
 }

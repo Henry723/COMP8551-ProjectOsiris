@@ -3,18 +3,19 @@
 
 // Member functions definitions including constructor
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	
+
 #if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
 	cout << endl << "Model3D is being created." << endl;
-	
+
 	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
 	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
 	cout << "=====================================" << endl;
 #endif
 
-	ModelImporter importer = ModelImporter();
-	importer.loadModel(modelSource, attributes, indices);
+	ModelImporter model_imp = ModelImporter();
+	model_imp.loadModel(modelSource, attributes, indices);
+	// MODEL_IMP.loadModel(modelSource, attributes, indices);
 
 	//cout << "In Model3D: AFTER index load: " << indices.size() << endl;
 	numIndices = indices.size();

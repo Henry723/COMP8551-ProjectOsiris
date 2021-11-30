@@ -21,6 +21,8 @@
 using namespace std;
 using std::copy;
 
+static ModelImporter MODEL_IMP;
+
 struct Vertex {
 	glm::vec3 Position;
 	glm::vec3 Normal;
@@ -39,7 +41,7 @@ private:
 	glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
-	
+
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
 	vector<Texture> textures;
@@ -62,4 +64,3 @@ public:
 	void resetModelMatrix();
 
 };
-
