@@ -91,12 +91,10 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 			}
 			else
 			{
-				cout << "end of player turn" << endl;
 				events.emit<PlayerTurnEnd>();
 			}
 		}
 	}
-
 }
 
 void PhysicsTest::configure(EventManager& em) {
@@ -182,39 +180,45 @@ void PhysicsTest::receive(const EndCollision& event)
 
 //Receive function just sets boolean flags to be picked up by update loop
 void PhysicsTest::receive(const MoveInput& event) {
-	MoveInput::InpDir dir = event.dir;
-	switch (dir) {
-	case MoveInput::UP:
-		up = true;
-		break;
-	case MoveInput::LEFT:
-		left = true;
-		break;
-	case MoveInput::DOWN:
-		down = true;
-		break;
-	case MoveInput::RIGHT:
-		right = true;
-		break;
+	if (playerTurn)
+	{
+		MoveInput::InpDir dir = event.dir;
+		switch (dir) {
+		case MoveInput::UP:
+			up = true;
+			break;
+		case MoveInput::LEFT:
+			left = true;
+			break;
+		case MoveInput::DOWN:
+			down = true;
+			break;
+		case MoveInput::RIGHT:
+			right = true;
+			break;
+		}
 	}
 }
 
 //Receive function just sets boolean flags to be picked up by update loop
 void PhysicsTest::receive(const AttackInput& event) {
-	AttackInput::InpDir dir = event.dir;
-	switch (dir) {
-	case AttackInput::UP:
-		attackUp = true;
-		break;
-	case AttackInput::LEFT:
-		attackLeft = true;
-		break;
-	case AttackInput::DOWN:
-		attackDown = true;
-		break;
-	case AttackInput::RIGHT:
-		attackRight = true;
-		break;
+	if (playerTurn)
+	{
+		AttackInput::InpDir dir = event.dir;
+		switch (dir) {
+		case AttackInput::UP:
+			attackUp = true;
+			break;
+		case AttackInput::LEFT:
+			attackLeft = true;
+			break;
+		case AttackInput::DOWN:
+			attackDown = true;
+			break;
+		case AttackInput::RIGHT:
+			attackRight = true;
+			break;
+		}
 	}
 }
 

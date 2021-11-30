@@ -1,5 +1,5 @@
 #pragma once
-#include "../Physics/PhysicsEngine.h"
+#include "../gamestate.h"
 #include "../Events/EventSystem.h"
 #include <entityx/Event.h>
 #include "../components.hpp"
@@ -13,13 +13,13 @@ using entityx::Receiver;
 struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, EntityX {
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
-	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
-	void receive(const EndCollision& event);
+	void CheckForPlayer(Rigidbody* rigidbody, CommandFlags* commands);
+	vector<CommandFlags::EnemyCommand> AvailableMoves(Rigidbody* rigidbody, CommandFlags* commands);
 	void receive(const PlayerTurnEnd& event);
 
 	bool enemyTurn = false;
+	bool enemiesFinished = false;
 	int currentTurnCounter = 0;
 	int movingEnemies = 0;
 	float enemySpeed = 0.5;
-
 };

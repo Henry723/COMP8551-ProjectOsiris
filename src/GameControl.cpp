@@ -54,9 +54,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-  //CCfgMgrApplication cfgManager = CCfgMgrApplication();
-  //cfgManager.loadConfig("./src/Game.xml", entities);
-
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
 }

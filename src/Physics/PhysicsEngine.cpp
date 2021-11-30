@@ -1,13 +1,10 @@
 #include "PhysicsEngine.h"
-#include <stdio.h>
 
 const float MAX_TIMESTEP = 1.0f / 60.0f; //Timestep for Box2D (60 FPS)
 const int NUM_VEL_ITERATIONS = 20; //Velocity iterations
 const int NUM_POS_ITERATIONS = 3; //Position iterations
 stack<Collision> collisions; //Track collisions from the listener
 stack<EndCollision> endCollisions; //Track collisions from the listener
-
-
 
 class CollisionListener : public b2ContactListener
 {

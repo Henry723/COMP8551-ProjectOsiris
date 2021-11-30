@@ -172,6 +172,56 @@ struct Rigidbody
 		return false;
 	}
 
+	vector<Entity> CollidingBodies(string fixtureName)
+	{
+		vector<Entity> collisions;
+		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
+		{
+			b2Fixture* fixA = edge->contact->GetFixtureA();
+			b2Fixture* fixB = edge->contact->GetFixtureB();
+
+			FixtureData* dataA = (FixtureData*)fixA->GetUserData().pointer;
+			FixtureData* dataB = (FixtureData*)fixB->GetUserData().pointer;
+
+			if (dataA->name == fixtureName && fixA->GetBody() == body && !fixB->IsSensor())
+			{
+				CollisionData* data = (CollisionData*)fixB->GetBody()->GetUserData().pointer;
+				collisions.push_back(data->e);
+			}
+			if (dataB->name == fixtureName && fixB->GetBody() == body && !fixA->IsSensor())
+			{
+				CollisionData* data = (CollisionData*)fixA->GetBody()->GetUserData().pointer;
+				collisions.push_back(data->e);
+			}
+		}
+		return collisions;
+	}
+
+	vector<Entity> CollidingSensors(string fixtureName)
+	{
+		vector<Entity> collisions;
+		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
+		{
+			b2Fixture* fixA = edge->contact->GetFixtureA();
+			b2Fixture* fixB = edge->contact->GetFixtureB();
+
+			FixtureData* dataA = (FixtureData*)fixA->GetUserData().pointer;
+			FixtureData* dataB = (FixtureData*)fixB->GetUserData().pointer;
+
+			if (dataA->name == fixtureName && fixA->GetBody() == body && fixB->IsSensor())
+			{
+				CollisionData* data = (CollisionData*)fixB->GetBody()->GetUserData().pointer;
+				collisions.push_back(data->e);
+			}
+			if (dataB->name == fixtureName && fixB->GetBody() == body && fixA->IsSensor())
+			{
+				CollisionData* data = (CollisionData*)fixA->GetBody()->GetUserData().pointer;
+				collisions.push_back(data->e);
+			}
+		}
+		return collisions;
+	}
+
 	vector<Collider> GetColliders()
 	{
 		return colliders;
@@ -198,48 +248,6 @@ struct Rigidbody
 
 
 
-//Collision struct to be created for collision events
-struct Collision
-{
-	Entity* a; //Left colliding element
-	Entity* b; //Right colliding element
-
-	string fA = ""; //Fixture name for left element
-	string fB = ""; //Fixture name for right element
-
-	//Regular collider, no fixture data
-	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
-
-	//Collider including fixture names
-	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
-};
-
-//Collision struct to be created for collision events
-struct EndCollision
-{
-	Entity* a; //Left colliding element
-	Entity* b; //Right colliding element
-
-	string fA = ""; //Fixture name for left element
-	string fB = ""; //Fixture name for right element
-
-	//Regular collider, no fixture data
-	EndCollision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
-
-	//Collider including fixture names
-	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
-};
-
-struct PlayerMoveStart {};
-struct PlayerMoveFinish {};
-struct PlayerTurnEnd {};
-struct PlayerTurnStart {};
-struct EnemyTurnStart {};
-struct EnemyTurnEnd {};
-struct EnemyMoveStart {};
-struct EnemyMoveEnd {};
-struct TimerEnd {};
-
 struct CommandFlags
 {
 	enum EnemyCommand {
@@ -251,14 +259,6 @@ struct CommandFlags
 	};
 
 	int nextMoveDir = -1;
-	int moveTurn = 0;
-	bool move_on_evens() { return moveTurn % 2 == 0; }
-
-	// Enemy Command input flags
-	bool up = false;
-	bool down = false;
-	bool left = false;
-	bool right = false;
 
 	bool isMoving = false;
 	bool moveComplete = false;
@@ -271,14 +271,7 @@ struct CommandFlags
 	bool attackUp = false;
 	bool attackDown = false;
 
-	//Collision flags for available movement.
-	//		These will only be false if obstacles are detected.
-	bool canMoveUp = true;
-	bool canMoveDown = true;
-	bool canMoveLeft = true;
-	bool canMoveRight = true;
-
-	string destination = "";
+	glm::vec2 destination = glm::vec2(500,500);
 
 	//Directional entities relative to body
 	Entity* leftEntity = nullptr;
@@ -287,18 +280,6 @@ struct CommandFlags
 	Entity* downEntity = nullptr;
 
 	Entity* playerEntity = nullptr;
-
-	stack<Entity*> leftContacts;
-	stack<Entity*> rightContacts;
-	stack<Entity*> upContacts;
-	stack<Entity*> downContacts;
-
-	CommandFlags()
-	{
-		srand(time(NULL));
-		/* generate random number between 1 and 2: */
-		moveTurn = (rand() % 2) + 1;
-	}
 };
 
 

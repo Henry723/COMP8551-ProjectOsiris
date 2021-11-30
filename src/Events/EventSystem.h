@@ -60,6 +60,43 @@ struct ControlInput {
 	Cmd cmd;
 };
 
+
+
+//Collision struct to be created for collision events
+struct Collision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+//Collision struct to be created for collision events
+struct EndCollision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	EndCollision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+struct PlayerTurnEnd {};
+struct EnemyTurnEnd {};
+
 //Custom event for keeping track of the score
 struct ScoreUpdate {
 	explicit ScoreUpdate(int score) : score(score) {}

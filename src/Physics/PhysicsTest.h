@@ -1,6 +1,6 @@
 #pragma once
-#include "PhysicsEngine.h"
 #include "../Events/EventSystem.h"
+#include "../gamestate.h"
 #include <entityx/Event.h>
 #include "../components.hpp"
 #include <stack>
@@ -36,7 +36,7 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	bool isMoving = false;
 	bool playerTurn = true;
 
-	float timeInterval = 40.2f;
-	float timeUntilNextOrder = 40.2f;
+	float timeInterval = 15.2f;
+	float timeUntilNextOrder = 15.2f;
 	float playerSpeed = 0.5;
 };

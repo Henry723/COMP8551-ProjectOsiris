@@ -6,11 +6,15 @@
 		<key id="T">treasure</key>
     <key id="W">wall</key>
 		<layout>
-			<row>_WWWW_</row>
-			<row>W-TT-W</row>
-			<row>W--EEW</row>
-			<row>WP-T-W</row>
-			<row>_WWWW_</row>
+			<row>_WWWWWWW_</row>
+			<row>W---E--TW</row>
+			<row>WTEW-E-W_</row>
+			<row>_WWW---W_</row>
+			<row>W--E-W--W</row>
+			<row>WT----E-W</row>
+			<row>W--WE--W_</row>
+			<row>WP-WT-W__</row>
+			<row>_WW_WW___</row>
 		</layout>
 	</level>
 		<!--PLAYER ENTITY DATA-->
