@@ -122,7 +122,10 @@
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
     <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Physics\ScoreTest.cpp" />
+    <ClCompile Include="src\Renderer3D\Animation.cpp" />
+    <ClCompile Include="src\Renderer3D\Animator.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
+    <ClCompile Include="src\Renderer3D\KeyFrame.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\ModelImporter.cpp" />
@@ -153,7 +156,10 @@
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
     <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Physics\ScoreTest.h" />
+    <ClInclude Include="src\Renderer3D\Animation.h" />
+    <ClInclude Include="src\Renderer3D\Animator.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
+    <ClInclude Include="src\Renderer3D\Keyframe.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\ModelImporter.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />

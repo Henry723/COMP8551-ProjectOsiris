@@ -146,12 +146,21 @@
     </ClCompile>
     <ClCompile Include="src\Events\TurnEvents.cpp">
       <Filter>Source Files\Events</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\ScoreTest.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Animation.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\KeyFrame.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Animator.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +229,7 @@
     </ClInclude>
     <ClInclude Include="src\Events\TurnEvents.h">
       <Filter>Header Files\Events</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
@@ -232,6 +241,24 @@
     </ClInclude>
     <ClInclude Include="src\gamestate.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Animation.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Keyframe.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Animator.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
