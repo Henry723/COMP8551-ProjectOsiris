@@ -48,6 +48,7 @@ AudioSystem::~AudioSystem() {
 
 void AudioSystem::update(EntityManager&, EventManager&, TimeDelta)
 {
+	UpdateFMOD();
 }
 
 void AudioSystem::InitFMOD() {
@@ -232,6 +233,28 @@ float  AudioSystem::dBToVolume(float dB)
 float  AudioSystem::VolumeTodB(float volume)
 {
 	return 20.0f * log10f(volume);
+}
+
+void AudioSystem::configure(EventManager& em)
+{
+	em.subscribe<AttackInput>(*this);
+	em.subscribe<MoveInput>(*this);
+}
+
+//Play Attack Audio when attack input is received
+void AudioSystem::receive(const AttackInput& event)
+{
+	//play sound loads sound in function
+	string atkSound = "./src/Audio/assets/bg_music.wav";
+	LoadSound(atkSound, NULL, true, NULL);
+	bgChannelID = PlaySound(atkSound, Vector3(), VolumeTodB(0.75));
+	SetChannelVolume(bgChannelID, VolumeTodB(0.0));
+}
+
+void AudioSystem::receive(const MoveInput& event) {
+	string atkSound = "./src/Audio/assets/bg_music.wav";
+	StopChannel(bgChannelID);
+	UnloadSound(atkSound);
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {

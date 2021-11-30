@@ -110,7 +110,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp" />
     <ClCompile Include="src\Audio\AudioSystem.cpp" />
-    <ClCompile Include="src\Audio\AudTest.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp" />
     <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />

@@ -152,7 +152,7 @@
     </ClCompile>
     <ClCompile Include="src\Events\TurnEvents.cpp">
       <Filter>Source Files\Events</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
@@ -160,9 +160,6 @@
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioSystem.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Audio\AudTest.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -232,7 +229,7 @@
     </ClInclude>
     <ClInclude Include="src\Events\TurnEvents.h">
       <Filter>Header Files\Events</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
@@ -247,6 +244,15 @@
     </ClInclude>
     <ClInclude Include="src\Audio\AudioSystem.h">
       <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
