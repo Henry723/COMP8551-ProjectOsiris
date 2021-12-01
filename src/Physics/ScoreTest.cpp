@@ -22,10 +22,11 @@ void ScoreTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 void ScoreTest::configure(EventManager& em) {
 	em.subscribe<EntityDestroyedEvent>(*this);
-	//em.subscribe<ScoreUpdate>(*this);
+	em.subscribe<EndCollision>(*this);
 }
 
-//When an entity is destroyed, base off of the entity name, it will trigger the flags
+// When an entity is destroyed, base off of the entity name, 
+// it will trigger the flags
 void ScoreTest::receive(const EntityDestroyedEvent& events) {
 	Entity e = events.entity;
 	ComponentHandle<GameObject> object = e.component<GameObject>();
@@ -34,12 +35,29 @@ void ScoreTest::receive(const EntityDestroyedEvent& events) {
 	if (object->name == "key") capturedKey = true;
 }
 
-//Updating score event
-//void ScoreTest::receive(const ScoreUpdate& event) {
-//	totalScore += event.score;
-//	cout << "Total score: " << totalScore << endl;
-//}
-//
-//int ScoreTest::getScore() {
-//	return totalScore;
-//}
+void ScoreTest::receive(const EndCollision& events)
+{
+	// Lets save some possible time...
+	// Currently only need end collision event when isKeyCaptured is true
+	if (   isKeyCaptured == true
+		// Only game objects should be involved in collisions, 
+		// so should be safe to grab these components.
+		&& events.a->valid() && events.b->valid()) //Check for valid entities
+	{
+		ComponentHandle<GameObject> objectA = events.a->component<GameObject>();
+		ComponentHandle<GameObject> objectB = events.b->component<GameObject>();
+		if (!objectA || !objectB) 
+			return; //Invalid collision, gmae objects not found
+
+		// Is player colliding with the door?
+		if (   (objectA->name == "player" || objectB->name == "player")
+			&& (objectA->name == "door" || objectB->name == "door"))
+		{
+			// We have a valid collision so exit the level through the scene manager
+
+			// NOTE: THE SCENE MANAGER WAS NOT COMPLETED TO SUPPORT ANYTHING THAN CHANGE 
+			//       A WINDOW NAME. CAN"T END THE LEVEL OR GAME
+cout << "LEVEL ENDED" << endl;
+		}
+	}
+}

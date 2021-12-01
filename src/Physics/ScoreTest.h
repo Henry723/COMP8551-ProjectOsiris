@@ -25,10 +25,9 @@ public:
 	}
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
+	void receive(const EndCollision& events);
 	void receive(const EntityDestroyedEvent& events);
-	//void receive(const ScoreUpdate& event); 
-	//int getScore();
-	//int totalScore;
+
 	//Flags for score
 	bool collectedTreasure = false;
 	bool killedEnemy = false;
