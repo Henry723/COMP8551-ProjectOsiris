@@ -1,23 +1,10 @@
 #include "PhysicsEngine.h"
-#include <stdio.h>
 
 const float MAX_TIMESTEP = 1.0f / 60.0f; //Timestep for Box2D (60 FPS)
 const int NUM_VEL_ITERATIONS = 20; //Velocity iterations
 const int NUM_POS_ITERATIONS = 3; //Position iterations
 stack<Collision> collisions; //Track collisions from the listener
 stack<EndCollision> endCollisions; //Track collisions from the listener
-
-//Struct for b2Body user data
-struct CollisionData
-{
-    Entity e; //Parent entity of the body
-};
-
-//Struct for b2Fixture user data
-struct FixtureData
-{
-    string name; //Name given to the collider, used for sensors
-};
 
 class CollisionListener : public b2ContactListener
 {
@@ -141,6 +128,13 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     }
     //Clean up any bodies meanth for deletion before world step.
     CleanupBodies();
+    //Check if there's collisions ending
+    if (!endCollisions.empty())
+    {
+        //Emit the event and remove collision data from stack
+        ev.emit(endCollisions.top());
+        endCollisions.pop();
+    }
 
     //Check if there's collisions
     if (!collisions.empty())
@@ -148,14 +142,6 @@ void PhysicsEngine::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         //Emit the event and remove collision data from stack
         ev.emit(collisions.top());
         collisions.pop();
-    }
-
-    //Check if there's collisions ending
-    if (!endCollisions.empty())
-    {
-        //Emit the event and remove collision data from stack
-        ev.emit(endCollisions.top());
-        endCollisions.pop();
     }
 
     //World step

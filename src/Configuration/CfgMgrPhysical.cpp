@@ -168,11 +168,8 @@ void CCfgMgrPhysical::LoadLevel(EntityManager& em)
             //First, create floor tile here
             tinyxml2::XMLElement* tileData = FindObject("tile", game);
             if (tileData && symbols[i] != 'W' && symbols[i] != '_') //excludes squares with walls and '_' for blank
-            {
-                cout << "creating at " << rowCount << ", " << colCount << endl;
-                elementtostring(tileData);
                 CreateEntityAtPosition(tileData, em, colCount * spacing, rowCount * spacing);
-            }
+
             //If the space isn't empty, place something
             if (symbols[i] != '-')
             {
@@ -324,11 +321,13 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
     tinyxml2::XMLElement* vert_src = data->FirstChildElement("vert_src");
     tinyxml2::XMLElement* frag_src = data->FirstChildElement("frag_src");
 
+    int modelIndex = rand() % models.size();
+
     //Make sure all neccesary data is present. Model and texture chosen randomly from list
-    return Model3D(models[rand() % models.size()].c_str(),
+    return Model3D(models[modelIndex].c_str(),
         vert_src->GetText(),
         frag_src->GetText(),
-        textures[rand() % textures.size()].c_str());
+        textures[modelIndex].c_str());
 }
 
 Transform CCfgMgrPhysical::GetTransformComponent(tinyxml2::XMLElement* data)

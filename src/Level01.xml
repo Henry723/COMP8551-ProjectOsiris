@@ -6,15 +6,15 @@
 		<key id="T">treasure</key>
     <key id="W">wall</key>
 		<layout>
-      <row>_WWWWWWW_</row>
-      <row>W---E--TW</row>
-      <row>WTEW-E-W_</row>
-      <row>_WWW---W_</row>
-      <row>W--E-W--W</row>
-      <row>WT----E-W</row>
-      <row>W--WE--W_</row>
-      <row>WP-WT-W__</row>
-      <row>_WW_WW___</row>
+			<row>_WWWWWWW_</row>
+			<row>W---E--TW</row>
+			<row>WTEW-E-W_</row>
+			<row>_WWW---W_</row>
+			<row>W--E-W--W</row>
+			<row>WT----E-W</row>
+			<row>W--WE--W_</row>
+			<row>WP-WT-W__</row>
+			<row>_WW_WW___</row>
 		</layout>
 	</level>
 		<!--PLAYER ENTITY DATA-->
@@ -32,14 +32,14 @@
 			</transform>
 			<rigidbody type="player">
 				<colliders>
-					<collider shape="circle" sensor="false" size="0.5" name="body">0.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="right">2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="left">-2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="bottom">0.0, 2.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="top">0.0, -2.0</collider>
+					<collider shape="circle" sensor="false" size="0.75" name="body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="right">2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="left">-2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="bottom">0.0, 2.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+		<health amount="3"></health>
 		</gameobject>
 		<!--WALL ENTITY DATA-->
 		<gameobject name="wall">
@@ -56,7 +56,7 @@
 			</transform>
 			<rigidbody type="wall">
 				<colliders>
-          <collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+          <collider shape="box" sensor="false" size="1" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
 		</gameobject>
@@ -78,14 +78,14 @@
 			</commandflags>
 			<rigidbody type="enemy">
 				<colliders>
-					<collider shape="circle" sensor="false" size="0.5" name="enemy_body">0.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="enemy_right">2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="enemy_left">-2.0, 0.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="enemy_bottom">0.0, 2.0</collider>
-					<collider shape="circle" sensor="true" size="0.5" name="enemy_top">0.0, -2.0</collider>
+					<collider shape="circle" sensor="false" size="0.75" name="enemy_body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_right">2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_left">-2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_bottom">0.0, 2.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+      <health amount="1"></health>
 		</gameobject>
 		<!--TREASURE ENTITY DATA-->
 		<gameobject name="treasure">
