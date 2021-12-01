@@ -94,8 +94,9 @@ struct EndCollision
 	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
 };
 
-struct PlayerTurnEnd {};
-struct EnemyTurnEnd {};
+struct PlayerTurnEnd {}; // Empty event to signal player end turn.
+struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
+struct GameOver {}; //Empty game over event to listen for.
 
 //Custom event for keeping track of the score
 struct ScoreUpdate {
@@ -108,9 +109,6 @@ struct PlayerHealthUpdate {
 	explicit PlayerHealthUpdate(int health) : health(health) {}
 	int health;
 };
-
-struct EnemyAttack {};
-
 
 //Create the custom events as such
 struct ExampleEvent {

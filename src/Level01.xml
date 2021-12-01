@@ -39,7 +39,7 @@
 					<collider shape="circle" sensor="true" size="0.75" name="top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+		<health amount="3"></health>
 		</gameobject>
 		<!--WALL ENTITY DATA-->
 		<gameobject name="wall">
@@ -85,7 +85,7 @@
 					<collider shape="circle" sensor="true" size="0.75" name="enemy_top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
-      <health amount="3"></health>
+      <health amount="1"></health>
 		</gameobject>
 		<!--TREASURE ENTITY DATA-->
 		<gameobject name="treasure">

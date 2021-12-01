@@ -15,7 +15,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
-  systems.add<PhysicsTest>();
+  //systems.add<PhysicsTest>();
+  systems.add<PlayerSystem>();
   systems.add<EnemySystem>();
   systems.add<TurnEvents>();
   systems.add<ScoreTest>();
@@ -63,7 +64,8 @@ void GameControl::Update(TimeDelta dt)
   systems.update<InputSystem>(dt);
   systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
-  systems.update<PhysicsTest>(dt);
+  systems.update<PlayerSystem>(dt);
+  //systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
   systems.update<EnemySystem>(dt);

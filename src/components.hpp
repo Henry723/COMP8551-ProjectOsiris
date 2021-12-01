@@ -172,9 +172,9 @@ struct Rigidbody
 		return false;
 	}
 
-	vector<Entity> CollidingBodies(string fixtureName)
+	vector<Entity*> CollidingBodies(string fixtureName)
 	{
-		vector<Entity> collisions;
+		vector<Entity*> collisions;
 		for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next)
 		{
 			b2Fixture* fixA = edge->contact->GetFixtureA();
@@ -186,12 +186,12 @@ struct Rigidbody
 			if (dataA->name == fixtureName && fixA->GetBody() == body && !fixB->IsSensor())
 			{
 				CollisionData* data = (CollisionData*)fixB->GetBody()->GetUserData().pointer;
-				collisions.push_back(data->e);
+				collisions.push_back(&data->e);
 			}
 			if (dataB->name == fixtureName && fixB->GetBody() == body && !fixA->IsSensor())
 			{
 				CollisionData* data = (CollisionData*)fixA->GetBody()->GetUserData().pointer;
-				collisions.push_back(data->e);
+				collisions.push_back(&data->e);
 			}
 		}
 		return collisions;
@@ -246,10 +246,9 @@ struct Rigidbody
 	Rigidbody(vector<Collider> _colliders, ColliderType _ct, glm::vec2 _pos) : colliders(_colliders), type(_ct), position(_pos), dest(_pos) {}
 };
 
-
-
 struct CommandFlags
 {
+	//Different movement commands available to enemies.
 	enum EnemyCommand {
 		MOVE_UP,
 		MOVE_DOWN,
@@ -258,11 +257,10 @@ struct CommandFlags
 		WAITING
 	};
 
-	int nextMoveDir = -1;
+	bool isMoving = false; //Is enemy moving?
+	bool moveComplete = false; //Has the individual enemy finished their turn?
 
-	bool isMoving = false;
-	bool moveComplete = false;
-
+	//Enemy's next command for movement
 	EnemyCommand nextCommand = WAITING;
 
 	//Attack input flags
@@ -271,17 +269,11 @@ struct CommandFlags
 	bool attackUp = false;
 	bool attackDown = false;
 
-	glm::vec2 destination = glm::vec2(500,500);
-
-	//Directional entities relative to body
-	Entity* leftEntity = nullptr;
-	Entity* rightEntity = nullptr;
-	Entity* upEntity = nullptr;
-	Entity* downEntity = nullptr;
-
+	//Set inintial destination to nonexistent tile
+	glm::vec2 destination = glm::vec2(9999,9999);
+	//To track player entity for attacking
 	Entity* playerEntity = nullptr;
 };
-
 
 //Health
 struct Health
