@@ -24,19 +24,22 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				}
 
 				CheckForPlayer(rigidbody.get(), commands.get());
-
 				//If the playerEntity is set, then it's time to attack.
 				if (commands->playerEntity && !commands->moveComplete)
 				{
+					cout << enemyTurns << "found player" << endl;
+					
 					commands->moveComplete = true;
 					if (commands->attackLeft) //Player to the left.
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 20.5)
-							cout << "ENEMY SYSTEM: attacking left enemy" << endl;
+						{
+							events.emit<EnemyAttack>();
+						}
 						//If not, rotate towards them
 						else{
-							cout << "attaack rotate" << endl;
+							cout << enemyTurns << "attaack rotate" << endl;
 							transform->rotation = glm::vec4(0, 1, 0, 20.5f);
 					}
 					}
@@ -44,10 +47,12 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 0)
-							cout << "ENEMY SYSTEM: attacking up enemy" << endl;
+						{
+							events.emit<EnemyAttack>();
+						}
 						//If not, rotate towards them
 						else{
-							cout << "attaack rotate" << endl;
+							cout << enemyTurns << "attaack rotate" << endl;
 							transform->rotation = glm::vec4(0, 1, 0, 0);
 					}
 					}
@@ -55,10 +60,12 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == -1 && transform->rotation.w == 20.5)
-							cout << "ENEMY SYSTEM: attacking right enemy" << endl;
+						{
+							events.emit<EnemyAttack>();
+						}
 						//If not, rotate towards them
 						else{
-							cout << "attaack rotate" << endl;
+							cout << enemyTurns << "attaack rotate" << endl;
 							transform->rotation = glm::vec4(0, -1, 0, 20.5f);
 					}
 					}
@@ -66,10 +73,12 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 9.5)
-							cout << "ENEMY SYSTEM: attacking down enemy" << endl;
+						{
+							events.emit<EnemyAttack>();
+						}
 						//If not, rotate towards them
 						else {
-							cout << "attaack rotate" << endl;
+							cout << enemyTurns << "attaack rotate" << endl;
 							transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 						}
 					}

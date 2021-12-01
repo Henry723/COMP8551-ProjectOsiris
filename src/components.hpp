@@ -283,3 +283,9 @@ struct CommandFlags
 };
 
 
+//Health
+struct Health
+{
+	int maxHealth, curHealth;
+	Health(int _health) : maxHealth(_health), curHealth(_health) {}
+};

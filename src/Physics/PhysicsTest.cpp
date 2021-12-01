@@ -14,6 +14,10 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				//Player rigidbody, transform, and position
 				ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
 				ComponentHandle<Transform> transform = entity.component<Transform>();
+				ComponentHandle<Health> health = entity.component<Health>();
+
+				health->curHealth = playerHealth;
+				cout << "health is " << playerHealth << endl;
 				glm::vec2 position = rigidbody->GetPosition();
 
 				if (isMoving) //Check local moving flag
@@ -51,32 +55,51 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				//ATTACK CHECKS START: Check for attack input and if there's an entity to attack.
 				if (attackLeft && leftEntity)
 				{
-					leftEntity->destroy(); //Destroy entity
-					leftEntity = nullptr; //Nullify tracker
-					timeUntilNextOrder = 0; //Attacked, end timer.
+					//ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
+					ComponentHandle<Health> targetH = leftEntity->component<Health>();
+					if (!--targetH->curHealth)
+					{
+						leftEntity->destroy();
+						leftEntity = nullptr;
+						timeUntilNextOrder = 0;
+					}
 				}
-				//Next three blocks are the same for different directions.
 				if (attackRight && rightEntity)
 				{
-					rightEntity->destroy();
-					rightEntity = nullptr;
-					timeUntilNextOrder = 0;
+					//ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
+					ComponentHandle<Health> targetH = rightEntity->component<Health>();
+					if (!--targetH->curHealth)
+					{
+						rightEntity->destroy();
+						rightEntity = nullptr;
+						timeUntilNextOrder = 0;
+					}
+
 				}
+
 				if (attackUp && upEntity)
 				{
-					upEntity->destroy();
-					upEntity = nullptr;
-					timeUntilNextOrder = 0;
+					//ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
+					ComponentHandle<Health> targetH = upEntity->component<Health>();
+					if (!--targetH->curHealth)
+					{
+						upEntity->destroy();
+						upEntity = nullptr;
+						timeUntilNextOrder = 0;
+					}
 				}
 				if (attackDown && downEntity)
 				{
-					downEntity->destroy();
-					downEntity = nullptr;
-					timeUntilNextOrder = 0;
+					//ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
+					ComponentHandle<Health> targetH = downEntity->component<Health>();
+					if (!--targetH->curHealth)
+					{
+						downEntity->destroy();
+						downEntity = nullptr;
+						timeUntilNextOrder = 0;
+					}
 				}
 				//ATTACK CHECKS END
-
-				//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 				right = false;
 				up = false;
 				down = false;
@@ -86,8 +109,15 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				attackDown = false;
 				attackLeft = false;
 
+
 				if (!isMoving) //If the player isn't moving, decrement timer.
 					timeUntilNextOrder -= dt;
+
+
+
+
+				//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
+
 			}
 			else
 			{
@@ -103,6 +133,7 @@ void PhysicsTest::configure(EventManager& em) {
 	em.subscribe<EndCollision>(*this);
 	em.subscribe<AttackInput>(*this);
 	em.subscribe<EnemyTurnEnd>(*this);
+	em.subscribe<EnemyAttack>(*this);
 }
 
 void PhysicsTest::receive(const Collision& event)
@@ -225,4 +256,9 @@ void PhysicsTest::receive(const AttackInput& event) {
 void PhysicsTest::receive(const EnemyTurnEnd& event)
 {
 	timeUntilNextOrder = timeInterval;
+}
+
+void PhysicsTest::receive(const EnemyAttack& event)
+{
+	playerHealth--;
 }

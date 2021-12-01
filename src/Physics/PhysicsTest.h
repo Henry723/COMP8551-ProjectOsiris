@@ -17,6 +17,7 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	void receive(const MoveInput& event); // Toggles movement bools to be picked up by update
 	void receive(const AttackInput& event); // Toggles attack bools to be picked up by update
 	void receive(const EnemyTurnEnd& event); // Toggles attack bools to be picked up by update
+	void receive(const EnemyAttack& event); // Toggles attack bools to be picked up by update
 
 	//Movement input flags
 	bool left = false;
@@ -36,7 +37,9 @@ struct PhysicsTest : public System<PhysicsTest>, public Receiver<PhysicsTest>, E
 	bool isMoving = false;
 	bool playerTurn = true;
 
-	float timeInterval = 15.2f;
-	float timeUntilNextOrder = 15.2f;
+	float timeInterval = 10.2f;
+	float timeUntilNextOrder = 10.2f;
 	float playerSpeed = 0.5;
+
+	int playerHealth = 3;
 };

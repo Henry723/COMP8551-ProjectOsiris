@@ -239,6 +239,8 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     //Check for commandflags data and add if exists
     tinyxml2::XMLElement* cmdflags_data = data->FirstChildElement("commandflags");
     if (cmdflags_data) e.assign<CommandFlags>(CreateCommandFlags(cmdflags_data));
+
+    if (tinyxml2::XMLElement * h = data->FirstChildElement("health")) e.assign<Health>(CreateHealth(h));
 }
 
 Transform CCfgMgrPhysical::CreateTransformAtPosition(tinyxml2::XMLElement* data, int x, int y)
@@ -384,6 +386,11 @@ Rigidbody CCfgMgrPhysical::GetRigidbodyComponent(tinyxml2::XMLElement* data)
 
     //Make sure all neccesary data is present.
     return Rigidbody(collider_list, type_value, position_value);
+}
+
+Health CCfgMgrPhysical::CreateHealth(tinyxml2::XMLElement* data)
+{
+  return Health(atoi(data->Attribute("amount")));
 }
 
 CommandFlags CCfgMgrPhysical::CreateCommandFlags(tinyxml2::XMLElement* data)

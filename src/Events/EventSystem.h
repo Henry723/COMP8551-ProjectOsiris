@@ -103,6 +103,15 @@ struct ScoreUpdate {
 	int score;
 };
 
+//Custom event for keeping track of the player health
+struct PlayerHealthUpdate {
+	explicit PlayerHealthUpdate(int health) : health(health) {}
+	int health;
+};
+
+struct EnemyAttack {};
+
+
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}
