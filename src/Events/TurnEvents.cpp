@@ -1,10 +1,15 @@
 #include "TurnEvents.h"
+#include "../gamestate.h"
 
 void TurnEvents::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
 	//std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	//std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-	
+
+	// Only do something if we are running
+	if (gameState != GameState::RUNNING) 
+		return;
+
 	timeElapsed += dt;
 	subtract_time(dt);
 

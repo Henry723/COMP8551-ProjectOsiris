@@ -129,6 +129,8 @@
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Shader.cpp" />
     <ClCompile Include="src\Renderer3D\stb_image.cpp" />
+    <ClCompile Include="src\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="src\SceneManager\SceneMgrSys.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
@@ -159,6 +161,8 @@
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
     <ClInclude Include="src\Renderer3D\stb_image.h" />
+    <ClInclude Include="src\SceneManager\SceneManager.h" />
+    <ClInclude Include="src\SceneManager\SceneMgrSys.h" />
     <ClInclude Include="src\UI\TextShader.h" />
     <ClInclude Include="src\UI\UI.h" />
   </ItemGroup>
@@ -172,7 +176,6 @@
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
-    <ClInclude Include="src\SceneManager.hpp" />
     <Image Include="src\UI\textures\brickwall.jpg" />
     <Image Include="src\UI\textures\startmenu.jpg" />
   </ItemGroup>

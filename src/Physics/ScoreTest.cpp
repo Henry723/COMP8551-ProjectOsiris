@@ -1,4 +1,5 @@
 #include "ScoreTest.h"
+#include "..\SceneManager\SceneManager.h"
 
 void ScoreTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
@@ -53,11 +54,9 @@ void ScoreTest::receive(const EndCollision& events)
 		if (   (objectA->name == "player" || objectB->name == "player")
 			&& (objectA->name == "door" || objectB->name == "door"))
 		{
-			// We have a valid collision so exit the level through the scene manager
-
-			// NOTE: THE SCENE MANAGER WAS NOT COMPLETED TO SUPPORT ANYTHING THAN CHANGE 
-			//       A WINDOW NAME. CAN"T END THE LEVEL OR GAME
-cout << "LEVEL ENDED" << endl;
+			// We have a valid collision so next level through the scene manager
+			SceneManager& scene = SceneManager::getInstance();
+			scene.nextScene();
 		}
 	}
 }

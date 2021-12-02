@@ -79,6 +79,9 @@
     <Filter Include="Source Files\AIEnemy">
       <UniqueIdentifier>{ab834fa1-c64b-4e6b-ac9b-957515b7a1b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SceneManager">
+      <UniqueIdentifier>{081665dc-814e-4a88-963f-293ef7528572}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,12 +149,18 @@
     </ClCompile>
     <ClCompile Include="src\Events\TurnEvents.cpp">
       <Filter>Source Files\Events</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp">
       <Filter>Source Files\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\ScoreTest.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager\SceneManager.cpp">
+      <Filter>Source Files\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager\SceneMgrSys.cpp">
+      <Filter>Source Files\SceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +218,6 @@
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\SceneManager.hpp">
-      <Filter>Header Files\SceneManager</Filter>
-    </ClInclude>
     <ClInclude Include="src\Physics\PhysicsTest.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -220,7 +226,7 @@
     </ClInclude>
     <ClInclude Include="src\Events\TurnEvents.h">
       <Filter>Header Files\Events</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h">
       <Filter>Header Files\Configuration</Filter>
     </ClInclude>
@@ -232,6 +238,24 @@
     </ClInclude>
     <ClInclude Include="src\gamestate.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager\SceneManager.h">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager\SceneMgrSys.h">
+      <Filter>Header Files\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

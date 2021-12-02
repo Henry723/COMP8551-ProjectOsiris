@@ -10,7 +10,8 @@ void RenderSystem::configure(EventManager& em) {
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
-	if (gameState == PREPARING) {
+	if (   gameState == GameState::MENU 
+		|| gameState == GameState::PREPARING) {
 		return;
 	}
 	// Create component handles to filter components
@@ -92,7 +93,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	else {
 		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
 		ui.RenderAll(); // Render all text elements which are set as active
-		if (gameState == MENU)
+		if (gameState == GameState::MENU)
 			ui.RenderMenuText();
 	}
 

@@ -8,6 +8,7 @@
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
 #include "Events/TurnEvents.h"
+#include "SceneManager/SceneMgrSys.h"
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"

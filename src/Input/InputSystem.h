@@ -1,6 +1,6 @@
 #pragma once
 #include "../components.hpp"
-#include "../SceneManager.hpp"
+#include "../SceneManager/SceneManager.h"
 #include "../Events/EventSystem.h"
 #include "../gamestate.h"
 
