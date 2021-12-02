@@ -12,9 +12,11 @@ void AnimationSystem::update(EntityManager& es, TimeDelta dt) {
 		if (object && object->name == "player") {
 			if (startMoveAnimation) {
 				ator->doAnimation("move");
+				startMoveAnimation = false;
 			}
 			else if (startAttackAnimation) {
 				ator->doAnimation("attack");
+				startAttackAnimation = false;
 			}
 		}
 		ator->update(dt);

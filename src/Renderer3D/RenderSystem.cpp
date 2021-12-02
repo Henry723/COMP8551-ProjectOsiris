@@ -21,6 +21,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	ComponentHandle<Transform> htransform;
 	ComponentHandle<Camera> hCamera;
 	ComponentHandle<Rigidbody> hRigidBody;
+	ComponentHandle<Animator> hAnimator;
 
 	// Needed to write player health to ui
 	ComponentHandle<Health> playerHealth;
@@ -62,6 +63,13 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		// ...
 		glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
+	}
+
+	//Grab Model Index
+	auto animatorEntities = es.entities_with_components(hmodel, hAnimator);
+	for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
+		
+		
 	}
 
 	// Loop through Model3D components

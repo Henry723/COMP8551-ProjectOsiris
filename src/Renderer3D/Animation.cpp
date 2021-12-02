@@ -1,14 +1,33 @@
 #include "Animation.h"
 
-Keyframe* Animation::getCurrentFrame() {
-	//if last frame
+int Animation::getCurrentFrame() {
+	return keyFrames[currentFrame].index;	
+}
+
+Keyframe Animation::getCurrentKeyframe() {
+	return keyFrames[currentFrame];
+}
+
+//Gets next key frame
+//If its currently on the last keyframe, returns current frame.
+Keyframe Animation::getNextKeyframe() {
 	if (currentFrame == keyFrames.size() - 1) {
-		return &keyFrames[currentFrame];
+		return keyFrames[currentFrame];
 	}
 	else {
-		Keyframe frames[2] = { keyFrames[currentFrame], keyFrames[double(currentFrame)+1] };
-		return frames;
+		return keyFrames[double(currentFrame) + 1];
 	}
 	
+}
 
+void Animation::nextFrame() {
+	currentFrame++;
+}
+
+double Animation::getLength() {
+	return length;
+}
+
+void Animation::reset() {
+	currentFrame = 0;
 }

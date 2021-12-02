@@ -1,13 +1,8 @@
 #pragma once
 
 struct Keyframe {
-
-private:
+	//timestamp relative to the beginning of the animation
 	double timestamp;
+	//index corresponding to the pose in the model3D
 	int index;
-
-public:
-
-	float getTimestamp();
-
 };

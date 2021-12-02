@@ -5,6 +5,7 @@
 #include "../UI/UI.h"
 #include "../Events/EventSystem.h"
 #include "../gamestate.h"
+#include "Animator.h"	
 
 class RenderSystem : public System<RenderSystem>, public Receiver<RenderSystem>
 {

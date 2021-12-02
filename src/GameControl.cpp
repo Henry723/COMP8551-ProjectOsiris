@@ -24,6 +24,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
+  //Doesn't work right now
+  //systems.add<AnimationSystem>();
   
   //systems.add<AnimationSystem>();
   systems.configure();
@@ -56,6 +58,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   cameraEntity.assign<Camera>(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -80.0f);
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
+
+  
 
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
