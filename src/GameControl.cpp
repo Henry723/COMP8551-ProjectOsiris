@@ -23,7 +23,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
-  systems.add<AnimationSystem>();
+  
+  //systems.add<AnimationSystem>();
   systems.configure();
 
   //Testing Scene Manager
