@@ -24,10 +24,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
-  //Doesn't work right now
-  //systems.add<AnimationSystem>();
-  
-  //systems.add<AnimationSystem>();
+  systems.add<AnimationSystem>();
   systems.configure();
 
   //Testing Scene Manager
@@ -59,8 +56,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-  
-
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
 }
@@ -75,7 +70,7 @@ void GameControl::Update(TimeDelta dt)
   systems.update<ScoreTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
   systems.update<EnemySystem>(dt);
-  //systems.update<AnimationSystem>(dt);
+  systems.update<AnimationSystem>(dt);
   systems.update<RenderSystem>(dt);
 
 

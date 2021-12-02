@@ -2,7 +2,7 @@
 #include "Animator.h"
 
 
-void AnimationSystem::update(EntityManager& es, TimeDelta dt) {
+void AnimationSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt) {
 
 	ComponentHandle<Animator> hAnimators;
 

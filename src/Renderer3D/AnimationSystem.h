@@ -10,7 +10,7 @@ private:
 	bool startMoveAnimation = false;
 public:
 
-	void update(EntityManager&, TimeDelta);
+	void update(EntityManager&, EventManager&, TimeDelta) override;
 	void configure(EventManager& events) override;
 	void receive(const MoveInput& events);
 	void receive(const AttackInput& events);
