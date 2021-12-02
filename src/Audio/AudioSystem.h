@@ -1,5 +1,6 @@
 #pragma once
 #include "../components.hpp"
+#include "../Events/EventSystem.h"
 #include <FMOD/fmod_studio_common.h>
 #include <FMOD/fmod_studio.hpp>
 #include <FMOD/fmod.hpp>
@@ -40,12 +41,19 @@ struct AudExec {
   ChannelMap mChannels;
 };
 
-class AudioSystem : public System<AudioSystem> {
+class AudioSystem : public System<AudioSystem> , public Receiver<AudioSystem>{
 public:
-	static void Init();
-	static void Update();
+	static void InitFMOD();
+	static void UpdateFMOD();
 	static void Shutdown();
 	static int ErrorCheck(FMOD_RESULT result);
+
+	void update(EntityManager&, EventManager&, TimeDelta) override;
+	void configure(EventManager& em) override;
+	void receive(const InteractInput& event);
+
+	AudioSystem();
+	~AudioSystem();
 
 	void LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags);
 	void LoadEvent(const string& strEventName);
@@ -68,4 +76,5 @@ public:
 	FMOD_VECTOR VectorToFMOD(const Vector3& vPosition);
 private:
 	static AudExec* instAudExec;
+	int bgChannelID;
 };

@@ -38,11 +38,24 @@ void AudExec::Update() {
 	AudioSystem::ErrorCheck(mpStudioSystem->update());
 }
 
-void AudioSystem::Init() {
+AudioSystem::AudioSystem() {
+	AudioSystem::InitFMOD();
+}
+
+AudioSystem::~AudioSystem() {
+	AudioSystem::Shutdown();
+}
+
+void AudioSystem::update(EntityManager&, EventManager&, TimeDelta)
+{
+	UpdateFMOD();
+}
+
+void AudioSystem::InitFMOD() {
 	instAudExec = new AudExec;
 }
 
-void AudioSystem::Update() {
+void AudioSystem::UpdateFMOD() {
 	instAudExec->Update();
 }
 
@@ -70,6 +83,10 @@ void AudioSystem::UnloadSound(const string& strSoundName) {
 
 	AudioSystem::ErrorCheck(foundSound->second->release());
 	instAudExec->mSounds.erase(foundSound);
+}
+
+void AudioSystem::Set3dListenerOrientation(const Vector3& vPos, float fVolumeDB)
+{
 }
 
 int AudioSystem::PlaySound(const string& strSoundName, const Vector3& vPosition, float fVolumeDB) {
@@ -154,6 +171,10 @@ void AudioSystem::PlayEvent(const string& strEventName) {
 	tFoundit->second->start();
 }
 
+void AudioSystem::StopChannel(int nChannelId)
+{
+}
+
 void AudioSystem::StopEvent(const string& strEventName, bool bImmediate) {
 	auto tFoundIt = instAudExec->mEvents.find(strEventName);
 	if (tFoundIt == instAudExec->mEvents.end())
@@ -192,6 +213,10 @@ void AudioSystem::SetEventParameter(const string& strEventName, const string& st
 	AudioSystem::ErrorCheck(tFoundIt->second->setParameterByName(strParameterName.c_str(), fValue));
 }
 
+void AudioSystem::StopAllChannels()
+{
+}
+
 FMOD_VECTOR AudioSystem::VectorToFMOD(const Vector3& vPosition) {
 	FMOD_VECTOR fVec;
 	fVec.x = vPosition.x;
@@ -208,6 +233,21 @@ float  AudioSystem::dBToVolume(float dB)
 float  AudioSystem::VolumeTodB(float volume)
 {
 	return 20.0f * log10f(volume);
+}
+
+void AudioSystem::configure(EventManager& em)
+{
+	em.subscribe<InteractInput>(*this);
+}
+
+//Play Attack Audio when attack input is received
+void AudioSystem::receive(const InteractInput& event)
+{
+	//play sound loads sound in function
+	string atkSound = "./src/Audio/assets/bg_music.wav";
+	LoadSound(atkSound, NULL, true, NULL);
+	bgChannelID = PlaySound(atkSound, Vector3(), VolumeTodB(0.75));
+	SetChannelVolume(bgChannelID, VolumeTodB(0.0));
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {
