@@ -1,6 +1,6 @@
-#include "PhysicsTest.h"
+#include "PlayerSystem.h"
 
-void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
+void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
 	if (gameState != RUNNING) return; //Make sure game is running, if not, return.
 	ComponentHandle<GameObject> gameObjects; //GameObject component handle
@@ -16,8 +16,6 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				ComponentHandle<Transform> transform = entity.component<Transform>();
 				ComponentHandle<Health> health = entity.component<Health>();
 
-				health->curHealth = playerHealth;
-				cout << "health is " << playerHealth << endl;
 				glm::vec2 position = rigidbody->GetPosition();
 
 				if (isMoving) //Check local moving flag
@@ -51,91 +49,67 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					isMoving = true;
 				}
 				//MOVE CHECKS END
-				/////////////////////
-				//ATTACK CHECKS START: Check for attack input and if there's an entity to attack.
-				if (attackLeft && leftEntity)
-				{
-					//ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
-					ComponentHandle<Health> targetH = leftEntity->component<Health>();
-					if (!--targetH->curHealth)
-					{
-						leftEntity->destroy();
-						leftEntity = nullptr;
-						timeUntilNextOrder = 0;
-					}
-				}
-				if (attackRight && rightEntity)
-				{
-					//ComponentHandle<GameObject> targetObj = rightEntity->component<GameObject>();
-					ComponentHandle<Health> targetH = rightEntity->component<Health>();
-					if (!--targetH->curHealth)
-					{
-						rightEntity->destroy();
-						rightEntity = nullptr;
-						timeUntilNextOrder = 0;
-					}
 
-				}
-
-				if (attackUp && upEntity)
-				{
-					//ComponentHandle<GameObject> targetObj = upEntity->component<GameObject>();
-					ComponentHandle<Health> targetH = upEntity->component<Health>();
-					if (!--targetH->curHealth)
-					{
-						upEntity->destroy();
-						upEntity = nullptr;
-						timeUntilNextOrder = 0;
-					}
-				}
-				if (attackDown && downEntity)
-				{
-					//ComponentHandle<GameObject> targetObj = downEntity->component<GameObject>();
-					ComponentHandle<Health> targetH = downEntity->component<Health>();
-					if (!--targetH->curHealth)
-					{
-						downEntity->destroy();
-						downEntity = nullptr;
-						timeUntilNextOrder = 0;
-					}
-				}
-				//ATTACK CHECKS END
-				right = false;
-				up = false;
-				down = false;
-				left = false;
-				attackRight = false;
-				attackUp = false;
-				attackDown = false;
-				attackLeft = false;
-
+				AttackChecks(); //Use flags to check if player can attack.
+				ResetFlags(); //Reset movement and attack flags on player turn end.
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
 					timeUntilNextOrder -= dt;
-
-
-
-
-				//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
-
 			}
-			else
-			{
-				events.emit<PlayerTurnEnd>();
-			}
+			else events.emit<PlayerTurnEnd>(); //Timer ran out, end player turn
 		}
 	}
 }
 
-void PhysicsTest::configure(EventManager& em) {
-	em.subscribe<MoveInput>(*this);
+//Check input and enemy flags to see if an attack should be performed.
+void PlayerSystem::AttackChecks()
+{
+	//Arrays of attack flags and enemy pointers
+	bool attackFlags[4] = { attackLeft, attackRight, attackDown, attackUp };
+	Entity* enemyPointers[4] = { leftEntity, rightEntity, downEntity, upEntity };
+	for (int i = 0; i < 4; i++)
+	{
+		//If the flag and pointer are set...
+		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
+		{
+			//Grab the health component.
+			ComponentHandle<Health> targetH = enemyPointers[i]->component<Health>();
+			if (!--targetH->curHealth) //Decrement and check for 0
+			{
+				enemyPointers[i]->destroy(); //Destroy enemy.
+				enemyPointers[i] = nullptr; //Nullify pointer.
+			}
+			timeUntilNextOrder = 0; //Reset timer.
+		}
+	}
+}
+
+//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
+void PlayerSystem::ResetFlags()
+{
+	right = false;
+	up = false;
+	down = false;
+	left = false;
+	attackRight = false;
+	attackUp = false;
+	attackDown = false;
+	attackLeft = false;
+}
+
+/***********************************************
+*****************EVENT HANDLERS*****************
+************************************************/
+
+void PlayerSystem::configure(EventManager& em) {
+	em.subscribe<MoveInput>(*this); 
+	em.subscribe<AttackInput>(*this);
 	em.subscribe<Collision>(*this);
 	em.subscribe<EndCollision>(*this);
-	em.subscribe<AttackInput>(*this);
 	em.subscribe<EnemyTurnEnd>(*this);
 }
 
-void PhysicsTest::receive(const Collision& event)
+void PlayerSystem::receive(const Collision& event)
 {
 	//Check for valid entities
 	if (event.a->valid() && event.b->valid())
@@ -173,7 +147,7 @@ void PhysicsTest::receive(const Collision& event)
 	}
 }
 
-void PhysicsTest::receive(const EndCollision& event)
+void PlayerSystem::receive(const EndCollision& event)
 {
 	//Only game objects should be involved in collisions, so should be safe to grab these components.
 	if (event.a->valid() && event.b->valid()) //Check for valid entities
@@ -209,7 +183,7 @@ void PhysicsTest::receive(const EndCollision& event)
 }
 
 //Receive function just sets boolean flags to be picked up by update loop
-void PhysicsTest::receive(const MoveInput& event) {
+void PlayerSystem::receive(const MoveInput& event) {
 	if (playerTurn)
 	{
 		MoveInput::InpDir dir = event.dir;
@@ -231,7 +205,7 @@ void PhysicsTest::receive(const MoveInput& event) {
 }
 
 //Receive function just sets boolean flags to be picked up by update loop
-void PhysicsTest::receive(const AttackInput& event) {
+void PlayerSystem::receive(const AttackInput& event) {
 	if (playerTurn)
 	{
 		AttackInput::InpDir dir = event.dir;
@@ -252,7 +226,7 @@ void PhysicsTest::receive(const AttackInput& event) {
 	}
 }
 
-void PhysicsTest::receive(const EnemyTurnEnd& event)
+void PlayerSystem::receive(const EnemyTurnEnd& event)
 {
 	timeUntilNextOrder = timeInterval;
 }

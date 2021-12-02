@@ -13,6 +13,7 @@ public:
   void update(EntityManager&, EventManager&, TimeDelta) override;
   void configure(EventManager& em) override;
   void receive(const ScoreUpdate& event);
+  void receive(const PlayerHealthUpdate& event);
 
 private:
   void draw(Model3D* modelComponent, Camera* cameraComponent);

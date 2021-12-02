@@ -14,7 +14,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
-  systems.add<PhysicsTest>();
+  //systems.add<PhysicsTest>();
+  systems.add<PlayerSystem>();
   systems.add<EnemySystem>();
   systems.add<TurnEvents>();
   systems.add<ScoreTest>();
@@ -53,9 +54,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
 
-  //CCfgMgrApplication cfgManager = CCfgMgrApplication();
-  //cfgManager.loadConfig("./src/Game.xml", entities);
-
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
 }
@@ -65,7 +63,8 @@ void GameControl::Update(TimeDelta dt)
   systems.update<InputSystem>(dt);
   systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
-  systems.update<PhysicsTest>(dt);
+  systems.update<PlayerSystem>(dt);
+  //systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);
   systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
