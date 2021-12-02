@@ -11,9 +11,10 @@ void RenderSystem::configure(EventManager& em) {
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
-	if (gameState == PREPARING) {
+	if (!(   gameState == GameState::RUNNING
+		  || gameState == GameState::GAMEOVER))
 		return;
-	}
+
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
@@ -106,17 +107,28 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	static int lastCurHealth = 0;
+	static int lastMaxHealth = 0;
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
 		healthText = ui.NewTextElement("Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		lastCurHealth = playerHealth->curHealth;
+		lastMaxHealth = playerHealth->maxHealth;
 		ui.configured = true;
 	}
 	else {
 		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
-		ui.textElements[healthText].value = "Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth);
+		if (playerHealth != NULL)
+		{
+			ui.textElements[healthText].value = "Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth);
+			lastCurHealth = playerHealth->curHealth;
+			lastMaxHealth = playerHealth->maxHealth;
+		}
+		else
+			ui.textElements[healthText].value = "Health: " + to_string(lastCurHealth) + '/' + to_string(lastMaxHealth);
 		ui.RenderAll(); // Render all text elements which are set as active
-		if (gameState == MENU)
+		if (gameState == GameState::GAMEOVER)
 			ui.RenderMenuText();
 	}
 

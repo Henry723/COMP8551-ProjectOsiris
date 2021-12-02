@@ -121,7 +121,6 @@
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
-    <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Physics\ScoreTest.cpp" />
     <ClCompile Include="src\Player\PlayerSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
@@ -131,6 +130,8 @@
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Shader.cpp" />
     <ClCompile Include="src\Renderer3D\stb_image.cpp" />
+    <ClCompile Include="src\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="src\SceneManager\SceneMgrSys.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
@@ -155,7 +156,6 @@
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
-    <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Physics\ScoreTest.h" />
     <ClInclude Include="src\Player\PlayerSystem.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
@@ -164,6 +164,8 @@
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
     <ClInclude Include="src\Renderer3D\stb_image.h" />
+    <ClInclude Include="src\SceneManager\SceneManager.h" />
+    <ClInclude Include="src\SceneManager\SceneMgrSys.h" />
     <ClInclude Include="src\UI\TextShader.h" />
     <ClInclude Include="src\UI\UI.h" />
   </ItemGroup>
@@ -177,7 +179,6 @@
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
-    <ClInclude Include="src\SceneManager.hpp" />
     <Image Include="src\UI\textures\brickwall.jpg" />
     <Image Include="src\UI\textures\startmenu.jpg" />
   </ItemGroup>
@@ -195,6 +196,7 @@
   <ItemGroup>
     <Xml Include="src\Game.xml" />
     <Xml Include="src\Level01.xml" />
+    <Xml Include="src\Level02.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

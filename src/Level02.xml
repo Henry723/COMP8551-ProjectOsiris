@@ -9,14 +9,12 @@
         <key id="W">wall</key>
 		<layout>
 			<row>_WWWWWWW_</row>
-			<row>WK--E--TW</row>
-			<row>WTEW-E-W_</row>
-			<row>_WWW---W_</row>
-			<row>WD-E-W--W</row>
-			<row>WT----E-W</row>
-			<row>W--WE--W_</row>
-			<row>WP-WT-W__</row>
-			<row>_WW_WW___</row>
+			<row>WP--E-KTW</row>
+			<row>WWWWEWEW_</row>
+			<row>WTTWEWEW_</row>
+			<row>W--W-W--W</row>
+			<row>WTDE-E--W</row>
+			<row>_WWWWWWW_</row>
 		</layout>
 	</level>
 		<!--PLAYER ENTITY DATA-->
@@ -42,15 +40,6 @@
 				</colliders>
 			</rigidbody>
 		<health amount="3"></health>
-    <pointlight>
-      <ambient>0.2, 0.1, 0.1</ambient>
-      <diffuse>0.6 + 170.0 / 255, 0.6 + 148.0 / 255, 0.6 + 136.0 / 255</diffuse>
-      <specular>2.8 + 161.0 / 255, 2.8 + 69.0 / 255, 2.8 + 81.0 / 255</specular>
-      <constant>1.0</constant>
-      <linear>0.14</linear>
-      <quadratic>0.07</quadratic>
-      <color>1.75, 1.75, 0.6</color>
-    </pointlight>
 		</gameobject>
 		<!--WALL ENTITY DATA-->
 		<gameobject name="wall">
@@ -116,15 +105,6 @@
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
-      <pointlight>
-        <ambient>0, 0, 0</ambient>
-        <diffuse>0.8, 0.8, 0.8</diffuse>
-        <specular>1.0, 1.0, 1.0</specular>
-        <constant>1.0</constant>
-        <linear>0.22</linear>
-        <quadratic>0.20</quadratic>
-        <color>0.6, 2.25, 2.25</color>
-      </pointlight>
 		</gameobject>
 		<!--KEY ENTITY DATA-->
 		<gameobject name="key">

@@ -255,7 +255,7 @@ void AudioSystem::configure(EventManager& em)
 void AudioSystem::receive(const AttackInput& event)
 {
 	//play sound loads sound in function
-	if(gameState == RUNNING)
+	if (gameState == GameState::RUNNING)
 		PlaySound(src_aud_whoosh, Vector3(), VolumeTodB(0.5));
 }
 
