@@ -69,4 +69,5 @@ void GameControl::Update(TimeDelta dt)
   systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
   systems.update<RenderSystem>(dt);
+  systems.update<AudioSystem>(dt);
 }

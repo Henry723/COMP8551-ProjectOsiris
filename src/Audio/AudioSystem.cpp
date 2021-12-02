@@ -40,9 +40,11 @@ void AudExec::Update() {
 
 AudioSystem::AudioSystem() {
 	AudioSystem::InitFMOD();
+	bgMusicChannelID = PlaySound(src_aud_bgMusic, Vector3(), VolumeTodB(0.5));
 }
 
 AudioSystem::~AudioSystem() {
+	StopAllChannels();
 	AudioSystem::Shutdown();
 }
 
@@ -83,10 +85,6 @@ void AudioSystem::UnloadSound(const string& strSoundName) {
 
 	AudioSystem::ErrorCheck(foundSound->second->release());
 	instAudExec->mSounds.erase(foundSound);
-}
-
-void AudioSystem::Set3dListenerOrientation(const Vector3& vPos, float fVolumeDB)
-{
 }
 
 int AudioSystem::PlaySound(const string& strSoundName, const Vector3& vPosition, float fVolumeDB) {
@@ -133,6 +131,13 @@ void AudioSystem::SetChannelVolume(int nChannelID, float fVolumeDB) {
 	AudioSystem::ErrorCheck(foundChannel->second->setVolume(dBToVolume(fVolumeDB)));
 }
 
+bool AudioSystem::IsPlaying(int nChannelId) const
+{
+	bool isPlaying = false;
+	instAudExec->mChannels[nChannelId]->isPlaying(&isPlaying);
+	return isPlaying;
+}
+
 void AudioSystem::LoadBank(const string& strBankName, FMOD_STUDIO_LOAD_BANK_FLAGS flags) {
 	auto foundBank = instAudExec->mBanks.find(strBankName);
 	if (foundBank != instAudExec->mBanks.end())
@@ -173,6 +178,7 @@ void AudioSystem::PlayEvent(const string& strEventName) {
 
 void AudioSystem::StopChannel(int nChannelId)
 {
+	instAudExec->mChannels[nChannelId]->stop();
 }
 
 void AudioSystem::StopEvent(const string& strEventName, bool bImmediate) {
@@ -215,6 +221,10 @@ void AudioSystem::SetEventParameter(const string& strEventName, const string& st
 
 void AudioSystem::StopAllChannels()
 {
+	for (int i = 0; i < instAudExec->mChannels.size(); i++) {
+		cout << instAudExec->mChannels.size() << endl;
+		StopChannel(i);
+	}
 }
 
 FMOD_VECTOR AudioSystem::VectorToFMOD(const Vector3& vPosition) {
@@ -237,17 +247,15 @@ float  AudioSystem::VolumeTodB(float volume)
 
 void AudioSystem::configure(EventManager& em)
 {
-	em.subscribe<InteractInput>(*this);
+	em.subscribe<AttackInput>(*this);
 }
 
 //Play Attack Audio when attack input is received
-void AudioSystem::receive(const InteractInput& event)
+void AudioSystem::receive(const AttackInput& event)
 {
 	//play sound loads sound in function
-	string atkSound = "./src/Audio/assets/bg_music.wav";
-	LoadSound(atkSound, NULL, true, NULL);
-	bgChannelID = PlaySound(atkSound, Vector3(), VolumeTodB(0.75));
-	SetChannelVolume(bgChannelID, VolumeTodB(0.0));
+	if(gameState == RUNNING)
+		PlaySound(src_aud_whoosh, Vector3(), VolumeTodB(0.5));
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {

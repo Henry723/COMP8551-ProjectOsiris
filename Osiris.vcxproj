@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="ModelSource.h" />
     <ClInclude Include="src\AIEnemy\EnemySystem.h" />
+    <ClInclude Include="src\Audio\AudioSource.h" />
     <ClInclude Include="src\Audio\AudioSystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h" />
