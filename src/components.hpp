@@ -285,11 +285,11 @@ struct Health
 //Point light source
 struct PointLight 
 {
-	glm::vec3 ambient, diffuse, specular, color;
+	glm::vec3 position, ambient, diffuse, specular, color;
 	float constant, linear, quadratic;
-	PointLight(glm::vec3 _ambient, glm::vec3 _diffuse, 
+	PointLight(glm::vec3 _position, glm::vec3 _ambient, glm::vec3 _diffuse, 
 		glm::vec3 _specular, float _constant, float _linear, float _quadratic, 
-		glm::vec3 _color) : ambient(_ambient), diffuse(_diffuse),
+		glm::vec3 _color) : position(_position), ambient(_ambient), diffuse(_diffuse),
 		specular(_specular), constant(_constant), linear(_linear), quadratic(_quadratic),
 		color(_color) { }
 };

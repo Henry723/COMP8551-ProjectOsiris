@@ -17,8 +17,12 @@ public:
 
 private:
   void draw(Model3D* modelComponent, Camera* cameraComponent);
-  void updateLight(PointLight* pointLightComponent, Transform* transformComponent, Model3D* modelComponent);
-  glm::vec2 playerPosition;
+  void updatePlayerLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void updateTreasureLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void resetCount();
+  
   int numPointLights;
+  PointLight *playerPointLight;
+  vector<PointLight*> treasurePointLights;
 };
 

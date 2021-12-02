@@ -417,7 +417,7 @@ PointLight CCfgMgrPhysical::CreatePointLight(tinyxml2::XMLElement* data)
     float pl_linear = atof(linear->GetText());
     float pl_quadratic = atof(quadratic->GetText());
 
-    return PointLight(ParseVec3(ambient->GetText()),
+    return PointLight(glm::vec3(0, 0, 0),ParseVec3(ambient->GetText()),
         ParseVec3(diffuse->GetText()),
         ParseVec3(specular->GetText()),
         pl_constant,

@@ -3,7 +3,7 @@
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
 int totalScore, playerHealth;
-//glm::vec2 playerPosition(0.0); //This is our plan b
+
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
 	em.subscribe<PlayerHealthUpdate>(*this);
@@ -31,7 +31,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
 	glEnable(GL_DEPTH_TEST);
-
+	glm::vec2 playerPosition;
 	//get player position to update camera position
 	for (Entity entity : es.entities_with_components(hRigidBody)) {
 		ComponentHandle<GameObject> object = entity.component<GameObject>();
@@ -69,12 +69,19 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	auto lightEntities = es.entities_with_components(htransform, hPointLight);
 	for (auto entity = lightEntities.begin(); entity != lightEntities.end(); ++entity) {
 		// update light information functions
-		Model3D* model = (*entity).component<Model3D>().get();
 		PointLight* pointLight = (*entity).component<PointLight>().get();
 		Transform* transform = (*entity).component<Transform>().get();
-
-		//Update lights
-		updateLight(pointLight, transform, model);
+		ComponentHandle<GameObject> object = (*entity).component<GameObject>();
+		if (object && object->name == "player") {
+			//Update lights
+			updatePlayerLight(pointLight, transform);
+			numPointLights++;
+		}
+		if (object && object->name == "treasure") {
+			//Update all light position and stuff when it knows it is treasure
+			updateTreasureLight(pointLight, transform);
+			numPointLights++;
+		}
 	}
 
 		
@@ -83,15 +90,11 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
 		Model3D* model = (*entity).component<Model3D>().get();
 		Transform* transform = (*entity).component<Transform>().get();
-		ComponentHandle<GameObject> object = (*entity).component<GameObject>();
-		PointLight* pointLight;
+
 		model->translate(transform->position);
 		model->scale(transform->scale);
 		model->rotate(glm::vec3(transform->rotation.r, transform->rotation.g, transform->rotation.b), transform->rotation.a);
 		
-		if (object && object->name == "player") {
-			PointLight* pointLight = (*entity).component<PointLight>().get();
-		}
 		//cout << "Drawing model " << model.name << endl;
 		//model->Draw();
 		draw(model, camera);
@@ -126,23 +129,23 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		//update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
 		glfwSwapBuffers((*entity).component<Window>().get()->window);
 	}
+	resetCount();
 }
 
-void RenderSystem::updateLight(PointLight* pointLightCompnent, Transform* transformComponent, Model3D* modelComponent) {
-	modelComponent->shader_program.use();
-	//Point lights
-	modelComponent->shader_program.setInt("numPointLights", 1);
-	
-	for (int pointlights = 0; pointlights < 1; pointlights++) {
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", transformComponent->position.x, 0, transformComponent->position.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", pointLightCompnent->ambient.x, pointLightCompnent->ambient.y, pointLightCompnent->ambient.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", pointLightCompnent->diffuse.x, pointLightCompnent->diffuse.y, pointLightCompnent->diffuse.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].specular", pointLightCompnent->specular.x, pointLightCompnent->specular.y, pointLightCompnent->specular.z);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].constant", pointLightCompnent->constant);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].linear", pointLightCompnent->linear);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].quadratic", pointLightCompnent->quadratic);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", pointLightCompnent->color.x, pointLightCompnent->color.y, pointLightCompnent->color.z);
-	}
+void RenderSystem::updatePlayerLight(PointLight* pointLightCompnent, Transform* transformComponent) {
+	playerPointLight = pointLightCompnent;
+	playerPointLight->position = transformComponent->position;
+}
+
+void RenderSystem::updateTreasureLight(PointLight* pointLightCompnent, Transform* transformComponent) {
+	PointLight* tpl = pointLightCompnent;
+	tpl->position = transformComponent->position;
+	treasurePointLights.push_back(tpl);
+}
+
+void RenderSystem::resetCount() {
+	numPointLights = 0;
+	treasurePointLights.clear();
 }
 
 void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
@@ -174,12 +177,12 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//sets the specular light value of light in shader (r, g, b)
 	//modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 
-	glm::vec3 pointLightPositions[] = {
-		glm::vec3(playerPosition.x, 0, playerPosition.y), //right
-		glm::vec3(-4, 0, 1.0f), //left
-		glm::vec3(-4.0f, 4.0f, 6.0f), //upper right
-		glm::vec3(4.0f, 4.0f, 6.0f) //bottom right
-	};
+	//glm::vec3 pointLightPositions[] = {
+	//	glm::vec3(playerPosition.x, 0, playerPosition.y), //right
+	//	glm::vec3(-4, 0, 1.0f), //left
+	//	glm::vec3(-4.0f, 4.0f, 6.0f), //upper right
+	//	glm::vec3(4.0f, 4.0f, 6.0f) //bottom right
+	//};
 	
 	// Distance Constant Linear Quadratic
 	// 7		1.0		0.7			1.8	
@@ -193,19 +196,34 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	// 100		1.0		0.014		0.0007	
 
 	//Point lights
-	modelComponent->shader_program.setInt("numPointLights", 1 );
-	
+	modelComponent->shader_program.setInt("numPointLights", numPointLights );
+	int pointLightOffset = 0;
+	//Player light
 	for (int pointlights = 0; pointlights < 1; pointlights++) {
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", pointLightPositions[pointlights].x, 0, pointLightPositions[pointlights].z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", 0.2f, 0.1f, 0.1f);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].constant", 1.0f);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].linear", 0.14);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].quadratic", 0.07);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", 1.75, 1.75, 0.6);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", playerPointLight->position.x, 0, playerPointLight->position.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", playerPointLight->ambient.x, playerPointLight->ambient.y, playerPointLight->ambient.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", playerPointLight->diffuse.x, playerPointLight->diffuse.y, playerPointLight->diffuse.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].specular", playerPointLight->specular.x, playerPointLight->specular.y, playerPointLight->specular.z);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].constant", playerPointLight->constant);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].linear", playerPointLight->linear);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].quadratic", playerPointLight->quadratic);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", playerPointLight->color.x, playerPointLight->color.y, playerPointLight->color.z);
+		pointLightOffset++;
 	}
+	
 
+	//Treasure lights
+	for (int pointlights = pointLightOffset, i = 0; pointlights < numPointLights; pointlights++, i++) {
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", treasurePointLights.at(i)->position.x, 0, treasurePointLights.at(i)->position.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", treasurePointLights.at(i)->ambient.x, treasurePointLights.at(i)->ambient.y, treasurePointLights.at(i)->ambient.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", treasurePointLights.at(i)->diffuse.x, treasurePointLights.at(i)->diffuse.y, treasurePointLights.at(i)->diffuse.z);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].specular", treasurePointLights.at(i)->specular.x, treasurePointLights.at(i)->specular.y, treasurePointLights.at(i)->specular.z);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].constant", treasurePointLights.at(i)->constant);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].linear", treasurePointLights.at(i)->linear);
+		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].quadratic", treasurePointLights.at(i)->quadratic);
+		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", treasurePointLights.at(i)->color.x, treasurePointLights.at(i)->color.y, treasurePointLights.at(i)->color.z);
+		pointLightOffset++;
+	}
 	////point light 1
 	//modelComponent->shader_program.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
 	//modelComponent->shader_program.setVec3("pointLights[0].ambient", 0.2f, 0.1f, 0.1f);
