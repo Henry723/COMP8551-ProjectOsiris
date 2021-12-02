@@ -40,6 +40,7 @@ void AudExec::Update() {
 
 AudioSystem::AudioSystem() {
 	AudioSystem::InitFMOD();
+	LoadSound(src_aud_bgMusic, NULL, true, NULL);
 	bgMusicChannelID = PlaySound(src_aud_bgMusic, Vector3(), VolumeTodB(0.5));
 }
 
