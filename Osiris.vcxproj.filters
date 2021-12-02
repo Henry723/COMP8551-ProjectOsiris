@@ -73,6 +73,12 @@
     <Filter Include="Header Files\SceneManager">
       <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{737cc4e4-378d-440c-b2b6-5e21ce936ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{d530d6fe-139e-4a40-9276-d57a4d878526}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\AIEnemy">
       <UniqueIdentifier>{4d4429ad-0b00-4afb-a56f-e0c4c5867938}</UniqueIdentifier>
     </Filter>
@@ -161,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="src\Player\PlayerSystem.cpp">
       <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\AudioSystem.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +263,27 @@
     <ClInclude Include="src\Player\PlayerSystem.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="src\Audio\AudioSystem.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\AudioSource.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -276,6 +306,9 @@
     </Image>
     <ClInclude Include="src\Physics\PhysicsEngine.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <Image Include="src\UI\textures\brickwall.jpg">
       <Filter>Resource Files</Filter>

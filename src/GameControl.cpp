@@ -1,5 +1,4 @@
 #include "GameControl.h"
-#include "gamestate.h"
 
 // TEMP - These will likely be adapted into an asset system
 const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
@@ -22,8 +21,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<ScoreTest>();
   systems.add<UISystem>();
   systems.add<InputEventTester>();
-  systems.add<ExampleEmitterSystem>();
-  systems.add<ExampleListenerSystem>();
+  systems.add<AudioSystem>();
+
   systems.configure();
 
   //Testing Scene Manager
@@ -47,7 +46,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create entities
   entityx::Entity entity = entities.create();
   entity.assign<Window>(window);
-  entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
+  entity.assign<Color>(0.0f, 0.0f, 0.0f, 1.0f);
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
@@ -67,8 +66,8 @@ void GameControl::Update(TimeDelta dt)
   systems.update<PlayerSystem>(dt);
   //systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);
-  systems.update<ExampleEmitterSystem>(dt);
+  systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
   systems.update<RenderSystem>(dt);
-
+  systems.update<AudioSystem>(dt);
 }

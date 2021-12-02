@@ -27,6 +27,8 @@
 # .dll Rule Exclusions
 !assimp-vc142-mtd.dll
 !freetype.dll
+!fmod.dll
+!fmodstudio.dll
 
 # Fortran module files
 *.mod

@@ -14,12 +14,15 @@ void TurnEvents::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 	if (time_out())
 	{
+
 		// 1. Send enemy action flag
 		events.emit<PlayerTurnEnd>();
 		events.emit<EnemyDebugInput>(EnemyDebugInput::UP);
 		
 		// 2. Reset turn timer.
 		reset_interval();
+
+		/*cout << " Time before next timeout is " << timeUntilNextOrder << endl;*/
 	}
 }
 

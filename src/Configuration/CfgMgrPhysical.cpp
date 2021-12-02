@@ -29,6 +29,7 @@
 CCfgMgrPhysical::CCfgMgrPhysical(const char* fileName)
 {
     tinyxml2::XMLError xmlerr = doc.LoadFile(fileName);
+    model_imp = new ModelImporter();
 
     if (xmlerr != tinyxml2::XML_SUCCESS)
     {
@@ -331,7 +332,8 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
     return Model3D(models[modelIndex].c_str(),
         vert_src->GetText(),
         frag_src->GetText(),
-        textures[modelIndex].c_str());
+        textures[rand() % textures.size()].c_str(),
+        model_imp);
 }
 
 Transform CCfgMgrPhysical::GetTransformComponent(tinyxml2::XMLElement* data)
