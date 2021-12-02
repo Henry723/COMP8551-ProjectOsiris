@@ -260,7 +260,7 @@ void UISystem::setup() {
     ShaderSetup();
 
     // TODO : REMOVE ONCE LoadStartMenu() can run outside of the setup method
-//    LoadStartMenu();
+    LoadStartMenu();
 
     generateMenuText();
     numElements = 0;
