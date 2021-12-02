@@ -1,5 +1,5 @@
 #pragma once
 
-enum GameState { PREPARING = 0, RUNNING, MENU };
+enum class GameState { MENU, PREPARING, RUNNING, GAMEOVER };
 
 extern GameState gameState;
