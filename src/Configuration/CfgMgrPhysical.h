@@ -38,6 +38,7 @@ class CCfgMgrPhysical
 {
 private:
 	tinyxml2::XMLDocument doc;
+	ModelImporter* model_imp;
 public:
 
 	CCfgMgrPhysical(const char* fileName);

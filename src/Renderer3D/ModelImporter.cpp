@@ -1,74 +1,214 @@
 #include "ModelImporter.h"
 #define TEST_MODELIMPORTER      false
 
-void ModelImporter::loadModel(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
+string ModelImporter::key_from_filePath(const char* filePath) {
+    string delimiter = "/";
+    size_t pos = 0;
+    string token;
 
-    if (model_loaded(modelSource))
-    {
-        cout << modelSource << " has already been loaded. Returning mapped values..." << endl;
+    string command = filePath;
+    vector<string> tokens = vector<string>();
+
+    // While there are still tokens in the string...
+    while ((pos = command.find(delimiter)) != std::string::npos) {
+
+        // Grab the current token.
+        token = command.substr(0, pos);
+
+        // Push the token into the vector.
+        tokens.push_back(token);
+
+        // Erase the token at the given position.
+        command.erase(0, pos + delimiter.length());
+    }
+
+    // The final token will input out of the loop
+    token = command.substr(0, pos);
+
+    tokens.push_back(token);
+
+    command.erase(0, pos + delimiter.length());
+
+    if (tokens.size() > 1) {
+        return tokens[tokens.size() - 1];
+    }
+
+    else {
+        return "";
+    }
+    
+}
+
+void ModelImporter::get_model(const char* modelSource, vector<float>& attribArray, vector<unsigned int>& indexArray) {
+
+    string modelKey = key_from_filePath(modelSource);
+
+    if (model_loaded(modelKey)) {
+        //cout << modelSource << " loaded." << endl;
         //LoadedModelData& modelData = models[modelSource];
 
-        attribArray = models[modelSource]->attribs;
-        indexArray = models[modelSource]->indices;
+        attribArray = *models[modelKey]->attribs;
+        indexArray = *models[modelKey]->indices;
+    }
+    else {
+        //cout << "map does not contain key " << modelSource << endl;
+        const char* def = "./src/Renderer3D/Models/cube.obj";
+
+        //cout << " Default value mapped to " << models[def]->attribs->size() << endl;
+
+        modelKey = key_from_filePath(def);
+
+        attribArray = *models[modelKey]->attribs;
+        indexArray = *models[modelKey]->indices;
+    }
+}
+
+unsigned char* ModelImporter::get_texture(const char* texSource, int& width, int& height, int& nrChannels) {
+
+    string textureKey = key_from_filePath(texSource);
+
+    if (texture_loaded(textureKey)) {
+
+        width = textures[textureKey]->imgWidth;
+        height = textures[textureKey]->imgHeight;
+        nrChannels = textures[textureKey]->nrChannels;
+
+        return textures[textureKey]->textureData;
 
     }
-    else
-    {
+    else {
+        const char* def = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
+        textureKey = key_from_filePath(def);
 
-        Assimp::Importer import;
-        const aiScene* scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
+        width = textures[def]->imgWidth;
+        height = textures[def]->imgHeight;
+        nrChannels = textures[def]->nrChannels;
 
-        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-        {
-            cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
-            return;
-        }
-
-        // This is a new collection of attributes and indices.
-        vector<float>& loadedAttribs = vector<float>();
-        vector<unsigned int>& loadedIndices = vector<unsigned int>();
-
-        cout << modelSource << " not found in MAP. loading..." << endl;
-
-        // Load the attribs and indices, storing them in the newly created collections
-#if TEST_MODEL3D
-        cout << "In ModelImporter: Assigning " << modelSource << endl;
-        cout << "Attributes assigned to vector ID #0x" << &attribArray << endl;
-        cout << "Indices assigned to vector ID #0x" << &indexArray << endl;
-
-        // Attribute loading / assigning
-        cout << "=====================================" << endl;
-        cout << "In Importer: BEFORE attrib load: " << attribArray.size() << endl;
-#endif
-        processNodeAttributes(scene->mRootNode, scene, loadedAttribs);
-#if TEST_MODEL3D
-        cout << "In Importer: AFTER load complete: " << attribArray.size() << endl;
-
-        // Index loading / assigning
-        cout << "In Importer: BEFORE index load: " << indexArray.size() << endl;
-#endif
-        processNodeIndices(scene->mRootNode, scene, loadedIndices);
-#if TEST_MODEL3D
-        cout << "In Importer: AFTER load complete: " << indexArray.size() << endl;
-        cout << "=====================================" << endl;
-#endif
-
-        // Create a new struct to store the model data and insert it into the map.
-        LoadedModelData* modelData = new LoadedModelData(loadedAttribs, loadedIndices);
-
-        // Assign the newly loaded values to the target reference.
-        models.insert(pair<const char*, LoadedModelData*>(modelSource, modelData));
-
-        attribArray = modelData->attribs; // loadedAttribs;
-        indexArray = modelData->indices;  // loadedIndices;
-
+        return textures[def]->textureData;
     }
+}
+
+void ModelImporter::populate_maps() {
+    // Player
+    const char* model_def = "./src/Renderer3D/Models/cube.obj";
+    const char* tex_def = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
+
+    // Player
+    const char* model_player = "./src/Renderer3D/Models/wayfarer.obj";
+    const char* tex_player = "./src/Renderer3D/Textures/tex_wayfarer.jpg";
+
+    // Enemy
+    const char* model_enemy = "./src/Renderer3D/Models/scarab.obj";
+    const char* tex_enemy = "./src/Renderer3D/Textures/tex_scarab.jpg";
+
+    // Treasure
+    const char* model_treasure = "./src/Renderer3D/Models/treasure_pile.obj";
+    const char* tex_treasure = "./src/Renderer3D/Textures/tex_treasurePile.jpg";
+
+    // Tiles
+    const char* model_tile1 = "./src/Renderer3D/Models/stone_tile_1.obj";
+    const char* model_tile2 = "./src/Renderer3D/Models/stone_tile_2.obj";
+    const char* model_tile3 = "./src/Renderer3D/Models/stone_tile_3.obj";
+
+    const char* tex_tile1 = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
+    const char* tex_tile2 = "./src/Renderer3D/Textures/tex_floorTile2.jpg";
+    const char* tex_tile3 = "./src/Renderer3D/Textures/tex_floorTile3.jpg";
+
+    // Walls
+    const char* model_wall = "./src/Renderer3D/Models/stone_wall_1.obj";
+    const char* tex_wall = "./src/Renderer3D/Textures/tex_wallTile1.jpg";
+
+    // Doors & Keys
+    const char* model_key = "./src/Renderer3D/Models/key_totem.obj";
+    const char* tex_key = "./src/Renderer3D/Textures/tex_key_totem.jpg";
+
+
+    // Load all models, add them to the map.
+    add_model_to_map(model_def);
+    add_model_to_map(model_player);
+    add_model_to_map(model_enemy);
+    add_model_to_map(model_treasure);
+    add_model_to_map(model_tile1);
+    add_model_to_map(model_tile2);
+    add_model_to_map(model_tile3);
+    add_model_to_map(model_wall);
+    add_model_to_map(model_key);
+
+    // Load all textures, add them to the map
+    add_texture_to_map(tex_def);
+    add_texture_to_map(tex_player);
+    add_texture_to_map(tex_enemy);
+    add_texture_to_map(tex_treasure);
+    add_texture_to_map(tex_tile1);
+    add_texture_to_map(tex_tile2);
+    add_texture_to_map(tex_tile3);
+    add_texture_to_map(tex_wall);
+    add_texture_to_map(tex_key);
 
 }
 
-bool ModelImporter::model_loaded(const char* modelSource)
+void ModelImporter::add_texture_to_map(const char* texSource) {
+
+    LoadedTextureData* textureData = new LoadedTextureData(texSource);
+
+    //int imgWidth, imgHeight, nrChannels;
+    //stbi_set_flip_vertically_on_load(false); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
+
+    //unsigned char* textureData = stbi_load(texSource, &imgWidth, &imgHeight, &nrChannels, 0);
+
+    // Assign the newly loaded values to the target reference.
+    string textureKey = key_from_filePath(texSource);
+    textures.insert(pair<string, LoadedTextureData*>(textureKey, textureData));
+}
+
+void ModelImporter::add_model_to_map(const char* modelSource) {
+    Assimp::Importer import;
+
+    // TEMP - load simple plane model
+    //const char* tempModelSource = "./src/Renderer3D/Models/cube.obj";
+    const aiScene* scene = import.ReadFile(modelSource, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+    {
+        cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
+        return;
+    }
+
+    //cout << "Adding " << modelSource << endl;
+
+    // This is a new collection of attributes and indices.
+    vector<float> loadedAttribs = vector<float>();
+    vector<unsigned int> loadedIndices = vector<unsigned int>();
+
+    processNodeAttributes(scene->mRootNode, scene, loadedAttribs);
+
+    processNodeIndices(scene->mRootNode, scene, loadedIndices);
+
+    //cout << " After model load: " << 
+
+    // Create a new struct to store the model data and insert it into the map.
+    LoadedModelData* modelData = new LoadedModelData(loadedAttribs, loadedIndices);
+
+    // Assign the newly loaded values to the target reference.
+    string modelKey = key_from_filePath(modelSource);
+    models.insert(pair<string, LoadedModelData*>(modelKey, modelData));
+
+    /*cout << "In Importer: AFTER load complete: " << models[modelSource]->attribs->size() << endl;
+    cout << "In Importer: AFTER load complete: " << models[modelSource]->indices->size() << endl;
+    cout << "=====================================" << endl;*/
+    
+}
+
+
+
+bool ModelImporter::model_loaded(string modelKey)
 {
-    return models.count(modelSource); // will be 1 if in the map
+    return models.count(modelKey); // will be 1 if in the map
+}
+
+bool ModelImporter::texture_loaded(string texKey)
+{
+    return textures.count(texKey); // will be 1 if in the map
 }
 
 void ModelImporter::processNodeAttributes(aiNode* node, const aiScene* scene, vector<float>& attribArray)
@@ -191,7 +331,7 @@ void ModelImporter::processMeshIndices(aiMesh* mesh, const aiScene* scene, vecto
 }
 
 ModelImporter::ModelImporter() {
-
+    populate_maps();
 }
 
 ModelImporter::~ModelImporter()
