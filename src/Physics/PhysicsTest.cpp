@@ -2,7 +2,7 @@
 
 void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
-	if (gameState != RUNNING) return; //Make sure game is running, if not, return.
+	if (gameState != GameState::RUNNING) return; //Make sure game is running, if not, return.
 	ComponentHandle<GameObject> gameObjects; //GameObject component handle
 	for (Entity entity : es.entities_with_components(gameObjects)) //Iterate over game objects
 	{
