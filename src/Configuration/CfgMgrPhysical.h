@@ -52,8 +52,6 @@ public:
 	Rigidbody CreateRigidbodyAtPosition(tinyxml2::XMLElement* data, int x, int y);
 	Health CreateHealth(tinyxml2::XMLElement* data);
 
-
-
 	//Component loaders
 	Model3D GetModel3DComponent(tinyxml2::XMLElement* data);
 	Transform GetTransformComponent(tinyxml2::XMLElement* data);
