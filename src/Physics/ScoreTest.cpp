@@ -36,3 +36,4 @@ void ScoreTest::receive(const EntityDestroyedEvent& events) {
 //int ScoreTest::getScore() {
 //	return totalScore;
 //}
+
