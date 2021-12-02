@@ -17,9 +17,9 @@ struct SceneManager
         string getSceneLoadFile() { return m_sceneLoadFile; }
 
         // Forwards from system
-        enum class TKeyPress { none, START, MENU, RESTART, TotalKeyPress };
+        enum class TCmd { none, START, MENU, RESTART, GAMEOVER, TotalCmds };
 
-        void keyPressNotification(TKeyPress keyPressed);
+        void cmdNotification(TCmd keyPressed);
 
         static SceneManager& getInstance()
         {

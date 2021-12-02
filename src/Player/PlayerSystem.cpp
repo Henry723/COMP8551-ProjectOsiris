@@ -129,8 +129,8 @@ void PlayerSystem::receive(const Collision& event)
 			string otherName = objectA->name == "player" ? objectB->name : objectA->name;
 			string otherType = objectA->name == "player" ? event.fB : event.fA;
 
-			//If we hit a treasure, destroy it.
-			if (otherName == "treasure" && playerCollider == "body") other->destroy();
+			//If we hit a treasure or key, destroy it.
+			if ((otherName == "treasure" || otherName == "key") && playerCollider == "body") other->destroy();
 			//If a sensor hit the body of a wall or enemy...
 			else if ((otherName == "wall" || otherName == "enemy") && (otherType == "body" || otherType == "enemy_body") && playerCollider != "body")
 			{

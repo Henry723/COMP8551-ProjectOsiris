@@ -2,9 +2,6 @@
 
 void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
-// TODO : DELETE COMMENTED CODE IF MERGE SUCCESS
-//	ComponentHandle<Rigidbody> rigidbody;
-
 	if (gameState != GameState::RUNNING) return; //Make sure game is running before applying update.
 	if (enemyTurn) //Check if enemy turn is active, based on TurnEvents
 	{
@@ -250,7 +247,8 @@ void EnemySystem::AttackPlayer(Entity* player)
 	//Get the player's health component
 	ComponentHandle<Health> playerHealth = player->component<Health>();
 	//Decrement and check for 0, Game Over event thrown here.
-	if (!--playerHealth->curHealth) events.emit<GameOver>();
+	if (--playerHealth->curHealth <= 0) 
+		events.emit<GameOver>();
 }
 
 /***********************************************

@@ -85,7 +85,6 @@ public:
     }
     void update(EntityManager&, EventManager&, TimeDelta) override; // unused as rendering is done within RenderSystem.cpp
     void configure(EventManager& em) override; // Subscribes to each input event
-//    void receive(const ControlInput& event); // Toggles movement bools to be picked up by update
     void setup(); // Can be called to begin doing all steps to setup the system (LoadFreeType, CreateVAOVBO)
     void ShaderSetup(); // Returns a shader that is used for text rendering
     int LoadFreeType(); // Initializes FreeType by loading a font and configuring glyphs / bitmaps for the specified font

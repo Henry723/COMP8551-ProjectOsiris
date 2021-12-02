@@ -24,10 +24,12 @@ public:
     void update(EntityManager&, EventManager&, TimeDelta) override; 
     void configure(EventManager& em) override;  // Subscribes to each input event
     void receive(const ControlInput& event);    // Used to pickup menu keys
+    void receive(const GameOver& event);
 
 private:
     SceneManager& scmgr = SceneManager::getInstance();
     bool X_pressed = false;
     bool Y_pressed = false;
     bool SPC_pressed = false;
+    bool GameOver_rcd = false;
 };

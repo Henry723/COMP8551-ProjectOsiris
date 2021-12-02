@@ -153,9 +153,6 @@
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\PhysicsTest.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp">
       <Filter>Source Files\AIEnemy</Filter>
     </ClCompile>
@@ -236,9 +233,6 @@
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\PhysicsTest.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="src\AIEnemy\EnemySystem.h">
       <Filter>Header Files\AIEnemy</Filter>
     </ClInclude>
@@ -296,6 +290,9 @@
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Renderer3D\Shaders\Default.frag">
@@ -318,9 +315,6 @@
     </Image>
     <ClInclude Include="src\Physics\PhysicsEngine.h">
       <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SceneManager.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <Image Include="src\UI\textures\brickwall.jpg">
       <Filter>Resource Files</Filter>
@@ -363,6 +357,9 @@
       <Filter>Source Files</Filter>
     </Xml>
     <Xml Include="src\Level01.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
+    <Xml Include="src\Level02.xml">
       <Filter>Source Files</Filter>
     </Xml>
   </ItemGroup>

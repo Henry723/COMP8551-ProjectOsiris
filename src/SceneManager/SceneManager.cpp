@@ -61,12 +61,12 @@ SceneManager::TScene SceneManager::nextScene(void)
     return m_curScene;
 }
 
-void SceneManager::keyPressNotification(TKeyPress keyPressed)
+void SceneManager::cmdNotification(TCmd keyPressed)
 {
 //    MENU, PREPARING, RUNNING, GAMEOVER
     switch (keyPressed)
     {
-    case TKeyPress::START:
+    case TCmd::START:
         if (gameState == GameState::MENU)
         {
             // TODO : PROCESS MENU START PRESS
@@ -79,7 +79,7 @@ void SceneManager::keyPressNotification(TKeyPress keyPressed)
         }
         break;
 
-    case TKeyPress::MENU:
+    case TCmd::MENU:
         if (gameState == GameState::GAMEOVER)
         {
             gameState = GameState::MENU;
@@ -87,12 +87,18 @@ void SceneManager::keyPressNotification(TKeyPress keyPressed)
         }
         break;
 
-    case TKeyPress::RESTART:
+    case TCmd::RESTART:
         if (gameState == GameState::GAMEOVER)
         {
             gameState = GameState::PREPARING;
             setScene(TScene::level_1);
         }
+        break;
+
+    case TCmd::GAMEOVER:
+        // Does not matter what state we are in when its received we are done
+        gameState = GameState::GAMEOVER;
+        setScene(TScene::gameOver);
         break;
 
     default:

@@ -9,21 +9,28 @@ void SceneMgrSystem::update(EntityManager& es, EventManager& events, TimeDelta d
     {
         // Forward to the scene manager
         X_pressed = false;
-        scmgr.keyPressNotification(SceneManager::TKeyPress::START);
+        scmgr.cmdNotification(SceneManager::TCmd::START);
     }
  
     if (Y_pressed)
     {
         // Forward to the scene manager
         Y_pressed = false;
-        scmgr.keyPressNotification(SceneManager::TKeyPress::MENU);
+        scmgr.cmdNotification(SceneManager::TCmd::MENU);
     }
     
     if (SPC_pressed)
     {
         // Forward to the scene manager
         SPC_pressed = false;
-        scmgr.keyPressNotification(SceneManager::TKeyPress::RESTART);
+        scmgr.cmdNotification(SceneManager::TCmd::RESTART);
+    }
+
+    if (GameOver_rcd)
+    {
+        // Forward to the scene manager
+        GameOver_rcd = false;
+        scmgr.cmdNotification(SceneManager::TCmd::GAMEOVER);
     }
 }
 
@@ -31,6 +38,7 @@ void SceneMgrSystem::update(EntityManager& es, EventManager& events, TimeDelta d
 void SceneMgrSystem::configure(EventManager& em)
 {
     em.subscribe<ControlInput>(*this);
+    em.subscribe<GameOver>(*this);
 }
 
 // Used to pickup menu keys
@@ -51,3 +59,8 @@ void SceneMgrSystem::receive(const ControlInput& event)
     }
 }
 
+// Used to pickup menu keys
+void SceneMgrSystem::receive(const GameOver& event)
+{
+    GameOver_rcd = true;
+}

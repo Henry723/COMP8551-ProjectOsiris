@@ -1,5 +1,4 @@
 #pragma once
-#include "PhysicsTest.h"
 #include "PhysicsEngine.h"
 #include "../Events/EventSystem.h"
 #include <entityx/Event.h>
