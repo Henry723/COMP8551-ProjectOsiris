@@ -27,8 +27,6 @@ const SceneManager::TScene SceneManager::assignNewScene()
 
         case TScene::gameOver:
             gameState = GameState::GAMEOVER;
-            // TODO : Will add functionality after branch submission and merge with dev
-            ;
             break;
 
         case TScene::level_1:
