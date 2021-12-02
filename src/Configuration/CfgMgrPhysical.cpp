@@ -338,7 +338,7 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
             poses.push_back(Model3D(pose_models[i].c_str(),
                 vert_src->GetText(),
                 frag_src->GetText(),
-                textures[rand() % textures.size()].c_str()));
+                textures[rand() % textures.size()].c_str(), model_imp));
         }       
 
          //Make sure all neccesary data is present. Model and texture chosen randomly from list
