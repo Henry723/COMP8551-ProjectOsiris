@@ -46,7 +46,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create entities
   entityx::Entity entity = entities.create();
   entity.assign<Window>(window);
-  entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
+  entity.assign<Color>(0.0f, 0.0f, 0.0f, 1.0f);
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
