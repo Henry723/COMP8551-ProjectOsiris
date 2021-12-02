@@ -13,7 +13,6 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	cout << "=====================================" << endl;
 #endif
 	
-	cout << "In Model3D : Sending Key " << modelSource << endl;
 	importer->get_model(modelSource, attributes, indices);
 
 	//cout << "Model returned from importer" << endl;
