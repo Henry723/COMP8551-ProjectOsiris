@@ -13,45 +13,37 @@ void TurnEvents::update(EntityManager& es, EventManager& events, TimeDelta dt)
 	timeElapsed += dt;
 	subtract_time(dt);
 
+	//cout << timeUntilNextOrder << endl;
+	if (!playerActing)
+	{
+		timeElapsed += dt;
+		subtract_time(dt);
+	}
+
 	if (time_out())
 	{
-		cout << "== TIME OUT == " << endl;
-		cout << "Total time elapsed is " << timeElapsed << endl;
-			
 
 		// 1. Send enemy action flag
-		ComponentHandle<Window> hwindow;
-		for (Entity entity : es.entities_with_components(hwindow))
-		{
-			Window* window = entity.component<Window>().get();
-			action_event(window->window);
-		}
-
+		events.emit<PlayerTurnEnd>();
+		events.emit<EnemyDebugInput>(EnemyDebugInput::UP);
+		
 		// 2. Reset turn timer.
 		reset_interval();
 
-		cout << " Time before next timeout is " << timeUntilNextOrder << endl;
-
+		/*cout << " Time before next timeout is " << timeUntilNextOrder << endl;*/
 	}
 }
 
 void TurnEvents::configure(EventManager& em) {
-	em.subscribe<MoveInput>(*this);
-	em.subscribe<AttackInput>(*this);
+	em.subscribe<PlayerTurnEnd>(*this);
 }
 
-//Receive function just sets boolean flags to be picked up by update loop
-void TurnEvents::receive(const MoveInput& event) {
-	
-	// 2. Reset turn timer.
-	timeUntilNextOrder = 0.0f;
-}
+void TurnEvents::receive(const PlayerTurnEnd& event) {
 
-//Receive function just sets boolean flags to be picked up by update loop
-void TurnEvents::receive(const AttackInput& event) {
-	
 	// 2. Reset turn timer.
-	timeUntilNextOrder = 0.0f;
+	//timeUntilNextOrder = 5.0f;
+	playerActing = false;
+	timeUntilNextOrder = 0;
 }
 
 void TurnEvents::action_event(GLFWwindow* window) {

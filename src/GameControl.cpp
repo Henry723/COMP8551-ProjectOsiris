@@ -1,5 +1,4 @@
 #include "GameControl.h"
-#include "gamestate.h"
 
 //#define RUN_TESTING
 
@@ -21,20 +20,21 @@ GameControl::GameControl(GLFWwindow* window, string filename)
     // TESTING -- Configuration Manager Custom -- End --
 #endif
 
-    // Create systems
-    systems.add<InputSystem>();
-    systems.add<RenderSystem>();
-    systems.add<PhysicsEngine>();
-    systems.add<PhysicsTest>();
-    systems.add<EnemySystem>();
-    systems.add<TurnEvents>();
-    systems.add<ScoreTest>();
-    systems.add<UISystem>();
-    systems.add<InputEventTester>();
-    systems.add<ExampleEmitterSystem>();
-    systems.add<ExampleListenerSystem>();
-    systems.add<SceneMgrSystem>();
-    systems.configure();
+	// Create systems
+	systems.add<InputSystem>();
+	systems.add<RenderSystem>();
+	systems.add<PhysicsEngine>();
+	//systems.add<PhysicsTest>();
+	systems.add<PlayerSystem>();
+	systems.add<EnemySystem>();
+	systems.add<TurnEvents>();
+	systems.add<ScoreTest>();
+	systems.add<UISystem>();
+	systems.add<InputEventTester>();
+	systems.add<AudioSystem>();
+	systems.add<SceneMgrSystem>();
+
+	systems.configure();
 
     // Now that systems are added use the scene manager to help loading appropriate scene
     SceneManager& scene = SceneManager::getInstance();
@@ -42,10 +42,10 @@ GameControl::GameControl(GLFWwindow* window, string filename)
     // Set the main window to the new scene name
     glfwSetWindowTitle(window, scene.getSceneName().c_str());
 
-    // Create entities
-    entityx::Entity entity = entities.create();
-    entity.assign<Window>(window);
-    entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
+	// Create entities
+	entityx::Entity entity = entities.create();
+	entity.assign<Window>(window);
+	entity.assign<Color>(0.0f, 0.0f, 0.0f, 1.0f);
 
     entityx::Entity cameraEntity = entities.create();
     //change the YAW and PITCH here in the 3rd and 4th argument
@@ -66,14 +66,15 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
 void GameControl::Update(TimeDelta dt)
 {
-    systems.update<InputSystem>(dt);
-    systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
-    systems.update<PhysicsEngine>(dt);
-    systems.update<PhysicsTest>(dt);
-    systems.update<ScoreTest>(dt);
-    systems.update<ExampleEmitterSystem>(dt);
-    systems.update<TurnEvents>(dt);
-    systems.update<EnemySystem>(dt);
-    systems.update<RenderSystem>(dt);
-    systems.update<SceneMgrSystem>(dt);
+	systems.update<InputSystem>(dt);
+	systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
+	systems.update<PhysicsEngine>(dt);
+	systems.update<PlayerSystem>(dt);
+	//systems.update<PhysicsTest>(dt);
+	systems.update<ScoreTest>(dt);
+	systems.update<TurnEvents>(dt);
+	systems.update<EnemySystem>(dt);
+	systems.update<RenderSystem>(dt);
+	systems.update<AudioSystem>(dt);
+	systems.update<SceneMgrSystem>(dt);
 }

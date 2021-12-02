@@ -2,10 +2,11 @@
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
-int totalScore;
+int totalScore, playerHealth;
 
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
+	em.subscribe<PlayerHealthUpdate>(*this);
 }
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
@@ -92,6 +93,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 	else {
 		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
+		ui.textElements[healthText].value = "Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth);
 		ui.RenderAll(); // Render all text elements which are set as active
 		if (gameState == GameState::MENU)
 			ui.RenderMenuText();
@@ -234,4 +236,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 
 void RenderSystem::receive(const ScoreUpdate& event) {
 	totalScore += event.score;
+}
+
+void RenderSystem::receive(const PlayerHealthUpdate& event) {
+	playerHealth = event.health;
 }

@@ -60,6 +60,44 @@ struct ControlInput {
 	Cmd cmd;
 };
 
+
+
+//Collision struct to be created for collision events
+struct Collision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+//Collision struct to be created for collision events
+struct EndCollision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	EndCollision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+struct PlayerTurnEnd {}; // Empty event to signal player end turn.
+struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
+struct GameOver {}; //Empty game over event to listen for.
+
 //Custom event for keeping track of the score
 struct ScoreUpdate {
 	explicit ScoreUpdate(int score) : score(score) {}
@@ -70,6 +108,12 @@ struct ScoreUpdate {
 struct KeyCaptureUpdate {
 	explicit KeyCaptureUpdate(bool captured) : captured(captured) {}
 	bool captured;
+};
+
+//Custom event for keeping track of the player health
+struct PlayerHealthUpdate {
+	explicit PlayerHealthUpdate(int health) : health(health) {}
+	int health;
 };
 
 //Create the custom events as such
@@ -106,6 +150,5 @@ struct ExampleListenerSystem : public System<ExampleListenerSystem>, public Rece
 
 	void receive(const ExampleEvent& event) {
 		total += event.a * event.b;
-		cout << "Event system :" << total << endl;
 	}
 };

@@ -103,12 +103,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp" />
+    <ClCompile Include="src\Audio\AudioSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp" />
     <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
@@ -122,6 +123,7 @@
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
     <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Physics\ScoreTest.cpp" />
+    <ClCompile Include="src\Player\PlayerSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
@@ -137,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="ModelSource.h" />
     <ClInclude Include="src\AIEnemy\EnemySystem.h" />
+    <ClInclude Include="src\Audio\AudioSource.h" />
+    <ClInclude Include="src\Audio\AudioSystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h" />
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
@@ -155,6 +159,7 @@
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
     <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Physics\ScoreTest.h" />
+    <ClInclude Include="src\Player\PlayerSystem.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\ModelImporter.h" />
