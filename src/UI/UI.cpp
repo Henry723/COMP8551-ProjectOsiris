@@ -300,6 +300,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     {
         ////Color* col = (*entity).component<Color>().get();
         // rendering commands
+
         // ...
         //glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
         //glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
