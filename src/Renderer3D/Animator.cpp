@@ -1,8 +1,8 @@
 #include "Animator.h"
 
-void Animator::doAnimation(Animation anim) {
+void Animator::doAnimation(string animName) {
 	animationTime = 0;
-	currentAnimation = &anim;
+	currentAnimation = &animations[animName];
 }
 
 void Animator::increaseAnimationTime(double timedelta) {
@@ -21,12 +21,13 @@ void Animator::update(double timedelta) {
 void Animator::calculateCurrentAnimationFrame() {
 	//get current frame and next frame
 	
-	//compare time with next frame. If time is after next frame's timestamp, change animations current frame and tell the model3d to index the appropriate model.
+	//compare time with next frame. 
+	//If time is after next frame's timestamp, change animations current frame and tell the model3d to index the appropriate model.
 	
 
 	
 }
 
-Keyframe Animator::getNextFrame() {
-	
-}
+//Keyframe Animator::getNextFrame() {
+//	return Keyframe;
+//}

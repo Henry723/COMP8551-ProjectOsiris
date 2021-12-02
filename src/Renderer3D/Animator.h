@@ -15,8 +15,9 @@ private:
 public:
 	void update(double timedelta);
 	void increaseAnimationTime(double timedelta);
-	void doAnimation(Animation animation);
+	void doAnimation(string animName);
 	void calculateCurrentAnimationFrame();
-	Keyframe getKeyFrame();
+	void checkModelSwap();
+	//Keyframe getNextFrame();
 
 };

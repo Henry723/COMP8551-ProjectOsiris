@@ -72,7 +72,7 @@ void GameControl::Update(TimeDelta dt)
   systems.update<ExampleEmitterSystem>(dt);
   systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
-  systems.update<AnimationSystem>(dt);
+  //systems.update<AnimationSystem>(dt);
   systems.update<RenderSystem>(dt);
 
 

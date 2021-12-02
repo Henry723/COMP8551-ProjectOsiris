@@ -123,6 +123,7 @@
     <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Physics\ScoreTest.cpp" />
     <ClCompile Include="src\Renderer3D\Animation.cpp" />
+    <ClCompile Include="src\Renderer3D\AnimationSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Animator.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
     <ClCompile Include="src\Renderer3D\KeyFrame.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Physics\ScoreTest.h" />
     <ClInclude Include="src\Renderer3D\Animation.h" />
+    <ClInclude Include="src\Renderer3D\AnimationSystem.h" />
     <ClInclude Include="src\Renderer3D\Animator.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
     <ClInclude Include="src\Renderer3D\Keyframe.h" />
