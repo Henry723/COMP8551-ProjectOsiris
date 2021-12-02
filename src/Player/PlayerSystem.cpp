@@ -50,7 +50,7 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				}
 				//MOVE CHECKS END
 
-				AttackChecks(); //Use flags to check if player can attack.
+				AttackChecks(events); //Use flags to check if player can attack.
 				ResetFlags(); //Reset movement and attack flags on player turn end.
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
@@ -62,7 +62,7 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 }
 
 //Check input and enemy flags to see if an attack should be performed.
-void PlayerSystem::AttackChecks()
+void PlayerSystem::AttackChecks(EventManager& events)
 {
 	//Arrays of attack flags and enemy pointers
 	bool attackFlags[4] = { attackLeft, attackRight, attackDown, attackUp };
@@ -72,6 +72,7 @@ void PlayerSystem::AttackChecks()
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
+			events.emit<PlayerAttack>(); //Event for attack SFX
 			//Grab the health component.
 			ComponentHandle<Health> targetH = enemyPointers[i]->component<Health>();
 			if (!--targetH->curHealth) //Decrement and check for 0

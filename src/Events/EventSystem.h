@@ -95,7 +95,9 @@ struct EndCollision
 };
 
 struct PlayerTurnEnd {}; // Empty event to signal player end turn.
+struct PlayerAttack {};//Empty event to signal player attack for SFX.
 struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
+struct EnemyAttack {}; //Empty event to signal enemy attack for SFX.
 struct GameOver {}; //Empty game over event to listen for.
 
 //Custom event for keeping track of the score

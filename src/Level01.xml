@@ -7,14 +7,12 @@
     <key id="W">wall</key>
 		<layout>
 			<row>_WWWWWWW_</row>
-			<row>W---E--TW</row>
-			<row>WTEW-E-W_</row>
-			<row>_WWW---W_</row>
-			<row>W--E-W--W</row>
-			<row>WT----E-W</row>
-			<row>W--WE--W_</row>
-			<row>WP-WT-W__</row>
-			<row>_WW_WW___</row>
+			<row>WP--E--TW</row>
+			<row>WWWWEWEW_</row>
+			<row>WTTWEWEW_</row>
+			<row>W--W-W--W</row>
+			<row>WT-E-E--W</row>
+			<row>_WWWWWWW_</row>
 		</layout>
 	</level>
 		<!--PLAYER ENTITY DATA-->

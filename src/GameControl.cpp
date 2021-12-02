@@ -1,5 +1,7 @@
 #include "GameControl.h"
 
+
+
 // TEMP - These will likely be adapted into an asset system
 const char* src_keyModel = "./src/Renderer3D/Models/key_totem.obj";
 const char* src_keyTexture = "./src/Renderer3D/Textures/tex_key_totem.jpg";
@@ -56,6 +58,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
+
+
 }
 
 void GameControl::Update(TimeDelta dt)
