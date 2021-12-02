@@ -17,5 +17,6 @@ public:
 
 private:
   void draw(Model3D* modelComponent, Camera* cameraComponent);
+  void updateLight(PointLight* pointLightComponent, Transform* transformComponent, Model3D* modelComponent);
 };
 
