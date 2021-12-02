@@ -21,6 +21,8 @@
 using namespace std;
 using std::copy;
 
+//static ModelImporter MODEL_IMP;
+
 struct Vertex {
 	glm::vec3 Position;
 	glm::vec3 Normal;
@@ -39,9 +41,9 @@ private:
 	glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
-	
-	vector<Vertex> vertices;
 	vector<unsigned int> indices;
+
+	vector<Vertex> vertices;
 	vector<Texture> textures;
 	vector<Model3D> poses;
 
@@ -53,7 +55,7 @@ public:
 
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
-	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, vector<Model3D> poses = vector<Model3D>());
+	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer, vector<Model3D> poses = vector<Model3D>());
 
 	// Tranformation Functions (for editing data)
 	void translate(glm::vec3 translation);
@@ -63,4 +65,3 @@ public:
 	void resetModelMatrix();
 
 };
-

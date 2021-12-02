@@ -15,7 +15,8 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputSystem>();
   systems.add<RenderSystem>();
   systems.add<PhysicsEngine>();
-  systems.add<PhysicsTest>();
+  //systems.add<PhysicsTest>();
+  systems.add<PlayerSystem>();
   systems.add<EnemySystem>();
   systems.add<TurnEvents>();
   systems.add<ScoreTest>();
@@ -48,16 +49,13 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   // Create entities
   entityx::Entity entity = entities.create();
   entity.assign<Window>(window);
-  entity.assign<Color>(0.2f, 0.3f, 0.3f, 1.0f);
+  entity.assign<Color>(0.0f, 0.0f, 0.0f, 1.0f);
 
   entityx::Entity cameraEntity = entities.create();
   //change the YAW and PITCH here in the 3rd and 4th argument
   cameraEntity.assign<Camera>(glm::vec3(0.0f, 0.0f, -6.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -80.0f);
   //change the camera's position here in the first argument
   cameraEntity.assign<Transform>(glm::vec3(0, -8.0f, -2.0f) * -1.0f, glm::vec4(1.0f), glm::vec3(1.0f));
-
-  //CCfgMgrApplication cfgManager = CCfgMgrApplication();
-  //cfgManager.loadConfig("./src/Game.xml", entities);
 
   CCfgMgrApplication cfgManager_level = CCfgMgrApplication();
   cfgManager_level.loadLevel("./src/Level01.xml", entities);
@@ -68,10 +66,10 @@ void GameControl::Update(TimeDelta dt)
   systems.update<InputSystem>(dt);
   systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
   systems.update<PhysicsEngine>(dt);
-  systems.update<PhysicsTest>(dt);
+  systems.update<PlayerSystem>(dt);
+  //systems.update<PhysicsTest>(dt);
   systems.update<ScoreTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
-  systems.update<TurnEvents>(dt);
   systems.update<EnemySystem>(dt);
   //systems.update<AnimationSystem>(dt);
   systems.update<RenderSystem>(dt);

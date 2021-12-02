@@ -125,6 +125,7 @@
     <ClCompile Include="src\Renderer3D\Animation.cpp" />
     <ClCompile Include="src\Renderer3D\AnimationSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Animator.cpp" />
+    <ClCompile Include="src\Player\PlayerSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
     <ClCompile Include="src\Renderer3D\KeyFrame.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="src\Renderer3D\Animation.h" />
     <ClInclude Include="src\Renderer3D\AnimationSystem.h" />
     <ClInclude Include="src\Renderer3D\Animator.h" />
+    <ClInclude Include="src\Player\PlayerSystem.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
     <ClInclude Include="src\Renderer3D\Keyframe.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />

@@ -2,10 +2,11 @@
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
-int totalScore;
+int totalScore, playerHealth;
 
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
+	em.subscribe<PlayerHealthUpdate>(*this);
 }
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
@@ -21,6 +22,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	ComponentHandle<Camera> hCamera;
 	ComponentHandle<Rigidbody> hRigidBody;
 
+	// Needed to write player health to ui
+	ComponentHandle<Health> playerHealth;
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
@@ -33,6 +36,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		ComponentHandle<Rigidbody> rigidbody = entity.component<Rigidbody>();
 		if (object && object->name == "player") {
 			playerPosition = rigidbody->GetPosition();
+			playerHealth = entity.component<Health>();
 		}
 	}
 
@@ -82,12 +86,13 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
-		healthText = ui.NewTextElement("Health: 1/1", 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+		healthText = ui.NewTextElement("Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		ui.configured = true;
 	}
 	else {
 		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
+		ui.textElements[healthText].value = "Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth);
 		ui.RenderAll(); // Render all text elements which are set as active
 		if (gameState == MENU)
 			ui.RenderMenuText();
@@ -230,4 +235,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 
 void RenderSystem::receive(const ScoreUpdate& event) {
 	totalScore += event.score;
+}
+
+void RenderSystem::receive(const PlayerHealthUpdate& event) {
+	playerHealth = event.health;
 }

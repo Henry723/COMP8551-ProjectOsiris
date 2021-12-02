@@ -9,6 +9,7 @@
 #include "Events/EventSystem.h"
 #include "Events/TurnEvents.h"
 #include "Renderer3D/AnimationSystem.h"
+#include "Player/PlayerSystem.h"
 
 // TESTING -- Start --
 #include "MemoryManager/CMMPoolTester.h"
