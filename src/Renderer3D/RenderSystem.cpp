@@ -3,7 +3,7 @@
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
 int totalScore, playerHealth;
-glm::vec2 playerPosition(0.0); //This is our plan b
+//glm::vec2 playerPosition(0.0); //This is our plan b
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
 	em.subscribe<PlayerHealthUpdate>(*this);
@@ -193,9 +193,9 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	// 100		1.0		0.014		0.0007	
 
 	//Point lights
-	modelComponent->shader_program.setInt("numPointLights", 3 );
+	modelComponent->shader_program.setInt("numPointLights", 1 );
 	
-	for (int pointlights = 0; pointlights < 3; pointlights++) {
+	for (int pointlights = 0; pointlights < 1; pointlights++) {
 		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", pointLightPositions[pointlights].x, 0, pointLightPositions[pointlights].z);
 		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", 0.2f, 0.1f, 0.1f);
 		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
