@@ -50,8 +50,7 @@ public:
 
 	void update(EntityManager&, EventManager&, TimeDelta) override;
 	void configure(EventManager& em) override;
-	void receive(const AttackInput& event);
-	void receive(const MoveInput& event);
+	void receive(const InteractInput& event);
 
 	AudioSystem();
 	~AudioSystem();
