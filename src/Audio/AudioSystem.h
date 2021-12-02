@@ -1,6 +1,8 @@
 #pragma once
 #include "../components.hpp"
 #include "../Events/EventSystem.h"
+#include "AudioSource.h"
+#include "../gamestate.h"
 #include <FMOD/fmod_studio_common.h>
 #include <FMOD/fmod_studio.hpp>
 #include <FMOD/fmod.hpp>
@@ -50,7 +52,7 @@ public:
 
 	void update(EntityManager&, EventManager&, TimeDelta) override;
 	void configure(EventManager& em) override;
-	void receive(const InteractInput& event);
+	void receive(const AttackInput& event);
 
 	AudioSystem();
 	~AudioSystem();
@@ -76,5 +78,5 @@ public:
 	FMOD_VECTOR VectorToFMOD(const Vector3& vPosition);
 private:
 	static AudExec* instAudExec;
-	int bgChannelID;
+	int bgMusicChannelID;
 };
