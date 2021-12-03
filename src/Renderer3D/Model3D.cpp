@@ -127,6 +127,17 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 #endif
 }
 
+Model3D::~Model3D() { }
+
+void Model3D::clear_buffers() {
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+
+	attributes.clear();
+	indices.clear();
+}
+
 void Model3D::translate(glm::vec3 translation) {
 	transformation_matrix = glm::translate(transformation_matrix, translation);
 }

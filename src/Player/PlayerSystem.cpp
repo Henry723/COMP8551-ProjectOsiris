@@ -50,7 +50,7 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				}
 				//MOVE CHECKS END
 
-				AttackChecks(events); //Use flags to check if player can attack.
+				AttackChecks(transform, events); //Use flags to check if player can attack.
 				ResetFlags(); //Reset movement and attack flags on player turn end.
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
@@ -62,13 +62,26 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 }
 
 //Check input and enemy flags to see if an attack should be performed.
-void PlayerSystem::AttackChecks(EventManager& events)
+void PlayerSystem::AttackChecks(ComponentHandle<Transform> transform, EventManager& events)
 {
 	//Arrays of attack flags and enemy pointers
 	bool attackFlags[4] = { attackLeft, attackRight, attackDown, attackUp };
 	Entity* enemyPointers[4] = { leftEntity, rightEntity, downEntity, upEntity };
 	for (int i = 0; i < 4; i++)
 	{
+		if (attackFlags[0]) {
+			transform->rotation = glm::vec4(0, -1, 0, 90);
+		}
+		else if (attackFlags[1]) {
+			transform->rotation = glm::vec4(0, 1, 0, 90);
+		}
+		else if (attackFlags[2]) {
+			transform->rotation = glm::vec4(0, 1, 0, 0);
+		}
+		else if (attackFlags[3]) {
+			transform->rotation = glm::vec4(0, 1, 0, 110);
+		}
+		events.emit<PlayerAttack>();
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
