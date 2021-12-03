@@ -67,6 +67,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
 	}
 
+	// Loop though all the entity that has light components to update 
 	auto lightEntities = es.entities_with_components(htransform, hPointLight);
 	for (auto entity = lightEntities.begin(); entity != lightEntities.end(); ++entity) {
 		// update light information functions
@@ -84,7 +85,6 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 			numPointLights++;
 		}
 	}
-
 		
 	// Loop through Model3D components
 	auto modelEntities = es.entities_with_components(hmodel, htransform);
@@ -176,18 +176,6 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//Camera
 	//sets the camera location which calculates the camera position relative to the models
 	modelComponent->shader_program.setVec3("positionOffset", cameraComponent->Position.x, cameraComponent->Position.y, cameraComponent->Position.z);
-
-	//Default ambient lights
-	//sets the ambient light value in shader (r, g, b)
-	//modelComponent->shader_program.setVec3("light.ambient", 0.3f, 0.2f, 0.2f);
-
-	// Default diffuse lights
-	//sets the position of the diffuse lighting
-	//modelComponent->shader_program.setVec3("light.position", 0.0f, 0.0f, 1.0f);
-	//sets the diffuse light value in shader (r, g, b)
-	//modelComponent->shader_program.setVec3("light.diffuse", 0.2f + 171.0/255, 0.2f + 138.0/255, 0.2f + 126.0/255);
-	//sets the specular light value of light in shader (r, g, b)
-	//modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
 	
 	// Distance Constant Linear Quadratic
 	// 7		1.0		0.7			1.8	
