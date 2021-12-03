@@ -106,6 +106,12 @@ struct ScoreUpdate {
 	int score;
 };
 
+//Custom event for keeping track of key capture
+struct KeyCaptureUpdate {
+	explicit KeyCaptureUpdate(bool captured) : captured(captured) {}
+	bool captured;
+};
+
 //Custom event for keeping track of the player health
 struct PlayerHealthUpdate {
 	explicit PlayerHealthUpdate(int health) : health(health) {}

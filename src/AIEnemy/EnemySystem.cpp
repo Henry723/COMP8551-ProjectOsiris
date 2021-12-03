@@ -2,7 +2,7 @@
 
 void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
-	if (gameState != RUNNING) return; //Make sure game is running before applying update.
+	if (gameState != GameState::RUNNING) return; //Make sure game is running before applying update.
 	if (enemyTurn) //Check if enemy turn is active, based on TurnEvents
 	{
 		ComponentHandle<GameObject> gameObject; //Game object component handle
@@ -33,7 +33,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 20.5)
-							AttackPlayer(commands->playerEntity, events);
+							AttackPlayer(events, commands->playerEntity);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 20.5f);
 					}
@@ -41,7 +41,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 0)
-							AttackPlayer(commands->playerEntity, events);
+							AttackPlayer(events, commands->playerEntity);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 0);
 					}
@@ -49,7 +49,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == -1 && transform->rotation.w == 20.5)
-							AttackPlayer(commands->playerEntity, events);
+							AttackPlayer(events, commands->playerEntity);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, -1, 0, 20.5f);
 					}
@@ -57,7 +57,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 9.5)
-							AttackPlayer(commands->playerEntity, events);
+							AttackPlayer(events, commands->playerEntity);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 					}
@@ -242,13 +242,14 @@ vector<CommandFlags::EnemyCommand> EnemySystem::AvailableMoves(Rigidbody* rigidb
 	return possibleMoves;
 }
 
-void EnemySystem::AttackPlayer(Entity* player, EventManager& events)
+void EnemySystem::AttackPlayer(EventManager& events, Entity* player)
 {
 	//Get the player's health component
 	ComponentHandle<Health> playerHealth = player->component<Health>();
 	//Decrement and check for 0, Game Over event thrown here.
 	events.emit<EnemyAttack>();
-	if (!--playerHealth->curHealth) events.emit<GameOver>();
+	if (--playerHealth->curHealth <= 0) 
+		events.emit<GameOver>();
 }
 
 /***********************************************

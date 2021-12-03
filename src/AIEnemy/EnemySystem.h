@@ -14,7 +14,7 @@ struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, E
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
 	void CheckForPlayer(Rigidbody* rigidbody, CommandFlags* commands); //Checks for a player/sensor collision
-	void AttackPlayer(Entity* player, EventManager& events); //Convenience function for logic to attack player
+	void AttackPlayer(EventManager& events, Entity* player); //Convenience function for logic to attack player
 	vector<CommandFlags::EnemyCommand> AvailableMoves(Rigidbody* rigidbody, CommandFlags* commands); //Gets list of available moves
 	void receive(const PlayerTurnEnd& event); //Listens for player turn end.
 

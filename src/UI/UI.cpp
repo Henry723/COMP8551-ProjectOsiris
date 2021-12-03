@@ -257,8 +257,11 @@ void UISystem::RenderMenuText() {
 void UISystem::setup() {
     // Currently only calls the LoadFreeType function and sets up the shader. Other setup steps can also be added here
     LoadFreeType();
-    LoadStartMenu();
     ShaderSetup();
+
+    // TODO : REMOVE ONCE LoadStartMenu() can run outside of the setup method
+    LoadStartMenu();
+
     generateMenuText();
     numElements = 0;
 }
@@ -288,7 +291,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         configured = true;
     }
 
-    if (gameState != PREPARING) return;
+    if (gameState != GameState::MENU) return;
 
     ////ComponentHandle<Color> hcolor;
     ComponentHandle<Window> hwindow;
@@ -339,26 +342,6 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 
 void UISystem::configure(EventManager& em) {
-    em.subscribe<ControlInput>(*this);
     //em.subscribe<Collision>(*this);
 }
 
-
-void UISystem::receive(const ControlInput& event) {
-    ControlInput::Cmd cmd = event.cmd;
-    switch (cmd) {
-    case ControlInput::X:
-        if (gameState == PREPARING) gameState = RUNNING;
-        break;
-    case ControlInput::Y:
-        if (gameState == RUNNING) gameState = MENU;
-        break;
-    case ControlInput::SPACE:
-        if (gameState == MENU) {
-            SceneManager::getInstance().setScene("filename");
-            gameState = PREPARING;
-            //gameState = RUNNING;
-        }
-        break;
-    }
-}
