@@ -26,10 +26,14 @@ public:
     void receive(const ControlInput& event);    // Used to pickup menu keys
     void receive(const GameOver& event);
 
+    enum class TSndEvt { GAMEWON };
+    void sendEvent(TSndEvt toSend);
+
 private:
     SceneManager& scmgr = SceneManager::getInstance();
     bool X_pressed = false;
     bool Y_pressed = false;
     bool SPC_pressed = false;
     bool GameOver_rcd = false;
+    bool GameWon_rcd = false;
 };

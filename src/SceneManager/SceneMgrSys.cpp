@@ -32,6 +32,12 @@ void SceneMgrSystem::update(EntityManager& es, EventManager& events, TimeDelta d
         GameOver_rcd = false;
         scmgr.cmdNotification(SceneManager::TCmd::GAMEOVER);
     }
+
+    if (GameWon_rcd)
+    {
+        GameWon_rcd = false;
+        events.emit<GameWon>();
+    }
 }
 
 // Subscribes to each input event
@@ -59,8 +65,13 @@ void SceneMgrSystem::receive(const ControlInput& event)
     }
 }
 
-// Used to pickup menu keys
+// Used to pickup game over loss condition from other systems
 void SceneMgrSystem::receive(const GameOver& event)
 {
     GameOver_rcd = true;
+}
+
+void SceneMgrSystem::sendEvent(TSndEvt toSend)
+{
+    GameWon_rcd = (toSend == TSndEvt::GAMEWON);
 }

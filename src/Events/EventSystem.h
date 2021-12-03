@@ -99,6 +99,7 @@ struct PlayerAttack {}; //Empty event to signal player attack.
 struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
 struct EnemyAttack {}; //Empty event to signal enemy attack.
 struct GameOver {}; //Empty game over event to listen for.
+struct GameWon {}; //Empty game won event to listen for.
 
 //Custom event for keeping track of the score
 struct ScoreUpdate {

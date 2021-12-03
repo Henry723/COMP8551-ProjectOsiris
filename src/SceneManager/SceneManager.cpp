@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "SceneMgrSys.h"
 
 SceneManager::SceneManager()
     : m_curScene(TScene::none), m_newScene(TScene::none),
@@ -54,6 +55,11 @@ SceneManager::TScene SceneManager::nextScene(void)
 {
     m_newScene = (TScene)((int)m_curScene + 1);
     if (m_newScene == TScene::TotalScenes) { m_newScene = TScene::mainMenu; }
+    if (m_newScene == TScene::gameOver)
+    {
+        // We have a win scenario forward to our system so message emitted
+        SceneMgrSystem::getInstance().sendEvent(SceneMgrSystem::TSndEvt::GAMEWON);
+    }
     m_isNewScene = true;
 
     return m_curScene;
@@ -67,7 +73,6 @@ void SceneManager::cmdNotification(TCmd keyPressed)
     case TCmd::START:
         if (gameState == GameState::MENU)
         {
-            // TODO : PROCESS MENU START PRESS
             nextScene();
 
             // NOTE : Running state is triggered when the level XML file
