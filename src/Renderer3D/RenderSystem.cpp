@@ -8,6 +8,7 @@ int totalScore, playerHealth;
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
 	em.subscribe<PlayerHealthUpdate>(*this);
+	em.subscribe<TimerUpdate>(*this);
 }
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
@@ -145,7 +146,7 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	float green = (sin(timeValue) / 2.0f) + 0.5f;
 	
 	int vertColorLocation = glGetUniformLocation(modelComponent->shader_program.ID, "ourColor"); // Get the location of the uniform
-	cout << "draw2" << endl;
+
 	// ..:: Drawing code (called in render loop) :: ..
 	//		This is called FOR EACH object we want to draw this frame.
 	// 1. Choose the shader to use
@@ -268,6 +269,10 @@ void RenderSystem::receive(const ScoreUpdate& event) {
 
 void RenderSystem::receive(const PlayerHealthUpdate& event) {
 	playerHealth = event.health;
+}
+
+void RenderSystem::receive(const TimerUpdate& event) {
+	if(event.ratio > 0.01) ui.SetTimer(event.ratio);
 }
 
 RenderSystem::~RenderSystem() {
