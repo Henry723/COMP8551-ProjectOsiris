@@ -37,7 +37,7 @@ public:
 
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
-	void receive(const EndCollision& events);
+	void receive(const Collision& events);
 	void receive(const EntityDestroyedEvent& events);
 	void resetScore(void);
 	int getScore(void);
