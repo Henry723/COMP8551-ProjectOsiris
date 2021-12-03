@@ -46,6 +46,8 @@ int main() {
 
 	// 2. Set the context to our new window.
 	glfwMakeContextCurrent(window);
+	// the v-sync button that adds input lag
+	//glfwSwapInterval(1);
 
 	// 3. GLAD manages function pointers to OpenGL.
 	//		Any OpenGL function can be called through GLAD.
@@ -79,19 +81,39 @@ int main() {
 
 	const double fpsLimit = 1.0 / 60.0;
 	double lastUpdateTime = 0;
+	double lastTime = glfwGetTime();
+	int frameCount = 0;
+
+	double lastFrameTime = 0;
+
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
 		// TODO allow for new "scene"
 		double now = glfwGetTime();
-		double deltaTime = now - lastUpdateTime;
-		gamecontrol->Update(deltaTime*8.0f);
-		lastUpdateTime = now;
+		double deltaTime2 = now - lastUpdateTime;
+		//gamecontrol->Update(deltaTime*8.0f);
+		double currentTime = glfwGetTime();
+		double deltaTime = currentTime - lastTime;
+		frameCount++;
+		if (deltaTime >= 1.0) {
+			double fps = double(frameCount) / deltaTime;
+			std::stringstream ss;
+
+			ss << "THE TOMB OF OSIRIS" << " FPS: " << fps;
+			glfwSetWindowTitle(window, ss.str().c_str());
+
+			frameCount = 0;
+			lastTime = currentTime;
+		}
+		gamecontrol->Update(0.1f);
+	
 
 		if (scene.isNewScene()) {
 			delete gamecontrol;
 			scene.assignNewScene();
 			gamecontrol = new GameControl(window, scene.getSceneName());
 		}
+		glfwSwapBuffers(window);
 	}
 	delete gamecontrol;
 	// Once we exit the Render Loop, we clean-up & return.
