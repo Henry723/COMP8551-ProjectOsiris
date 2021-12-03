@@ -37,6 +37,11 @@ CCfgMgrPhysical::CCfgMgrPhysical(const char* fileName)
     }
 }
 
+CCfgMgrPhysical::~CCfgMgrPhysical() {
+    //cout << " Config Mng Physical is being deallocated " << endl;
+    delete model_imp;
+}
+
 void CCfgMgrPhysical::PrintDocument()
 {
     doc.Print(); //Print out the whole XML Doc

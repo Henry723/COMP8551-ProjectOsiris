@@ -80,11 +80,11 @@ unsigned char* ModelImporter::get_texture(const char* texSource, int& width, int
         const char* def = "./src/Renderer3D/Textures/tex_floorTile1.jpg";
         textureKey = key_from_filePath(def);
 
-        width = textures[def]->imgWidth;
-        height = textures[def]->imgHeight;
-        nrChannels = textures[def]->nrChannels;
+        width = textures[textureKey]->imgWidth;
+        height = textures[textureKey]->imgHeight;
+        nrChannels = textures[textureKey]->nrChannels;
 
-        return textures[def]->textureData;
+        return textures[textureKey]->textureData;
     }
 }
 
@@ -121,6 +121,8 @@ void ModelImporter::populate_maps() {
     // Doors & Keys
     const char* model_key = "./src/Renderer3D/Models/key_totem.obj";
     const char* tex_key = "./src/Renderer3D/Textures/tex_key_totem.jpg";
+    const char* model_door = "./src/Renderer3D/Models/stone_door_closed_1.obj";
+    const char* tex_door = "./src/Renderer3D/Textures/tex_Door.jpg";
 
 
     // Load all models, add them to the map.
@@ -133,6 +135,7 @@ void ModelImporter::populate_maps() {
     add_model_to_map(model_tile3);
     add_model_to_map(model_wall);
     add_model_to_map(model_key);
+    add_model_to_map(model_door);
 
     // Load all textures, add them to the map
     add_texture_to_map(tex_def);
@@ -144,6 +147,7 @@ void ModelImporter::populate_maps() {
     add_texture_to_map(tex_tile3);
     add_texture_to_map(tex_wall);
     add_texture_to_map(tex_key);
+    add_texture_to_map(tex_door);
 
 }
 
@@ -336,5 +340,23 @@ ModelImporter::ModelImporter() {
 
 ModelImporter::~ModelImporter()
 {
-    // TODO Iterate through map and deallocate pointers
+    //cout << "Model Importer is being deallocated " << endl;
+
+    map<string, LoadedModelData*>::iterator it;
+    for (it = models.begin(); it != models.end(); it++)
+    {
+        //cout << "Deallocating model data for " << it->first << endl;
+        delete it->second;
+    }
+
+    map<string, LoadedTextureData*>::iterator tex_it;
+    for (tex_it = textures.begin(); tex_it != textures.end(); tex_it++)
+    {
+        //cout << "Deallocating texture data for " << tex_it->first << endl;
+        delete tex_it->second;
+    }
+
+    textures.clear();
+    models.clear();
+
 }

@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<game>
+	<level tilespacing="2" startX="-2" startY="-2">
+		<key id="P">player</key>
+		<key id="E">enemy</key>
+        <key id="T">treasure</key>
+        <key id="K">key</key>
+        <key id="D">door</key>
+        <key id="W">wall</key>
+		<layout>
+			<row>_WWWWWWW_</row>
+			<row>WP--E-KTW</row>
+			<row>WWWWEWEW_</row>
+			<row>WTTWEWEW_</row>
+			<row>W--W-W--W</row>
+			<row>WTDE-E--W</row>
+			<row>_WWWWWWW_</row>
+		</layout>
+	</level>
+		<!--PLAYER ENTITY DATA-->
+		<gameobject name="player">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/wayfarer.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_wayfarer.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="player">
+				<colliders>
+					<collider shape="circle" sensor="false" size="0.75" name="body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="right">2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="left">-2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="bottom">0.0, 2.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="top">0.0, -2.0</collider>
+				</colliders>
+			</rigidbody>
+		<health amount="3"></health>
+		</gameobject>
+		<!--WALL ENTITY DATA-->
+		<gameobject name="wall">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/stone_wall_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_wallTile1.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+        <yDepth>-3.0</yDepth>
+        <scale>0.8, 1.0, 0.8</scale>
+        <rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="wall">
+				<colliders>
+					<collider shape="box" sensor="false" size="1" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--ENEMY ENTITY DATA-->
+		<gameobject name="enemy">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/scarab.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_scarab.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, -90.0</rotation>
+			</transform>
+			<commandflags>
+				<!--no required properties-->
+			</commandflags>
+			<rigidbody type="enemy">
+				<colliders>
+					<collider shape="circle" sensor="false" size="0.75" name="enemy_body">0.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_right">2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_left">-2.0, 0.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_bottom">0.0, 2.0</collider>
+					<collider shape="circle" sensor="true" size="0.75" name="enemy_top">0.0, -2.0</collider>
+				</colliders>
+			</rigidbody>
+			<health amount="1"></health>
+		</gameobject>
+		<!--TREASURE ENTITY DATA-->
+		<gameobject name="treasure">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/treasure_pile.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_treasurePile.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="treasure">
+				<colliders>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--KEY ENTITY DATA-->
+		<gameobject name="key">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/key_totem.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_key_totem.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="key">
+				<colliders>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--KEY ENTITY DATA-->
+		<gameobject name="door">
+			<model3D modelCount="1">
+				<model_src>./src/Renderer3D/Models/stone_door_closed_1.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_Door.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.0, 1.0, 1.0</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+			<rigidbody type="door">
+				<colliders>
+					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
+				</colliders>
+			</rigidbody>
+		</gameobject>
+		<!--TILE ENTITY DATA-->
+		<gameobject name="tile">
+			<model3D modelCount="3">
+				<model_src>./src/Renderer3D/Models/stone_tile_1.obj,./src/Renderer3D/Models/stone_tile_2.obj,./src/Renderer3D/Models/stone_tile_3.obj</model_src>
+				<text_src>./src/Renderer3D/Textures/tex_floorTile1.jpg,./src/Renderer3D/Textures/tex_floorTile2.jpg,./src/Renderer3D/Textures/tex_floorTile3.jpg</text_src>
+				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
+				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
+			</model3D>
+			<transform>
+				<yDepth>-2.0</yDepth>
+				<scale>1.05, 0.9, 1.05</scale>
+				<rotation>0.0, 1.0, 0.0, 0.0</rotation>
+			</transform>
+		</gameobject>
+</game>

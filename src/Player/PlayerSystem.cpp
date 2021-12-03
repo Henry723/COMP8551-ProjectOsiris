@@ -2,7 +2,7 @@
 
 void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 {
-	if (gameState != RUNNING) return; //Make sure game is running, if not, return.
+	if (gameState != GameState::RUNNING) return; //Make sure game is running, if not, return.
 	ComponentHandle<GameObject> gameObjects; //GameObject component handle
 	for (Entity entity : es.entities_with_components(gameObjects)) //Iterate over game objects
 	{
@@ -50,7 +50,7 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				}
 				//MOVE CHECKS END
 
-				AttackChecks(); //Use flags to check if player can attack.
+				AttackChecks(transform); //Use flags to check if player can attack.
 				ResetFlags(); //Reset movement and attack flags on player turn end.
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
@@ -62,13 +62,26 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 }
 
 //Check input and enemy flags to see if an attack should be performed.
-void PlayerSystem::AttackChecks()
+void PlayerSystem::AttackChecks(ComponentHandle<Transform> transform)
 {
 	//Arrays of attack flags and enemy pointers
 	bool attackFlags[4] = { attackLeft, attackRight, attackDown, attackUp };
 	Entity* enemyPointers[4] = { leftEntity, rightEntity, downEntity, upEntity };
 	for (int i = 0; i < 4; i++)
 	{
+		if (attackFlags[0]) {
+			transform->rotation = glm::vec4(0, -1, 0, 90);
+		}
+		else if (attackFlags[1]) {
+			transform->rotation = glm::vec4(0, 1, 0, 90);
+		}
+		else if (attackFlags[2]) {
+			transform->rotation = glm::vec4(0, 1, 0, 0);
+		}
+		else if (attackFlags[3]) {
+			transform->rotation = glm::vec4(0, 1, 0, 110);
+		}
+
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
@@ -129,8 +142,8 @@ void PlayerSystem::receive(const Collision& event)
 			string otherName = objectA->name == "player" ? objectB->name : objectA->name;
 			string otherType = objectA->name == "player" ? event.fB : event.fA;
 
-			//If we hit a treasure, destroy it.
-			if (otherName == "treasure" && playerCollider == "body") other->destroy();
+			//If we hit a treasure or key, destroy it.
+			if ((otherName == "treasure" || otherName == "key") && playerCollider == "body") other->destroy();
 			//If a sensor hit the body of a wall or enemy...
 			else if ((otherName == "wall" || otherName == "enemy") && (otherType == "body" || otherType == "enemy_body") && playerCollider != "body")
 			{

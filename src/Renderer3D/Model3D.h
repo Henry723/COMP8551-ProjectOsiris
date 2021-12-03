@@ -55,6 +55,7 @@ public:
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
 	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer);
+	~Model3D();
 
 	// Tranformation Functions (for editing data)
 	//void translate(glm::vec3 translation);
@@ -62,5 +63,7 @@ public:
 	//void scale(glm::vec3 scale);
 	//glm::mat4 getModelMatrix();
 	//void resetModelMatrix();
+
+	void clear_buffers();
 
 };

@@ -73,11 +73,20 @@
     <Filter Include="Header Files\SceneManager">
       <UniqueIdentifier>{317561e0-cc9d-4948-8cd6-8e81f8cf09a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{737cc4e4-378d-440c-b2b6-5e21ce936ff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{d530d6fe-139e-4a40-9276-d57a4d878526}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\AIEnemy">
       <UniqueIdentifier>{4d4429ad-0b00-4afb-a56f-e0c4c5867938}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\AIEnemy">
       <UniqueIdentifier>{ab834fa1-c64b-4e6b-ac9b-957515b7a1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SceneManager">
+      <UniqueIdentifier>{081665dc-814e-4a88-963f-293ef7528572}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Player">
       <UniqueIdentifier>{a792dec9-e5d0-41ef-9790-daa5ffd22eef}</UniqueIdentifier>
@@ -144,9 +153,6 @@
     <ClCompile Include="src\UI\UI.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\PhysicsTest.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp">
       <Filter>Source Files\AIEnemy</Filter>
     </ClCompile>
@@ -170,12 +176,21 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\AnimationSystem.cpp">
       <Filter>Source Files\Renderer</Filter>
+	</ClCompile>
+    <ClCompile Include="src\SceneManager\SceneManager.cpp">
+      <Filter>Source Files\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager\SceneMgrSys.cpp">
+		<Filter>Source Files\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="src\Player\PlayerSystem.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer3D\Models3D.cpp">
       <Filter>Source Files\Renderer</Filter>
+	</ClCompile>
+    <ClCompile Include="src\Audio\AudioSystem.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,12 +248,6 @@
     <ClInclude Include="src\UI\UI.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="src\SceneManager.hpp">
-      <Filter>Header Files\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics\PhysicsTest.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="src\AIEnemy\EnemySystem.h">
       <Filter>Header Files\AIEnemy</Filter>
     </ClInclude>
@@ -277,15 +286,41 @@
     </ClInclude>
     <ClInclude Include="src\Renderer3D\AnimationSystem.h">
       <Filter>Header Files\Renderer</Filter>
+    <ClInclude Include="src\SceneManager\SceneManager.h">
+      <Filter>Header Files\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Player\PlayerSystem.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer3D\Models3D.h">
+      <Filter>Header Files\Renderer</Filter>
+	</ClInclude>
+    <ClInclude Include="src\Audio\AudioSystem.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer3D\Models3D.h">
-      <Filter>Header Files\Renderer</Filter>
+    <ClInclude Include="src\SceneManager\SceneMgrSys.h">
+      <Filter>Header Files\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\AudioSource.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +386,9 @@
       <Filter>Source Files</Filter>
     </Xml>
     <Xml Include="src\Level01.xml">
+      <Filter>Source Files</Filter>
+    </Xml>
+    <Xml Include="src\Level02.xml">
       <Filter>Source Files</Filter>
     </Xml>
   </ItemGroup>
