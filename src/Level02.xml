@@ -177,7 +177,7 @@
         <constant>1.0</constant>
         <linear>0.22</linear>
         <quadratic>0.20</quadratic>
-        <color>0.25, 1.25, 0.25</color>
+        <color>1.66, 0.2, 1.49</color>
       </pointlight>
 		</gameobject>
 		<!--TILE ENTITY DATA-->
