@@ -31,7 +31,6 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 	systems.add<TurnEvents>();
 	systems.add<ScoreTest>();
 	systems.add<UISystem>();
-	systems.add<InputEventTester>();
 	systems.add<AudioSystem>();
 	systems.add<SceneMgrSystem>();
 	systems.add<AnimationSystem>();

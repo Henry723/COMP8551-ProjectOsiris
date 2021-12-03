@@ -53,6 +53,12 @@ public:
 	void update(EntityManager&, EventManager&, TimeDelta) override;
 	void configure(EventManager& em) override;
 	void receive(const AttackInput& event);
+	void receive(const PlayerAttack& event);
+	void receive(const MoveInput& event);
+	void receive(const GameWon& event);
+	void receive(const GameOver& event);
+	void receive(const EnemyAttack& event);
+	void receive(const EntityDestroyedEvent& event);
 
 	AudioSystem();
 	~AudioSystem();
