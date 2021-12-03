@@ -3,7 +3,7 @@
 
 // Member functions definitions including constructor
 
-Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer, vector<Model3D> poses) {
+Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer) {
 
 #if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
@@ -120,12 +120,8 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	vao = VAO;
 	vbo = VBO;
 	ebo = EBO;
-	transformation_matrix = glm::mat4(1.0);
+	//transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
-
-	for (Model3D m : poses) {
-		this->poses.push_back(m);
-	}
 
 #if TEST_MODEL3D
 	//cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST END >>>>>>>>>>>>>>>>>>>>>" << endl << endl;
@@ -134,23 +130,23 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 
 
 
-void Model3D::translate(glm::vec3 translation) {
-	transformation_matrix = glm::translate(transformation_matrix, translation);
-}
-
-void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
-	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
-}
-
-void Model3D::scale(glm::vec3 scale) {
-	transformation_matrix = glm::scale(transformation_matrix, scale);
-}
-
-void Model3D::resetModelMatrix() {
-	transformation_matrix = glm::mat4(1.0f);
-}
-
-glm::mat4 Model3D::getModelMatrix()
-{
-	return transformation_matrix;
-}
+//void Model3D::translate(glm::vec3 translation) {
+//	transformation_matrix = glm::translate(transformation_matrix, translation);
+//}
+//
+//void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
+//	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
+//}
+//
+//void Model3D::scale(glm::vec3 scale) {
+//	transformation_matrix = glm::scale(transformation_matrix, scale);
+//}
+//
+//void Model3D::resetModelMatrix() {
+//	transformation_matrix = glm::mat4(1.0f);
+//}
+//
+//glm::mat4 Model3D::getModelMatrix()
+//{
+//	return transformation_matrix;
+//}

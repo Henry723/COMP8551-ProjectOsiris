@@ -170,9 +170,12 @@
     </ClCompile>
     <ClCompile Include="src\Renderer3D\AnimationSystem.cpp">
       <Filter>Source Files\Renderer</Filter>
-	 </ClCompile>
+    </ClCompile>
     <ClCompile Include="src\Player\PlayerSystem.cpp">
       <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Models3D.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,9 +277,15 @@
     </ClInclude>
     <ClInclude Include="src\Renderer3D\AnimationSystem.h">
       <Filter>Header Files\Renderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="src\Player\PlayerSystem.h">
       <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Models3D.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
-	ComponentHandle<Model3D> hmodel;
+	ComponentHandle<Models3D> hmodels;
 	ComponentHandle<Transform> htransform;
 	ComponentHandle<Camera> hCamera;
 	ComponentHandle<Rigidbody> hRigidBody;
@@ -66,16 +66,23 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 
 	//Grab Model Index
-	auto animatorEntities = es.entities_with_components(hmodel, hAnimator);
-	for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
-		
-		
-	}
+	//auto animatorEntities = es.entities_with_components(hmodels, hAnimator);
+	//for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
+	//	Animator* ator = (*entity).component<Animator>().get();
+	//	int frameIndex = ator->getCurrentFrameIndex();
+	//	Models3D* model = (*entity).component<Models3D>().get();
+
+	//	/*if (frameIndex != model->getIndex()) {
+	//		model->updateIndex(frameIndex);
+	//	}
+	//	*/
+	//	
+	//}
 
 	// Loop through Model3D components
-	auto modelEntities = es.entities_with_components(hmodel, htransform);
+	auto modelEntities = es.entities_with_components(hmodels, htransform);
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
-		Model3D* model = (*entity).component<Model3D>().get();
+		Models3D* model = (*entity).component<Models3D>().get();
 		Transform* transform = (*entity).component<Transform>().get();
 		model->translate(transform->position);
 		model->scale(transform->scale);
@@ -83,7 +90,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		
 		//cout << "Drawing model " << model.name << endl;
 		//model->Draw();
-		draw(model, camera);	
+		draw(model->getCurrentModel3D(), model->getModelMatrix(), camera);
+		model->resetModelMatrix();
 	}
 
 	// Text rendering using the UI System
@@ -117,7 +125,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 }
 
-void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
+void RenderSystem::draw(Model3D* modelComponent, glm::mat4 transformationMatrix, Camera* cameraComponent)
 {
 	// TEST - Changing uniforms over time.
 	float timeValue = glfwGetTime();
@@ -219,8 +227,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	modelComponent->shader_program.setMat4("view", view);
 
 	//get model matrix and set in shader
-	glm::mat4 model = modelComponent->getModelMatrix();
-	modelComponent->shader_program.setMat4("model", model);
+	//glm::mat4 model = modelComponent->getModelMatrix();
+	modelComponent->shader_program.setMat4("model", transformationMatrix);
 
 	// Now we have the location, we can set the shaders uniform globally.
 	// This must be done AFTER "using" the program.
@@ -238,7 +246,7 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	glDrawElements(GL_TRIANGLES, modelComponent->numIndices, GL_UNSIGNED_INT, 0);
 	// 5. Unbind the VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	modelComponent->resetModelMatrix();
+	//modelComponent->resetModelMatrix();
 }
 
 void RenderSystem::receive(const ScoreUpdate& event) {

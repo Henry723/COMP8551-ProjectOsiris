@@ -38,14 +38,13 @@ struct Model3D {
 
 private:
 	unsigned int vbo, ebo;
-	glm::mat4 transformation_matrix;
+	//glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
 	vector<unsigned int> indices;
 
 	vector<Vertex> vertices;
 	vector<Texture> textures;
-	vector<Model3D> poses;
 
 public:
 	unsigned int vao;
@@ -55,13 +54,13 @@ public:
 
 	// Constructor
 	// Model3D(vector<float>& verts, vector<unsigned int>& inds, unsigned int indexCount, const char* vertPath, const char* fragPath, const char* texPath);
-	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer, vector<Model3D> poses = vector<Model3D>());
+	Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer);
 
 	// Tranformation Functions (for editing data)
-	void translate(glm::vec3 translation);
-	void rotate(glm::vec3 rotationAxis, float degrees);
-	void scale(glm::vec3 scale);
-	glm::mat4 getModelMatrix();
-	void resetModelMatrix();
+	//void translate(glm::vec3 translation);
+	//void rotate(glm::vec3 rotationAxis, float degrees);
+	//void scale(glm::vec3 scale);
+	//glm::mat4 getModelMatrix();
+	//void resetModelMatrix();
 
 };

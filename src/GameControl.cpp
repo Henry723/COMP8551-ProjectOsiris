@@ -24,7 +24,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
   systems.add<InputEventTester>();
   systems.add<ExampleEmitterSystem>();
   systems.add<ExampleListenerSystem>();
-  systems.add<AnimationSystem>();
+  //systems.add<AnimationSystem>();
   systems.configure();
 
   //Testing Scene Manager
@@ -70,7 +70,7 @@ void GameControl::Update(TimeDelta dt)
   systems.update<ScoreTest>(dt);
   systems.update<ExampleEmitterSystem>(dt);
   systems.update<EnemySystem>(dt);
-  systems.update<AnimationSystem>(dt);
+  //systems.update<AnimationSystem>(dt);
   systems.update<RenderSystem>(dt);
 
 

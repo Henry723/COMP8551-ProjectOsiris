@@ -112,7 +112,7 @@ void CCfgMgrPhysical::LoadObjects(EntityManager& em)
 
             //Check for model data and add if exists
             tinyxml2::XMLElement* model_data = object->FirstChildElement("model3D");
-            if (model_data) e.assign<Model3D>(GetModel3DComponent(model_data));
+            if (model_data) e.assign<Models3D>(GetModels3DComponent(model_data));
 
             //Check for transform data and add if exists
             tinyxml2::XMLElement* transform_data = object->FirstChildElement("transform");
@@ -226,8 +226,11 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     if (object_name) e.assign<GameObject>(object_name);
 
     //Check for model data and add if exists
-    tinyxml2::XMLElement* model_data = data->FirstChildElement("model3D");
-    if (model_data) e.assign<Model3D>(GetModel3DComponent(model_data));
+    //tinyxml2::XMLElement* model_data = data->FirstChildElement("model3D");
+    //if (model_data) e.assign<Model3D>(GetModel3DComponent(model_data));
+
+    tinyxml2::XMLElement* models_data = data->FirstChildElement("model3D");
+    if (models_data) e.assign<Models3D>(GetModels3DComponent(models_data));
 
     //Check for transform data and add if exists
     tinyxml2::XMLElement* transform_data = data->FirstChildElement("transform");
@@ -302,10 +305,12 @@ Rigidbody CCfgMgrPhysical::CreateRigidbodyAtPosition(tinyxml2::XMLElement* data,
     return Rigidbody(collider_list, type_value, position_value);
 }
 
-Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
+Models3D CCfgMgrPhysical::GetModels3DComponent(tinyxml2::XMLElement* data)
 {
     //Support for multiple potential models on one entity.
     //Model files
+    vector<Model3D> models3DContainer;
+
     tinyxml2::XMLElement* model_src = data->FirstChildElement("model_src");
     vector<string> models; //Vector to store model strings
     stringstream model_data(model_src->GetText()); //Stream in each string
@@ -323,9 +328,16 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
     tinyxml2::XMLElement* vert_src = data->FirstChildElement("vert_src");
     tinyxml2::XMLElement* frag_src = data->FirstChildElement("frag_src");
 
+    //add idle pose model first always
+    int modelIndex = rand() % models.size();
+    models3DContainer.push_back(Model3D(models[modelIndex].c_str(),
+        vert_src->GetText(),
+        frag_src->GetText(),
+        textures[rand() % textures.size()].c_str(),
+        model_imp));
 	
     //Poses
-	int modelIndex = rand() % models.size();
+    // If there are poses add them.
     if (data->IntAttribute("poseCount")) {
         vector<Model3D> poses;
         tinyxml2::XMLElement* pose_src = data->FirstChildElement("pose_src");
@@ -335,27 +347,15 @@ Model3D CCfgMgrPhysical::GetModel3DComponent(tinyxml2::XMLElement* data)
         while (getline(pose_model_data, m, ',')) pose_models.push_back(m); //Push models into vector
           
         for (int i = 0; i < data->IntAttribute("poseCount"); i++) {          
-            poses.push_back(Model3D(pose_models[i].c_str(),
+            models3DContainer.push_back(Model3D(pose_models[i].c_str(),
                 vert_src->GetText(),
                 frag_src->GetText(),
                 textures[rand() % textures.size()].c_str(), model_imp));
-        }       
+        }
 
-         //Make sure all neccesary data is present. Model and texture chosen randomly from list
-        return Model3D(models[modelIndex].c_str(),
-            vert_src->GetText(),
-            frag_src->GetText(),
-            textures[rand() % textures.size()].c_str(), model_imp, poses);
-    }
-    else {
-        //Make sure all neccesary data is present. Model and texture chosen randomly from list
-        return Model3D(models[modelIndex].c_str(),
-        vert_src->GetText(),
-        frag_src->GetText(),
-        textures[rand() % textures.size()].c_str(),
-        model_imp);
-    }   
-
+    }     
+  
+    return Models3D(models3DContainer);
 }
 
 Transform CCfgMgrPhysical::GetTransformComponent(tinyxml2::XMLElement* data)

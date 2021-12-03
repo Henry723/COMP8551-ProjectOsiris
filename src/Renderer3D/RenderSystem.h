@@ -17,6 +17,6 @@ public:
   void receive(const PlayerHealthUpdate& event);
 
 private:
-  void draw(Model3D* modelComponent, Camera* cameraComponent);
+  void draw(Model3D* modelComponent, glm::mat4 transformationMatrix, Camera* cameraComponent);
 };
 
