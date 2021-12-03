@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "SceneMgrSys.h"
+#include "../Physics/ScoreTest.h"
 
 SceneManager::SceneManager()
     : m_curScene(TScene::none), m_newScene(TScene::none),
@@ -14,20 +15,21 @@ const SceneManager::TScene SceneManager::assignNewScene()
     {
         m_isNewScene = false;
         m_curScene = m_newScene;
-        m_sceneName = c_sceneNameText[int(m_curScene)];
-        m_sceneLoadFile = c_sceneLoadFileText[int(m_curScene)];
-        m_newScene = TScene::none;
+        m_sceneName = c_sceneNameText[int(m_newScene)];
+        m_sceneLoadFile = c_sceneLoadFileText[int(m_newScene)];
 
-        // Swtich to the new scene
-        switch (m_curScene)
+        // Switch to the new scene
+        switch (m_newScene)
         {
         case TScene::mainMenu:
             gameState = GameState::MENU;
             UISystem::getInstance().LoadStartMenu();
+            ScoreTest::getInstance().loadHighScore();
             break;
 
         case TScene::gameOver:
             gameState = GameState::GAMEOVER;
+            ScoreTest::getInstance().evalHighScore();
             break;
 
         case TScene::level_1:
@@ -37,6 +39,9 @@ const SceneManager::TScene SceneManager::assignNewScene()
         default:
             break;
         }
+
+        // Clear the new scene so no confusion
+        m_newScene = TScene::none;
     }
 
     return m_curScene;
@@ -58,7 +63,8 @@ SceneManager::TScene SceneManager::nextScene(void)
     if (m_newScene == TScene::TotalScenes) { m_newScene = TScene::mainMenu; }
     if (m_newScene == TScene::gameOver)
     {
-        // We have a win scenario forward to our system so message emitted
+        // We have a win scenario so save any high score change and forward 
+        // our message emitted to other systems
         SceneMgrSystem::getInstance().sendEvent(SceneMgrSystem::TSndEvt::GAMEWON);
     }
     m_isNewScene = true;
@@ -86,6 +92,7 @@ void SceneManager::cmdNotification(TCmd keyPressed)
     case TCmd::MENU:
         if (gameState == GameState::GAMEOVER)
         {
+            ScoreTest::getInstance().resetScore();
             gameState = GameState::MENU;
             setScene(TScene::mainMenu);
         }
@@ -94,6 +101,8 @@ void SceneManager::cmdNotification(TCmd keyPressed)
     case TCmd::RESTART:
         if (gameState == GameState::GAMEOVER)
         {
+            ScoreTest::getInstance().resetScore();
+            ScoreTest::getInstance().loadHighScore();
             gameState = GameState::PREPARING;
             setScene(TScene::level_1);
         }

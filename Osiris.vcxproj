@@ -142,12 +142,8 @@
     <ClInclude Include="src\Audio\AudioSystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
-    <ClInclude Include="src\Configuration\CfgMgrData.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPresentation.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\Events\TurnEvents.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\gamestate.h" />

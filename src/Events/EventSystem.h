@@ -108,12 +108,6 @@ struct TimerUpdate
 	TimerUpdate(float _ratio) :ratio(_ratio) {};
 };
 
-//Custom event for keeping track of the score
-struct ScoreUpdate {
-	explicit ScoreUpdate(int score) : score(score) {}
-	int score;
-};
-
 //Custom event for keeping track of key capture
 struct KeyCaptureUpdate {
 	explicit KeyCaptureUpdate(bool captured) : captured(captured) {}
