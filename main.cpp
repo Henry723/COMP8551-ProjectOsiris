@@ -78,33 +78,36 @@ int main() {
 	// This is our Render Loop!
 	//		We want the application to keep looping until explicitly being told to stop.
 	// --- 
-
+	bool fps = true;
+	
 	const double fpsLimit = 1.0 / 60.0;
 	double lastUpdateTime = 0;
 	double lastTime = glfwGetTime();
 	int frameCount = 0;
-
 	double lastFrameTime = 0;
 
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
 		// TODO allow for new "scene"
-		double now = glfwGetTime();
-		double deltaTime2 = now - lastUpdateTime;
-		//gamecontrol->Update(deltaTime*8.0f);
-		double currentTime = glfwGetTime();
-		double deltaTime = currentTime - lastTime;
-		frameCount++;
-		if (deltaTime >= 1.0) {
-			double fps = double(frameCount) / deltaTime;
-			std::stringstream ss;
+		if (fps) {
+			double now = glfwGetTime();
+			double deltaTime2 = now - lastUpdateTime;
+			//gamecontrol->Update(deltaTime*8.0f);
+			double currentTime = glfwGetTime();
+			double deltaTime = currentTime - lastTime;
+			frameCount++;
+			if (deltaTime >= 1.0) {
+				double fps = double(frameCount) / deltaTime;
+				std::stringstream ss;
 
-			ss << "THE TOMB OF OSIRIS" << " FPS: " << fps;
-			glfwSetWindowTitle(window, ss.str().c_str());
+				ss << "THE TOMB OF OSIRIS" << " FPS: " << fps;
+				glfwSetWindowTitle(window, ss.str().c_str());
 
-			frameCount = 0;
-			lastTime = currentTime;
+				frameCount = 0;
+				lastTime = currentTime;
+			}			
 		}
+		
 		gamecontrol->Update(0.1f);
 	
 
