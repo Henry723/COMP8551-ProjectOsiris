@@ -223,7 +223,7 @@ void AudioSystem::SetEventParameter(const string& strEventName, const string& st
 void AudioSystem::StopAllChannels()
 {
 	for (int i = 0; i < instAudExec->mChannels.size(); i++) {
-		cout << instAudExec->mChannels.size() << endl;
+		//cout << instAudExec->mChannels.size() << endl;
 		StopChannel(i);
 	}
 }
@@ -249,6 +249,13 @@ float  AudioSystem::VolumeTodB(float volume)
 void AudioSystem::configure(EventManager& em)
 {
 	em.subscribe<AttackInput>(*this);
+	em.subscribe<PlayerAttack>(*this);
+	em.subscribe<EnemyAttack>(*this);
+	em.subscribe<MoveInput>(*this);
+	em.subscribe<GameWon>(*this);
+	em.subscribe<GameOver>(*this);
+	em.subscribe<EnemyAttack>(*this);
+	em.subscribe<EntityDestroyedEvent>(*this);
 }
 
 //Play Attack Audio when attack input is received
@@ -256,7 +263,48 @@ void AudioSystem::receive(const AttackInput& event)
 {
 	//play sound loads sound in function
 	if (gameState == GameState::RUNNING)
-		PlaySound(src_aud_whoosh, Vector3(), VolumeTodB(0.5));
+		PlaySound(src_aud_playerAttack, Vector3(), VolumeTodB(0.5));
+}
+
+void AudioSystem::receive(const PlayerAttack& event)
+{
+	PlaySound(src_aud_enemyHit, Vector3(), VolumeTodB(0.25));
+}
+
+void AudioSystem::receive(const MoveInput& event)
+{
+	if (gameState == GameState::RUNNING) {
+		PlaySound(src_aud_playerMoveArmour, Vector3(), VolumeTodB(0.25));
+		PlaySound(src_aud_playerMoveStep, Vector3(), VolumeTodB(1));
+	}
+}
+
+void AudioSystem::receive(const GameWon& event)
+{
+	PlaySound(src_aud_win, Vector3(), VolumeTodB(1));
+}
+
+void AudioSystem::receive(const GameOver& event)
+{
+	PlaySound(src_aud_lose, Vector3(), VolumeTodB(1));
+}
+
+void AudioSystem::receive(const EnemyAttack& event)
+{
+	PlaySound(src_aud_enemyAttack, Vector3(), VolumeTodB(1));
+	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.4));
+}
+
+void AudioSystem::receive(const EntityDestroyedEvent& event)
+{
+	Entity e = event.entity;
+	ComponentHandle<GameObject> object = e.component<GameObject>();
+	if (object->name == "treasure")
+		PlaySound(src_aud_treasurePickup, Vector3(), VolumeTodB(0.5));
+	else if (object->name == "enemy")
+		PlaySound(src_aud_enemyDeath, Vector3(), VolumeTodB(0.3));
+	else if (object->name == "key")
+		PlaySound(src_aud_keyPickup, Vector3(), VolumeTodB(0.5));
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {
