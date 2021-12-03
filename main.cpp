@@ -1,7 +1,7 @@
 #include "src/GameControl.h"
 #include "src/gamestate.h"
-enum GameState;
-GameState gameState = GameState::PREPARING;
+//enum GameState;
+GameState gameState = GameState::MENU;
 
 // ---
 // (TEMP) Global Properties
@@ -68,8 +68,8 @@ int main() {
 
 	// Use scene manager to Create game control
 	SceneManager& scene = SceneManager::getInstance();
-	scene.setScene("filename");
-	GameControl* gamecontrol = new GameControl(window, scene.getScene());
+	scene.setScene(SceneManager::TScene::mainMenu); // Captured after first update
+	GameControl* gamecontrol = new GameControl(window, scene.getSceneName());
 
 	// ---
 	// This is our Render Loop!
@@ -82,7 +82,8 @@ int main() {
 
 		if (scene.isNewScene()) {
 			delete gamecontrol;
-			gamecontrol = new GameControl(window, scene.getScene());
+			scene.assignNewScene();
+			gamecontrol = new GameControl(window, scene.getSceneName());
 		}
 	}
 	delete gamecontrol;
