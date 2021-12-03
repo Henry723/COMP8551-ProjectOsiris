@@ -1,5 +1,11 @@
 #include "Animator.h"
 
+Animator::Animator(vector<Animation> anims) {
+	for (Animation a : anims) {
+		animations[a.getName()]= a;
+	}
+}
+
 void Animator::doAnimation(string animName) {
 	animationTime = 0;
 	currentAnimation = &animations[animName];

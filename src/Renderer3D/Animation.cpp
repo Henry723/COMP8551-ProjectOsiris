@@ -31,3 +31,7 @@ double Animation::getLength() {
 void Animation::reset() {
 	currentFrame = 0;
 }
+
+string Animation::getName() {
+	return name;
+}

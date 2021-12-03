@@ -56,6 +56,7 @@ public:
 
 	//Component loaders
 	Models3D GetModels3DComponent(tinyxml2::XMLElement* data);
+	Animator CreateAnimator(tinyxml2::XMLElement* data);
 	Transform GetTransformComponent(tinyxml2::XMLElement* data);
 	Rigidbody GetRigidbodyComponent(tinyxml2::XMLElement* data);
 	CommandFlags CreateCommandFlags(tinyxml2::XMLElement* data);

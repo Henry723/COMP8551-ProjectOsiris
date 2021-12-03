@@ -248,6 +248,9 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     //Check for commandflags data and add if exists
     tinyxml2::XMLElement* cmdflags_data = data->FirstChildElement("commandflags");
     if (cmdflags_data) e.assign<CommandFlags>(CreateCommandFlags(cmdflags_data));
+    
+    tinyxml2::XMLElement* anim_data = data->FirstChildElement("animator");
+    if (anim_data) e.assign<Animator> = (CreateAnimator());
 
     if (tinyxml2::XMLElement * h = data->FirstChildElement("health")) e.assign<Health>(CreateHealth(h));
 }
@@ -361,6 +364,31 @@ Models3D CCfgMgrPhysical::GetModels3DComponent(tinyxml2::XMLElement* data)
     }     
   
     return Models3D(models3DContainer);
+}
+
+Animator CCfgMgrPhysical::CreateAnimator(tinyxml2::XMLElement* data) {
+    
+    tinyxml2::XMLElement* anim_src = data->FirstChildElement("animation");
+    vector<Animation> anims;
+    while (anim_src) {    
+        vector<Keyframe> kfs;
+        tinyxml2::XMLElement* keyframe = anim_src->FirstChildElement("keyframe");
+
+        while (keyframe) {
+            float timestamp = keyframe->FloatAttribute("timestamp");
+            int index = keyframe->IntAttribute("index");      
+            kfs.push_back(Keyframe(timestamp, index));
+            keyframe = keyframe->NextSiblingElement("keyframe");
+        }
+
+        std::string s(anim_src->Attribute("name"));
+        float length = keyframe->FloatAttribute("length");
+        anims.push_back(Animation(s, length, kfs));
+        anim_src = anim_src->NextSiblingElement("animation");
+
+    }
+    return Animator(anims);
+
 }
 
 Transform CCfgMgrPhysical::GetTransformComponent(tinyxml2::XMLElement* data)

@@ -14,10 +14,12 @@ private:
 	bool noAnimation = true;
 
 public:
+	Animator(vector<Animation> anims);
 	void update(double timedelta);
 	void increaseAnimationTime(double timedelta);
 	void doAnimation(string animName);
 	void calculateCurrentAnimationFrame();
 	int getCurrentFrameIndex();
+
 
 };
