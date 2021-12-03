@@ -1,5 +1,6 @@
 #include "src/GameControl.h"
 #include "src/gamestate.h"
+
 //enum GameState;
 GameState gameState = GameState::MENU;
 
@@ -32,7 +33,7 @@ int main() {
 	// glfw window creation
 	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GLFW Window", NULL, NULL);
-
+	
 	// 1. If the window failed to create, return -1.
 	if (window == NULL)
 	{
@@ -75,10 +76,16 @@ int main() {
 	// This is our Render Loop!
 	//		We want the application to keep looping until explicitly being told to stop.
 	// --- 
+
+	const double fpsLimit = 1.0 / 60.0;
+	double lastUpdateTime = 0;
 	while (!glfwWindowShouldClose(window)) // glfwWindowShouldClose checks each render iteration for a signal to close.
 	{
 		// TODO allow for new "scene"
-		gamecontrol->Update(0.1f);
+		double now = glfwGetTime();
+		double deltaTime = now - lastUpdateTime;
+		gamecontrol->Update(deltaTime*8.0f);
+		lastUpdateTime = now;
 
 		if (scene.isNewScene()) {
 			delete gamecontrol;
