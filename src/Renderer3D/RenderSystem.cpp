@@ -126,7 +126,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 		
 	// Loop through Model3D components
-	auto modelEntities = es.entities_with_components(hmodel, htransform);
+	auto modelEntities = es.entities_with_components(hmodels, htransform);
 
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
 		Models3D* model = (*entity).component<Models3D>().get();
