@@ -268,12 +268,15 @@ void AudioSystem::receive(const AttackInput& event)
 
 void AudioSystem::receive(const PlayerAttack& event)
 {
-	PlaySound(src_aud_enemyHit, Vector3(), VolumeTodB(0.5));
+	PlaySound(src_aud_enemyHit, Vector3(), VolumeTodB(0.25));
 }
 
 void AudioSystem::receive(const MoveInput& event)
 {
-	if (gameState == GameState::RUNNING);
+	if (gameState == GameState::RUNNING) {
+		PlaySound(src_aud_playerMoveArmour, Vector3(), VolumeTodB(0.25));
+		PlaySound(src_aud_playerMoveStep, Vector3(), VolumeTodB(1));
+	}
 }
 
 void AudioSystem::receive(const GameWon& event)
@@ -289,7 +292,7 @@ void AudioSystem::receive(const GameOver& event)
 void AudioSystem::receive(const EnemyAttack& event)
 {
 	PlaySound(src_aud_enemyAttack, Vector3(), VolumeTodB(1));
-	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.5));
+	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.4));
 }
 
 void AudioSystem::receive(const EntityDestroyedEvent& event)
@@ -298,8 +301,10 @@ void AudioSystem::receive(const EntityDestroyedEvent& event)
 	ComponentHandle<GameObject> object = e.component<GameObject>();
 	if (object->name == "treasure")
 		PlaySound(src_aud_treasurePickup, Vector3(), VolumeTodB(0.5));
-	if (object->name == "enemy")
-		PlaySound(src_aud_enemyDeath, Vector3(), VolumeTodB(0.5));
+	else if (object->name == "enemy")
+		PlaySound(src_aud_enemyDeath, Vector3(), VolumeTodB(0.3));
+	else if (object->name == "key")
+		PlaySound(src_aud_keyPickup, Vector3(), VolumeTodB(0.5));
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {
