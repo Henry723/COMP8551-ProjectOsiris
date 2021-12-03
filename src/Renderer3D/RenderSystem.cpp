@@ -188,13 +188,6 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//modelComponent->shader_program.setVec3("light.diffuse", 0.2f + 171.0/255, 0.2f + 138.0/255, 0.2f + 126.0/255);
 	//sets the specular light value of light in shader (r, g, b)
 	//modelComponent->shader_program.setVec3("light.specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
-
-	//glm::vec3 pointLightPositions[] = {
-	//	glm::vec3(playerPosition.x, 0, playerPosition.y), //right
-	//	glm::vec3(-4, 0, 1.0f), //left
-	//	glm::vec3(-4.0f, 4.0f, 6.0f), //upper right
-	//	glm::vec3(4.0f, 4.0f, 6.0f) //bottom right
-	//};
 	
 	// Distance Constant Linear Quadratic
 	// 7		1.0		0.7			1.8	
@@ -210,19 +203,17 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	//Point lights
 	modelComponent->shader_program.setInt("numPointLights", numPointLights );
 	int pointLightOffset = 0;
+
 	//Player light
-	for (int pointlights = 0; pointlights < 1; pointlights++) {
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].position", playerPointLight->position.x, 0, playerPointLight->position.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].ambient", playerPointLight->ambient.x, playerPointLight->ambient.y, playerPointLight->ambient.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].diffuse", playerPointLight->diffuse.x, playerPointLight->diffuse.y, playerPointLight->diffuse.z);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].specular", playerPointLight->specular.x, playerPointLight->specular.y, playerPointLight->specular.z);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].constant", playerPointLight->constant);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].linear", playerPointLight->linear);
-		modelComponent->shader_program.setFloat("pointLights[" + to_string(pointlights) + "].quadratic", playerPointLight->quadratic);
-		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", playerPointLight->color.x, playerPointLight->color.y, playerPointLight->color.z);
-		pointLightOffset++;
-	}
-	
+	modelComponent->shader_program.setVec3("pointLights[" + to_string(0) + "].position", playerPointLight->position.x, 0, playerPointLight->position.z);
+	modelComponent->shader_program.setVec3("pointLights[" + to_string(0) + "].ambient", playerPointLight->ambient.x, playerPointLight->ambient.y, playerPointLight->ambient.z);
+	modelComponent->shader_program.setVec3("pointLights[" + to_string(0) + "].diffuse", playerPointLight->diffuse.x, playerPointLight->diffuse.y, playerPointLight->diffuse.z);
+	modelComponent->shader_program.setVec3("pointLights[" + to_string(0) + "].specular", playerPointLight->specular.x, playerPointLight->specular.y, playerPointLight->specular.z);
+	modelComponent->shader_program.setFloat("pointLights[" + to_string(0) + "].constant", playerPointLight->constant);
+	modelComponent->shader_program.setFloat("pointLights[" + to_string(0) + "].linear", playerPointLight->linear);
+	modelComponent->shader_program.setFloat("pointLights[" + to_string(0) + "].quadratic", playerPointLight->quadratic);
+	modelComponent->shader_program.setVec3("pointLights[" + to_string(0) + "].color", playerPointLight->color.x, playerPointLight->color.y, playerPointLight->color.z);
+	pointLightOffset++;
 
 	//Treasure lights
 	for (int pointlights = pointLightOffset, i = 0; pointlights < numPointLights; pointlights++, i++) {
@@ -236,44 +227,6 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 		modelComponent->shader_program.setVec3("pointLights[" + to_string(pointlights) + "].color", treasurePointLights.at(i)->color.x, treasurePointLights.at(i)->color.y, treasurePointLights.at(i)->color.z);
 		pointLightOffset++;
 	}
-	////point light 1
-	//modelComponent->shader_program.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-	//modelComponent->shader_program.setVec3("pointLights[0].ambient", 0.2f, 0.1f, 0.1f);
-	//modelComponent->shader_program.setVec3("pointLights[0].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
-	//modelComponent->shader_program.setVec3("pointLights[0].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
-	//modelComponent->shader_program.setFloat("pointLights[0].constant", 1.0f);
-	//modelComponent->shader_program.setFloat("pointLights[0].linear", 0.14);
-	//modelComponent->shader_program.setFloat("pointLights[0].quadratic", 0.07);
-	//modelComponent->shader_program.setVec3("pointLights[0].color", 1.75, 1.75, 0.6);
-	//
-	////point light 2
-	//modelComponent->shader_program.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-	//modelComponent->shader_program.setVec3("pointLights[1].ambient", 0.3f, 0.2f, 0.2f);
-	//modelComponent->shader_program.setVec3("pointLights[1].diffuse", 0.6f + 170.0 / 255, 0.6f + 148.0 / 255, 0.6f + 136.0 / 255);
-	//modelComponent->shader_program.setVec3("pointLights[1].specular", 2.8f + 161.0 / 255, 2.8f + 69.0 / 255, 2.8f + 81.0 / 255);
-	//modelComponent->shader_program.setFloat("pointLights[1].constant", 1.0f);
-	//modelComponent->shader_program.setFloat("pointLights[1].linear", 0.14);
-	//modelComponent->shader_program.setFloat("pointLights[1].quadratic", 0.07);
-	//modelComponent->shader_program.setVec3("pointLights[1].color", 0.6, 2.25, 2.25);
-	//
-	////point light 3
-	//modelComponent->shader_program.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-	//modelComponent->shader_program.setVec3("pointLights[2].ambient", 0.3f, 0.2f, 0.2f);
-	//modelComponent->shader_program.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
-	//modelComponent->shader_program.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
-	//modelComponent->shader_program.setFloat("pointLights[2].constant", 1.0f);
-	//modelComponent->shader_program.setFloat("pointLights[2].linear", 0.22);
-	//modelComponent->shader_program.setFloat("pointLights[2].quadratic", 0.20);
-	//modelComponent->shader_program.setVec3("pointLights[2].color", 0.6, 2.25, 2.25);
-	//point light 4
-	/*modelComponent->shader_program.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-	modelComponent->shader_program.setVec3("pointLights[3].ambient", 0.3f, 0.2f, 0.2f);
-	modelComponent->shader_program.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
-	modelComponent->shader_program.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
-	modelComponent->shader_program.setFloat("pointLights[3].constant", 1.0f);
-	modelComponent->shader_program.setFloat("pointLights[3].linear", 0.22);
-	modelComponent->shader_program.setFloat("pointLights[3].quadratic", 0.20);*/
-
 
 	// Default material properties
 	//sets the specular light value of the material in shader (r, g, b)
