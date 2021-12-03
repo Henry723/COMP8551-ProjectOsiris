@@ -39,7 +39,7 @@ struct PlayerSystem : public System<PlayerSystem>, public Receiver<PlayerSystem>
 	bool isMoving = false; //Used to check if timer should decrement
 	bool playerTurn = true; //Makes sure player cannot act on enemy turn
 
-	float timeInterval = 10.2f; //Timer reset value
-	float timeUntilNextOrder = 10.2f; //Initial timer value
+	float timeInterval = 5.2f; //Timer reset value
+	float timeUntilNextOrder = 5.2f; //Initial timer value
 	float playerSpeed = 0.5; //Player speed value
 };

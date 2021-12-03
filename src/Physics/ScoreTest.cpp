@@ -111,12 +111,19 @@ void ScoreTest::receive(const EndCollision& events)
 	{
 		ComponentHandle<GameObject> objectA = events.a->component<GameObject>();
 		ComponentHandle<GameObject> objectB = events.b->component<GameObject>();
+
 		if (!objectA || !objectB) 
 			return; //Invalid collision, gmae objects not found
+		if (objectA->name != "door" && objectB->name != "door") //Make sure we have a door collision
+			return;
+		if (objectA->name != "player" && objectB->name != "player") //Make sure we have a player collision
+			return;
 
+		//Get the fixture name of whichever object isn't the door.
+		string OtherFixture = objectA->name == "door" ? events.fB : events.fA;
+		
 		// Is player colliding with the door?
-		if (   (objectA->name == "player" || objectB->name == "player")
-			&& (objectA->name == "door" || objectB->name == "door"))
+		if (OtherFixture == "body") //Make sure it's a body fixture
 		{
 			// We have a valid collision so next level through the scene manager
 			SceneManager& scene = SceneManager::getInstance();
