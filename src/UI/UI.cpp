@@ -114,6 +114,45 @@ int UISystem::LoadStartMenu() {
     return 1;
 }
 
+int UISystem::LoadTimer() {
+    glGenTextures(1, &Timer.TextureID);
+
+    int width, height, nrComponents;
+    const char* path = "./src/UI/textures/timer.jpg";
+    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+
+    if (data) {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, Timer.TextureID);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Set texture image 4byte-alignment
+
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return 1;
+}
+
 void UISystem::CreateVAOVBO() {
     // configure VAO/VBO for texture quads
 // -----------------------------------
@@ -210,6 +249,23 @@ void UISystem::RenderAll()
             RenderText(shader, curElement.value, curElement.posX, curElement.posY, curElement.scale, curElement.color);
         }
     }
+    RenderTimer();
+}
+
+void UISystem::RenderTimer()
+{
+    glm::vec4 TimerVertices[6] = {
+
+            glm::vec4(TimerPivot - TimerWidth / 2, 595.0f, 0.0f, 0.0f),
+            glm::vec4(TimerPivot - TimerWidth / 2, 565.0f,   0.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 595.0f, 1.0f, 0.0f),
+
+            glm::vec4(TimerPivot - TimerWidth / 2, 565.0f, 0.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 565.0f,   1.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 595.0f, 1.0f, 0.0f)
+    };
+    std::copy(TimerVertices, TimerVertices + 6, Timer.Vertices);
+    RenderShape2d(shapeShader, Timer);
 }
 
 int UISystem::NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active)
@@ -261,7 +317,7 @@ void UISystem::setup() {
 
     // TODO : REMOVE ONCE LoadStartMenu() can run outside of the setup method
     LoadStartMenu();
-
+    LoadTimer();
     generateMenuText();
     numElements = 0;
 }
@@ -303,6 +359,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     {
         ////Color* col = (*entity).component<Color>().get();
         // rendering commands
+
         // ...
         //glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
         //glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.

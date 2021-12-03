@@ -31,6 +31,7 @@ const SceneManager::TScene SceneManager::assignNewScene()
             break;
 
         case TScene::level_1:
+            UISystem::getInstance().LoadTimer();
         case TScene::level_2:
             gameState = GameState::PREPARING;
         default:
