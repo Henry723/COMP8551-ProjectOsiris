@@ -31,7 +31,7 @@ void ScoreTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 void ScoreTest::configure(EventManager& em) {
 	em.subscribe<EntityDestroyedEvent>(*this);
-	em.subscribe<EndCollision>(*this);
+	em.subscribe<Collision>(*this);
 }
 
 bool ScoreTest::loadHighScore(void)
@@ -100,7 +100,7 @@ int ScoreTest::getHighScore(void)
 	return g_HighScore;
 }
 
-void ScoreTest::receive(const EndCollision& events)
+void ScoreTest::receive(const Collision& events)
 {
 	// Lets save some possible time...
 	// Currently only need end collision event when isKeyCaptured is true
