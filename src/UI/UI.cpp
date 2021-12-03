@@ -250,7 +250,7 @@ void UISystem::RenderAll()
             RenderText(shader, curElement.value, curElement.posX, curElement.posY, curElement.scale, curElement.color);
         }
     }
-    RenderTimer();
+    if(gameState == GameState::RUNNING)RenderTimer();
 }
 
 void UISystem::RenderTimer()
