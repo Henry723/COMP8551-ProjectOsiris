@@ -14,6 +14,7 @@ public:
 	void configure(EventManager& em) override;
 	void receive(const ScoreUpdate& event);
 	void receive(const PlayerHealthUpdate& event);
+	void receive(const TimerUpdate& event);
 
 	~RenderSystem();
 

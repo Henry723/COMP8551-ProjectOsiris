@@ -54,7 +54,11 @@ void PlayerSystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				ResetFlags(); //Reset movement and attack flags on player turn end.
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
+				{
 					timeUntilNextOrder -= dt;
+					events.emit<TimerUpdate>(timeUntilNextOrder/timeInterval);
+				}
+					
 			}
 			else events.emit<PlayerTurnEnd>(); //Timer ran out, end player turn
 		}
@@ -85,6 +89,7 @@ void PlayerSystem::AttackChecks(ComponentHandle<Transform> transform, EventManag
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
+			events.emit<PlayerAttack>(); //Event for attack SFX
 			//Grab the health component.
 			ComponentHandle<Health> targetH = enemyPointers[i]->component<Health>();
 			if (!--targetH->curHealth) //Decrement and check for 0

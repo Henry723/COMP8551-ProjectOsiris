@@ -2,6 +2,7 @@
 
 //#define RUN_TESTING
 
+
 GameControl::GameControl(GLFWwindow* window, string filename)
 {
 #ifdef RUN_TESTING
