@@ -19,7 +19,16 @@ public:
 	~RenderSystem();
 
 private:
-	EntityManager* entityManager;
-	void draw(Model3D* modelComponent, Camera* cameraComponent);
+  void draw(Model3D* modelComponent, Camera* cameraComponent);
+  void updatePlayerLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void updateTreasureLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void updateKeyLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void updateDoorLight(PointLight* pointLightComponent, Transform* transformComponent);
+  void resetCount();
+  
+  EntityManager* entityManager;
+  int numPointLights, numPlayer, numTreasure, numKey, numDoor;
+  PointLight *playerPointLight, *keyPointLight, *doorPointLight;
+  vector<PointLight*> treasurePointLights;
 };
 
