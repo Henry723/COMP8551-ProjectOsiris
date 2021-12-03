@@ -5,6 +5,7 @@
 #include "../UI/UI.h"
 #include "../Events/EventSystem.h"
 #include "../gamestate.h"
+#include "Animator.h"	
 
 class RenderSystem : public System<RenderSystem>, public Receiver<RenderSystem>
 {
@@ -18,7 +19,8 @@ public:
 	~RenderSystem();
 
 private:
-  void draw(Model3D* modelComponent, Camera* cameraComponent);
+
+  void draw(Model3D* modelComponent, glm::mat4 transformationMatrix, Camera* cameraComponent);
   void updatePlayerLight(PointLight* pointLightComponent, Transform* transformComponent);
   void updateTreasureLight(PointLight* pointLightComponent, Transform* transformComponent);
   void updateKeyLight(PointLight* pointLightComponent, Transform* transformComponent);

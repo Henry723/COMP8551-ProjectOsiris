@@ -2,6 +2,7 @@
 #define TEST_MODEL3D       false
 
 // Member functions definitions including constructor
+
 Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer) {
 
 #if TEST_MODEL3D
@@ -119,7 +120,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	vao = VAO;
 	vbo = VBO;
 	ebo = EBO;
-	transformation_matrix = glm::mat4(1.0);
+	//transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
 #if TEST_MODEL3D
@@ -138,23 +139,25 @@ void Model3D::clear_buffers() {
 	indices.clear();
 }
 
-void Model3D::translate(glm::vec3 translation) {
-	transformation_matrix = glm::translate(transformation_matrix, translation);
-}
 
-void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
-	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
-}
 
-void Model3D::scale(glm::vec3 scale) {
-	transformation_matrix = glm::scale(transformation_matrix, scale);
-}
-
-void Model3D::resetModelMatrix() {
-	transformation_matrix = glm::mat4(1.0f);
-}
-
-glm::mat4 Model3D::getModelMatrix()
-{
-	return transformation_matrix;
-}
+//void Model3D::translate(glm::vec3 translation) {
+//	transformation_matrix = glm::translate(transformation_matrix, translation);
+//}
+//
+//void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
+//	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
+//}
+//
+//void Model3D::scale(glm::vec3 scale) {
+//	transformation_matrix = glm::scale(transformation_matrix, scale);
+//}
+//
+//void Model3D::resetModelMatrix() {
+//	transformation_matrix = glm::mat4(1.0f);
+//}
+//
+//glm::mat4 Model3D::getModelMatrix()
+//{
+//	return transformation_matrix;
+//}

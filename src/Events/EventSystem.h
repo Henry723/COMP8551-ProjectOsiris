@@ -126,6 +126,13 @@ struct ExampleEvent {
 	int a, b;
 };
 
+//Animation event to update model index
+struct ModelSwapEvent {
+	explicit ModelSwapEvent(int index) :index(index) {}
+	int index;
+
+};
+
 //The emitter will be called using .emit<custom events>
 class ExampleEmitterSystem : public System<ExampleEmitterSystem> {
 	bool emitted = false;

@@ -7,6 +7,7 @@
 #include "Configuration/CfgMgrPhysical.h"
 #include "Events/EventSystem.h"
 #include "Events/TurnEvents.h"
+#include "Renderer3D/AnimationSystem.h"
 #include "SceneManager/SceneMgrSys.h"
 #include "Player/PlayerSystem.h"
 #include "gamestate.h"
