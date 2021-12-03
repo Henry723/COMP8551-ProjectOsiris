@@ -3,9 +3,7 @@
 //#define RUN_TESTING
 
 GameControl::GameControl(GLFWwindow* window, string filename)
-{
-  gameState = PREPARING;
-  
+{ 
 #ifdef RUN_TESTING
     // TESTING -- Memory Manager Pool Test -- Start --
     {
