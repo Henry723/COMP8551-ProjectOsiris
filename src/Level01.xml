@@ -21,12 +21,13 @@
 	</level>
 		<!--PLAYER ENTITY DATA-->
 		<gameobject name="player">
-			<model3D modelCount="1">
+			<model3D modelCount="1" poseCount="3">
 				<model_src>./src/Renderer3D/Models/wayfarer.obj</model_src>
 				<text_src>./src/Renderer3D/Textures/tex_wayfarer.jpg</text_src>
 				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
 				<frag_src>./src/Renderer3D/Shaders/Default.frag</frag_src>
-			</model3D>
+				<pose_src>./src/Renderer3D/Models/wayfarer_swingPose1.obj,./src/Renderer3D/Models/wayfarer_swingPose2.obj,./src/Renderer3D/Models/wayfarer_swingPose3.obj</pose_src>
+			</model3D>			
 			<transform>
 				<yDepth>-2.0</yDepth>
 				<scale>1.0, 1.0, 1.0</scale>
@@ -41,6 +42,13 @@
 					<collider shape="circle" sensor="true" size="0.75" name="top">0.0, -2.0</collider>
 				</colliders>
 			</rigidbody>
+			<animator>
+				<animation name="attack" length="8">
+					<keyframe timestamp="0.5" index="1"></keyframe>
+					<keyframe timestamp="2.0" index="2"></keyframe>
+					<keyframe timestamp="6" index="3"></keyframe>
+				</animation>					
+			</animator>
 		<health amount="3"></health>
     <pointlight>
       <ambient>0.2, 0.1, 0.1</ambient>

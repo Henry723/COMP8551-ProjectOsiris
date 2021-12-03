@@ -4,7 +4,7 @@
 
 
 GameControl::GameControl(GLFWwindow* window, string filename)
-{
+{ 
 #ifdef RUN_TESTING
     // TESTING -- Memory Manager Pool Test -- Start --
     {
@@ -34,6 +34,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 	systems.add<InputEventTester>();
 	systems.add<AudioSystem>();
 	systems.add<SceneMgrSystem>();
+	systems.add<AnimationSystem>();
 
 	systems.configure();
 
@@ -67,6 +68,7 @@ GameControl::GameControl(GLFWwindow* window, string filename)
 
 void GameControl::Update(TimeDelta dt)
 {
+
 	systems.update<InputSystem>(dt);
 	systems.update<UISystem>(dt); //Currently disabled as rendering UI within the UI System was causing issues
 	systems.update<PhysicsEngine>(dt);
@@ -75,6 +77,7 @@ void GameControl::Update(TimeDelta dt)
 	systems.update<ScoreTest>(dt);
 	systems.update<TurnEvents>(dt);
 	systems.update<EnemySystem>(dt);
+	systems.update<AnimationSystem>(dt);
 	systems.update<RenderSystem>(dt);
 	systems.update<AudioSystem>(dt);
 	systems.update<SceneMgrSystem>(dt);

@@ -165,15 +165,30 @@
     <ClCompile Include="src\Physics\ScoreTest.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer3D\Animation.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\KeyFrame.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\Animator.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer3D\AnimationSystem.cpp">
+      <Filter>Source Files\Renderer</Filter>
+	</ClCompile>
     <ClCompile Include="src\SceneManager\SceneManager.cpp">
       <Filter>Source Files\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneManager\SceneMgrSys.cpp">
-      <Filter>Source Files\SceneManager</Filter>
+		<Filter>Source Files\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="src\Player\PlayerSystem.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer3D\Models3D.cpp">
+      <Filter>Source Files\Renderer</Filter>
+	</ClCompile>
     <ClCompile Include="src\Audio\AudioSystem.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
@@ -260,12 +275,27 @@
     <ClInclude Include="src\Configuration\CfgMgrPhysical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer3D\Animation.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Keyframe.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\Animator.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer3D\AnimationSystem.h">
+      <Filter>Header Files\Renderer</Filter>
+	  </ClInclude>
     <ClInclude Include="src\SceneManager\SceneManager.h">
       <Filter>Header Files\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Player\PlayerSystem.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="src\Renderer3D\Models3D.h">
+      <Filter>Header Files\Renderer</Filter>
+	</ClInclude>
     <ClInclude Include="src\Audio\AudioSystem.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>

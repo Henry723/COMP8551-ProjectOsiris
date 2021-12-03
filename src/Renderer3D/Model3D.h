@@ -38,7 +38,7 @@ struct Model3D {
 
 private:
 	unsigned int vbo, ebo;
-	glm::mat4 transformation_matrix;
+	//glm::mat4 transformation_matrix;
 
 	vector<float> attributes;
 	vector<unsigned int> indices;
@@ -58,11 +58,11 @@ public:
 	~Model3D();
 
 	// Tranformation Functions (for editing data)
-	void translate(glm::vec3 translation);
-	void rotate(glm::vec3 rotationAxis, float degrees);
-	void scale(glm::vec3 scale);
-	glm::mat4 getModelMatrix();
-	void resetModelMatrix();
+	//void translate(glm::vec3 translation);
+	//void rotate(glm::vec3 rotationAxis, float degrees);
+	//void scale(glm::vec3 scale);
+	//glm::mat4 getModelMatrix();
+	//void resetModelMatrix();
 
 	void clear_buffers();
 

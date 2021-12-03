@@ -25,10 +25,11 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	// Create component handles to filter components
 	ComponentHandle<Color> hcolor;
 	ComponentHandle<Window> hwindow;
-	ComponentHandle<Model3D> hmodel;
+	ComponentHandle<Models3D> hmodels;
 	ComponentHandle<Transform> htransform;
 	ComponentHandle<Camera> hCamera;
 	ComponentHandle<Rigidbody> hRigidBody;
+	ComponentHandle<Animator> hAnimator;
 
 	// Needed to write player health to ui
 	ComponentHandle<Health> playerHealth;
@@ -74,6 +75,27 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
 	}
 
+
+	//Grab Model Index
+	auto animatorEntities = es.entities_with_components(hmodels, hAnimator);
+	for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
+		Animator* ator = (*entity).component<Animator>().get();
+		Models3D* model = (*entity).component<Models3D>().get();
+		//returns the keyframes index 1-3
+		if (ator->checkAnimating()) {		
+			int frameIndex = ator->getCurrentFrameIndex();
+			if (frameIndex != model->getModelIndex()) {
+				model->updateIndex(frameIndex);
+			}
+		}
+		else {
+			//use default model
+			model->updateIndex(0);
+		}	
+		
+	}
+
+
 	// Loop though all the entity that has light components to update 
 	auto lightEntities = es.entities_with_components(htransform, hPointLight);
 	for (auto entity = lightEntities.begin(); entity != lightEntities.end(); ++entity) {
@@ -104,11 +126,10 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 		
 	// Loop through Model3D components
-	auto modelEntities = es.entities_with_components(hmodel, htransform);
-
+	auto modelEntities = es.entities_with_components(hmodels, htransform);
 
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
-		Model3D* model = (*entity).component<Model3D>().get();
+		Models3D* model = (*entity).component<Models3D>().get();
 		Transform* transform = (*entity).component<Transform>().get();
 
 		model->translate(transform->position);
@@ -117,13 +138,12 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		
 		//cout << "Drawing model " << model.name << endl;
 		//model->Draw();
+		draw(model->getCurrentModel3D(), model->getModelMatrix(), camera);
+		model->resetModelMatrix();
+
 
 		//std::thread drawThread(&RenderSystem::draw, this, model, camera);
-
-		draw(model, camera);	
-
 		//drawThread.join();
-
 	}
 
 	// Text rendering using the UI System
@@ -198,7 +218,7 @@ void RenderSystem::resetCount() {
 	treasurePointLights.clear();
 }
 
-void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
+void RenderSystem::draw(Model3D* modelComponent, glm::mat4 transformationMatrix, Camera* cameraComponent)
 {
 	if (modelComponent == nullptr) {
 		return;
@@ -301,8 +321,8 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	modelComponent->shader_program.setMat4("view", view);
 
 	//get model matrix and set in shader
-	glm::mat4 model = modelComponent->getModelMatrix();
-	modelComponent->shader_program.setMat4("model", model);
+	//glm::mat4 model = modelComponent->getModelMatrix();
+	modelComponent->shader_program.setMat4("model", transformationMatrix);
 
 	// Now we have the location, we can set the shaders uniform globally.
 	// This must be done AFTER "using" the program.
@@ -320,7 +340,7 @@ void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 	glDrawElements(GL_TRIANGLES, modelComponent->numIndices, GL_UNSIGNED_INT, 0);
 	// 5. Unbind the VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	modelComponent->resetModelMatrix();
+	//modelComponent->resetModelMatrix();
 }
 
 void RenderSystem::receive(const ScoreUpdate& event) {
