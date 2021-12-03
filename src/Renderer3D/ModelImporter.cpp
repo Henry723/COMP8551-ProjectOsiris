@@ -100,6 +100,8 @@ void ModelImporter::populate_maps() {
     // Player Poses
     const char* model_playerSwingPose1 = "./src/Renderer3D/Models/wayfarer_swingPose1.obj";
     const char* model_playerSwingPose2 = "./src/Renderer3D/Models/wayfarer_swingPose2.obj";
+    const char* model_playerSwingPose2p2 = "./src/Renderer3D/Models/wayfarer_swingPose2p2.obj";
+    const char* model_playerSwingPose2p3 = "./src/Renderer3D/Models/wayfarer_swingPose2p3.obj";
     const char* model_playerSwingPose3 = "./src/Renderer3D/Models/wayfarer_swingPose3.obj";
 
     // Enemy
@@ -143,6 +145,8 @@ void ModelImporter::populate_maps() {
     add_model_to_map(model_door);
     add_model_to_map(model_playerSwingPose1);
     add_model_to_map(model_playerSwingPose2);
+    add_model_to_map(model_playerSwingPose2p2);
+    add_model_to_map(model_playerSwingPose2p3);
     add_model_to_map(model_playerSwingPose3);
 
     // Load all textures, add them to the map
