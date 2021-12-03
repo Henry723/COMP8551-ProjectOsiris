@@ -48,6 +48,15 @@
 				</animation>
 			</animator>
 		<health amount="3"></health>
+    <pointlight>
+      <ambient>0.2, 0.1, 0.1</ambient>
+      <diffuse>0.6 + 170.0 / 255, 0.6 + 148.0 / 255, 0.6 + 136.0 / 255</diffuse>
+      <specular>2.8 + 161.0 / 255, 2.8 + 69.0 / 255, 2.8 + 81.0 / 255</specular>
+      <constant>1.0</constant>
+      <linear>0.14</linear>
+      <quadratic>0.07</quadratic>
+      <color>0.6, 1.5, 1.5</color>
+    </pointlight>
 		</gameobject>
 		<!--WALL ENTITY DATA-->
 		<gameobject name="wall">
@@ -113,6 +122,15 @@
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
+      <pointlight>
+        <ambient>0, 0, 0</ambient>
+        <diffuse>0.8, 0.8, 0.8</diffuse>
+        <specular>1.0, 1.0, 1.0</specular>
+        <constant>1.0</constant>
+        <linear>0.22</linear>
+        <quadratic>0.20</quadratic>
+        <color>1.75, 1.75, 0.6</color>
+      </pointlight>
 		</gameobject>
 		<!--KEY ENTITY DATA-->
 		<gameobject name="key">
@@ -132,8 +150,17 @@
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
+      <pointlight>
+        <ambient>0, 0, 0</ambient>
+        <diffuse>0.8, 0.8, 0.8</diffuse>
+        <specular>1.0, 1.0, 1.0</specular>
+        <constant>1.0</constant>
+        <linear>0.22</linear>
+        <quadratic>0.20</quadratic>
+        <color>1.0, 0.25, 0.25</color>
+      </pointlight>
 		</gameobject>
-		<!--KEY ENTITY DATA-->
+		<!--DOOR ENTITY DATA-->
 		<gameobject name="door">
 			<model3D modelCount="1">
 				<model_src>./src/Renderer3D/Models/stone_door_closed_1.obj</model_src>
@@ -151,6 +178,15 @@
 					<collider shape="circle" sensor="true" size="0.5" name="body">0.0, 0.0</collider>
 				</colliders>
 			</rigidbody>
+      <pointlight>
+        <ambient>0, 0, 0</ambient>
+        <diffuse>0.8, 0.8, 0.8</diffuse>
+        <specular>1.0, 1.0, 1.0</specular>
+        <constant>1.0</constant>
+        <linear>0.22</linear>
+        <quadratic>0.20</quadratic>
+        <color>1.66, 0.2, 1.49</color>
+      </pointlight>
 		</gameobject>
 		<!--TILE ENTITY DATA-->
 		<gameobject name="tile">

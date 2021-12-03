@@ -253,6 +253,10 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     if (anim_data) e.assign<Animator>(CreateAnimator(anim_data));
 
     if (tinyxml2::XMLElement * h = data->FirstChildElement("health")) e.assign<Health>(CreateHealth(h));
+    
+    //Check for point lights data and add if exists
+    tinyxml2::XMLElement* pointlight_data = data->FirstChildElement("pointlight");
+    if (pointlight_data) e.assign<PointLight>(CreatePointLight(pointlight_data));
 }
 
 Transform CCfgMgrPhysical::CreateTransformAtPosition(tinyxml2::XMLElement* data, int x, int y)
@@ -457,6 +461,28 @@ Health CCfgMgrPhysical::CreateHealth(tinyxml2::XMLElement* data)
 CommandFlags CCfgMgrPhysical::CreateCommandFlags(tinyxml2::XMLElement* data)
 {
     return CommandFlags();
+}
+
+PointLight CCfgMgrPhysical::CreatePointLight(tinyxml2::XMLElement* data)
+{
+    tinyxml2::XMLElement* ambient = data->FirstChildElement("ambient");
+    tinyxml2::XMLElement* diffuse = data->FirstChildElement("diffuse");
+    tinyxml2::XMLElement* specular = data->FirstChildElement("specular");
+    tinyxml2::XMLElement* constant = data->FirstChildElement("constant");
+    tinyxml2::XMLElement* linear = data->FirstChildElement("linear");
+    tinyxml2::XMLElement* quadratic = data->FirstChildElement("quadratic");
+    tinyxml2::XMLElement* color = data->FirstChildElement("color");
+    float pl_constant = atof(constant->GetText());
+    float pl_linear = atof(linear->GetText());
+    float pl_quadratic = atof(quadratic->GetText());
+
+    return PointLight(glm::vec3(0, 0, 0),ParseVec3(ambient->GetText()),
+        ParseVec3(diffuse->GetText()),
+        ParseVec3(specular->GetText()),
+        pl_constant,
+        pl_linear,
+        pl_quadratic,
+        ParseVec3(color->GetText()));
 }
 
 glm::vec2 CCfgMgrPhysical::ParseVec2(const char* data)

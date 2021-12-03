@@ -11,8 +11,8 @@ struct PointLight {
     vec3 diffuse;
     vec3 specular;
 };
-#define NR_POINT_LIGHTS 2
-uniform PointLight pointLights[NR_POINT_LIGHTS];
+#define MAX_POINT_LIGHTS 20
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
 #define OUTLINE_COLOR vec4(0, 0, 0, 1)
 #define OUTLINE_THICKNESS 0.3f
@@ -28,6 +28,7 @@ in vec3 vertexColor; // the input variable from the vertex shader (same name and
 in vec2 TexCoord; // the input variable from the vertex shader (same name and type as in vert)
 in vec3 FragPos; // the input variable from the vertex shader (same name and type as in vert)
 
+uniform int numPointLights;
 uniform vec3 positionOffset; // The global "uniform" position variable, possibly updated per frame through an external loop?
 uniform sampler2D texture1; // This uniform allows us to assign our texture as output for our Fragment shader
 //uniform Light light; // This uniform creates our light object for ambient, diffuse, and specular lights.
@@ -73,7 +74,7 @@ void main()
 
     vec3 result = vec3(0, 0, 0);
     //point lights calculation
-    for(int i=0; i<NR_POINT_LIGHTS; i++)
+    for(int i=0; i<numPointLights; i++)
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     
     float maxAngleVal = max(0.0, dot(norm, viewDir));
