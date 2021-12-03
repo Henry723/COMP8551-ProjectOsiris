@@ -32,7 +32,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe Rendering
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill Rendering
 	glEnable(GL_DEPTH_TEST);
-	glm::vec2 playerPosition;
+	glm::vec2 playerPosition(0.0);
 	//get player position to update camera position
 	for (Entity entity : es.entities_with_components(hRigidBody)) {
 		ComponentHandle<GameObject> object = entity.component<GameObject>();
