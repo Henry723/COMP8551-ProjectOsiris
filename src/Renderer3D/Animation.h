@@ -17,7 +17,8 @@ private:
 	string name;
 
 public:
-	Animation(string _name, double _length, vector<Keyframe> _keyFrames) : name(_name), length(_length), keyFrames(_keyFrames){}
+	Animation();
+	Animation(string _name, double _length, vector<Keyframe> _keyFrames);
 	int getCurrentFrame();
 	Keyframe getCurrentKeyframe();
 	Keyframe getNextKeyframe();
@@ -25,4 +26,5 @@ public:
 	double getLength();
 	void reset();
 	string getName();
+	bool checkLastFrame();
 };

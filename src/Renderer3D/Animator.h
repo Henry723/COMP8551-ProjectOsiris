@@ -11,7 +11,7 @@ private:
 	double animationTime = 0;
 	//map that holds the <string, animation>
 	map<string, Animation> animations;
-	bool noAnimation = true;
+	bool animating = false;
 
 public:
 	Animator(vector<Animation> anims);
@@ -20,6 +20,7 @@ public:
 	void doAnimation(string animName);
 	void calculateCurrentAnimationFrame();
 	int getCurrentFrameIndex();
+	bool checkAnimating();
 
 
 };

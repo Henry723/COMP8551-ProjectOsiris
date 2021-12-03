@@ -43,10 +43,10 @@
 				</colliders>
 			</rigidbody>
 			<animator>
-				<animation name="attack" length="1.1">
-					<keyframe timestamp="0.1" index="1"></keyframe>
-					<keyframe timestamp="0.6" index="2"></keyframe>
-					<keyframe timestamp="0.9" index="3"></keyframe>
+				<animation name="attack" length="8">
+					<keyframe timestamp="0.5" index="1"></keyframe>
+					<keyframe timestamp="2.0" index="2"></keyframe>
+					<keyframe timestamp="6" index="3"></keyframe>
 				</animation>					
 			</animator>
 		<health amount="3"></health>

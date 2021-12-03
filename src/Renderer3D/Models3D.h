@@ -14,6 +14,7 @@ private:
 public:
 	Models3D(vector<Model3D> models);
 	int getModelIndex();
+	void updateIndex(int frameIndex);
 	glm::mat4 getModelMatrix();
 	void resetModelMatrix();
 	Model3D* getCurrentModel3D();

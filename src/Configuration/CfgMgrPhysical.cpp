@@ -250,7 +250,7 @@ void CCfgMgrPhysical::CreateEntityAtPosition(tinyxml2::XMLElement* data, EntityM
     if (cmdflags_data) e.assign<CommandFlags>(CreateCommandFlags(cmdflags_data));
     
     tinyxml2::XMLElement* anim_data = data->FirstChildElement("animator");
-    if (anim_data) e.assign<Animator> = (CreateAnimator());
+    if (anim_data) e.assign<Animator>(CreateAnimator(anim_data));
 
     if (tinyxml2::XMLElement * h = data->FirstChildElement("health")) e.assign<Health>(CreateHealth(h));
 }
@@ -382,7 +382,7 @@ Animator CCfgMgrPhysical::CreateAnimator(tinyxml2::XMLElement* data) {
         }
 
         std::string s(anim_src->Attribute("name"));
-        float length = keyframe->FloatAttribute("length");
+        float length = anim_src->FloatAttribute("length");
         anims.push_back(Animation(s, length, kfs));
         anim_src = anim_src->NextSiblingElement("animation");
 

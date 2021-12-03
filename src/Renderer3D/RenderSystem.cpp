@@ -72,18 +72,23 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	}
 
 	//Grab Model Index
-	//auto animatorEntities = es.entities_with_components(hmodels, hAnimator);
-	//for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
-	//	Animator* ator = (*entity).component<Animator>().get();
-	//	int frameIndex = ator->getCurrentFrameIndex();
-	//	Models3D* model = (*entity).component<Models3D>().get();
-
-	//	/*if (frameIndex != model->getIndex()) {
-	//		model->updateIndex(frameIndex);
-	//	}
-	//	*/
-	//	
-	//}
+	auto animatorEntities = es.entities_with_components(hmodels, hAnimator);
+	for (auto entity = animatorEntities.begin(); entity != animatorEntities.end(); ++entity) {
+		Animator* ator = (*entity).component<Animator>().get();
+		Models3D* model = (*entity).component<Models3D>().get();
+		//returns the keyframes index 1-3
+		if (ator->checkAnimating()) {		
+			int frameIndex = ator->getCurrentFrameIndex();
+			if (frameIndex != model->getModelIndex()) {
+				model->updateIndex(frameIndex);
+			}
+		}
+		else {
+			//use default model
+			model->updateIndex(0);
+		}	
+		
+	}
 
 	// Loop through Model3D components
 	auto modelEntities = es.entities_with_components(hmodels, htransform);

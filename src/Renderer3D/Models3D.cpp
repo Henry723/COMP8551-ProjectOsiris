@@ -9,6 +9,11 @@ int Models3D::getModelIndex(){
 	return currentModelIndex;
 }
 
+void Models3D::updateIndex(int frameIndex)
+{
+	currentModelIndex = frameIndex;
+}
+
 glm::mat4 Models3D::getModelMatrix() {
 	return transformation_matrix;
 }

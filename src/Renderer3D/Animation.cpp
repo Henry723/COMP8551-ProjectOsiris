@@ -1,5 +1,12 @@
 #include "Animation.h"
 
+Animation::Animation() {
+	//default constructor not meant to do anything except satisfy an error
+}
+Animation::Animation(string _name, double _length, vector<Keyframe> _keyFrames) : name(_name), length(_length), keyFrames(_keyFrames) {
+
+}
+
 int Animation::getCurrentFrame() {
 	return keyFrames[currentFrame].index;	
 }
@@ -34,4 +41,9 @@ void Animation::reset() {
 
 string Animation::getName() {
 	return name;
+}
+
+bool Animation::checkLastFrame() {
+
+	return currentFrame == keyFrames.size() - 1;
 }
