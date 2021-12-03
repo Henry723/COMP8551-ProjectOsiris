@@ -1,5 +1,6 @@
 // Created using code from https://learnopengl.com/In-Practice/Text-Rendering
 #include "UI.h"
+#include "../Physics/ScoreTest.h"
 
 int UISystem::LoadFreeType() {
     // --------
@@ -278,13 +279,16 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
 }
 
 void UISystem::generateMenuText() {
-    TextElement textHiScore = { "Hi-Score: 0000", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    string HSText = "Hi-Score: " + std::to_string(ScoreTest::getInstance().getHighScore());
+    string ScoreText = "Score: " + std::to_string(ScoreTest::getInstance().getScore());
+
+    TextElement textHiScore = { HSText.c_str(), 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textHiScore);
 
     TextElement textGameOver = { "Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textGameOver);
 
-    TextElement textScore = { "Score: 0000", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    TextElement textScore = { ScoreText.c_str(), 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textScore);
 
     TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };

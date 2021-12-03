@@ -1,12 +1,12 @@
 #include "RenderSystem.h"
 #include <thread>
+#include "../Physics/ScoreTest.h"
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
-int totalScore, playerHealth;
+int playerHealth;
 
 void RenderSystem::configure(EventManager& em) {
-	em.subscribe<ScoreUpdate>(*this);
 	em.subscribe<PlayerHealthUpdate>(*this);
 	em.subscribe<TimerUpdate>(*this);
 }
@@ -156,14 +156,20 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 	static int lastMaxHealth = 0;
 	if (!ui.configured) { // Initialize FreeType and VAO/VBOs + adds text elements to be rendered
 		ui.setup();
-		healthText = ui.NewTextElement("Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
-		scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
-		lastCurHealth = playerHealth->curHealth;
-		lastMaxHealth = playerHealth->maxHealth;
+		// To precent crashes from NULL pointers
+		if (playerHealth != NULL)
+		{
+			healthText = ui.NewTextElement("Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+			scoreText = ui.NewTextElement("Score: 0000", 585.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
+			lastCurHealth = playerHealth->curHealth;
+			lastMaxHealth = playerHealth->maxHealth;
+		}
+		else
+			healthText = ui.NewTextElement("Health: " + to_string(lastCurHealth) + '/' + to_string(lastMaxHealth), 15.0f, 565.0f, 0.75f, glm::vec3(1.0, 1.0f, 1.0f), true);
 		ui.configured = true;
 	}
 	else {
-		ui.textElements[scoreText].value = "Score: " + to_string(totalScore);
+		ui.textElements[scoreText].value = "Score: " + to_string(ScoreTest::getInstance().getScore());
 		if (playerHealth != NULL)
 		{
 			ui.textElements[healthText].value = "Health: " + to_string(playerHealth->curHealth) + '/' + to_string(playerHealth->maxHealth);
@@ -341,10 +347,6 @@ void RenderSystem::draw(Model3D* modelComponent, glm::mat4 transformationMatrix,
 	// 5. Unbind the VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	//modelComponent->resetModelMatrix();
-}
-
-void RenderSystem::receive(const ScoreUpdate& event) {
-	totalScore += event.score;
 }
 
 void RenderSystem::receive(const PlayerHealthUpdate& event) {

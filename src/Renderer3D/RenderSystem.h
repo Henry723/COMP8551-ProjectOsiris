@@ -13,7 +13,6 @@ public:
 	//Camera mainCamera(glm::vec3(0.0f, 0.0f, 3.0f));
 	void update(EntityManager&, EventManager&, TimeDelta) override;
 	void configure(EventManager& em) override;
-	void receive(const ScoreUpdate& event);
 	void receive(const PlayerHealthUpdate& event);
 	void receive(const TimerUpdate& event);
 

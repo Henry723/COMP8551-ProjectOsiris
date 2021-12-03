@@ -99,18 +99,13 @@ struct PlayerAttack {}; //Empty event to signal player attack.
 struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
 struct EnemyAttack {}; //Empty event to signal enemy attack.
 struct GameOver {}; //Empty game over event to listen for.
+struct GameWon {}; //Empty game won event to listen for.
 
 //Event sending the ration of remaining time to update UI elements.
 struct TimerUpdate
 {
 	float ratio;
 	TimerUpdate(float _ratio) :ratio(_ratio) {};
-};
-
-//Custom event for keeping track of the score
-struct ScoreUpdate {
-	explicit ScoreUpdate(int score) : score(score) {}
-	int score;
 };
 
 //Custom event for keeping track of key capture
