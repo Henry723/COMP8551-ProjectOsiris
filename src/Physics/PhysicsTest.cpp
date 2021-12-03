@@ -52,7 +52,9 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 				}
 				//MOVE CHECKS END
 				/////////////////////
+				// 
 				//ATTACK CHECKS START: Check for attack input and if there's an entity to attack.
+
 				if (attackLeft && leftEntity)
 				{
 					//ComponentHandle<GameObject> targetObj = leftEntity->component<GameObject>();
@@ -112,9 +114,6 @@ void PhysicsTest::update(EntityManager& es, EventManager& events, TimeDelta dt)
 
 				if (!isMoving) //If the player isn't moving, decrement timer.
 					timeUntilNextOrder -= dt;
-
-
-
 
 				//Reset input flags, needed here in case the movement didn't fire (moves would stack otherwise)
 
