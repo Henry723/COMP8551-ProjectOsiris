@@ -184,7 +184,7 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_BLEND);
 		//update color buffer (a 2D buffer that contains color values for each pixel) to render during this iteration and show it as output to the screen.
-		glfwSwapBuffers((*entity).component<Window>().get()->window);
+		//glfwSwapBuffers((*entity).component<Window>().get()->window);
 	}
 	resetCount();
 }
