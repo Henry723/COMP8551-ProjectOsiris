@@ -85,7 +85,6 @@ void PlayerSystem::AttackChecks(ComponentHandle<Transform> transform, EventManag
 		else if (attackFlags[3]) {
 			transform->rotation = glm::vec4(0, 1, 0, 110);
 		}
-		events.emit<PlayerAttack>();
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
