@@ -247,6 +247,7 @@ void EnemySystem::AttackPlayer(EventManager& events, Entity* player)
 	//Get the player's health component
 	ComponentHandle<Health> playerHealth = player->component<Health>();
 	//Decrement and check for 0, Game Over event thrown here.
+	events.emit<EnemyAttack>();
 	if (--playerHealth->curHealth <= 0) 
 		events.emit<GameOver>();
 }

@@ -340,5 +340,23 @@ ModelImporter::ModelImporter() {
 
 ModelImporter::~ModelImporter()
 {
-    // TODO Iterate through map and deallocate pointers
+    //cout << "Model Importer is being deallocated " << endl;
+
+    map<string, LoadedModelData*>::iterator it;
+    for (it = models.begin(); it != models.end(); it++)
+    {
+        //cout << "Deallocating model data for " << it->first << endl;
+        delete it->second;
+    }
+
+    map<string, LoadedTextureData*>::iterator tex_it;
+    for (tex_it = textures.begin(); tex_it != textures.end(); tex_it++)
+    {
+        //cout << "Deallocating texture data for " << tex_it->first << endl;
+        delete tex_it->second;
+    }
+
+    textures.clear();
+    models.clear();
+
 }

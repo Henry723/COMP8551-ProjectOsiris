@@ -1,4 +1,5 @@
 #include "RenderSystem.h"
+#include <thread>
 
 UISystem& ui = UISystem::getInstance(); // Reference the UISystem instance (ensure the name is unique) 
 int healthText, scoreText; // Create int IDs for each of the text elements you want to render
@@ -7,10 +8,16 @@ int totalScore, playerHealth;
 void RenderSystem::configure(EventManager& em) {
 	em.subscribe<ScoreUpdate>(*this);
 	em.subscribe<PlayerHealthUpdate>(*this);
+	em.subscribe<TimerUpdate>(*this);
 }
 
 void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 {
+
+	if (entityManager == nullptr) {
+		entityManager = &es;
+	}
+	
 	if (!(   gameState == GameState::RUNNING
 		  || gameState == GameState::GAMEOVER))
 		return;
@@ -98,6 +105,8 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		
 	// Loop through Model3D components
 	auto modelEntities = es.entities_with_components(hmodel, htransform);
+
+
 	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
 		Model3D* model = (*entity).component<Model3D>().get();
 		Transform* transform = (*entity).component<Transform>().get();
@@ -108,7 +117,13 @@ void RenderSystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 		
 		//cout << "Drawing model " << model.name << endl;
 		//model->Draw();
-		draw(model, camera);
+
+		//std::thread drawThread(&RenderSystem::draw, this, model, camera);
+
+		draw(model, camera);	
+
+		//drawThread.join();
+
 	}
 
 	// Text rendering using the UI System
@@ -185,6 +200,9 @@ void RenderSystem::resetCount() {
 
 void RenderSystem::draw(Model3D* modelComponent, Camera* cameraComponent)
 {
+	if (modelComponent == nullptr) {
+		return;
+	}
 	// TEST - Changing uniforms over time.
 	float timeValue = glfwGetTime();
 	float green = (sin(timeValue) / 2.0f) + 0.5f;
@@ -311,4 +329,23 @@ void RenderSystem::receive(const ScoreUpdate& event) {
 
 void RenderSystem::receive(const PlayerHealthUpdate& event) {
 	playerHealth = event.health;
+}
+
+void RenderSystem::receive(const TimerUpdate& event) {
+	if(event.ratio > 0.01) ui.SetTimer(event.ratio);
+}
+
+RenderSystem::~RenderSystem() {
+	//cout << "Render system is being deallocated" << endl;
+
+	ComponentHandle<Model3D> hmodel;
+
+	// Loop through Model3D components
+	auto modelEntities = entityManager->entities_with_components(hmodel);
+	for (auto entity = modelEntities.begin(); entity != modelEntities.end(); ++entity) {
+		Model3D* model = (*entity).component<Model3D>().get();
+		//cout << "Deallocating " << model << endl;
+		model->clear_buffers();
+		//delete model;
+	}
 }

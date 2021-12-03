@@ -12,7 +12,7 @@ using entityx::Receiver;
 struct PlayerSystem : public System<PlayerSystem>, public Receiver<PlayerSystem>, EntityX {
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
-	void AttackChecks(); //Check entity and input flags to perform an attack.
+	void AttackChecks(ComponentHandle<Transform> transform, EventManager& events); //Check entity and input flags to perform an attack.
 	void ResetFlags(); //Reset movement and attack flags on player turn end.
 	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
 	void receive(const EndCollision& event); // Gets collisions, toggles canMove bools based on sensors

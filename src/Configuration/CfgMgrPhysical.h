@@ -42,6 +42,8 @@ private:
 public:
 
 	CCfgMgrPhysical(const char* fileName);
+	~CCfgMgrPhysical();
+
 	void PrintDocument();
 	void LoadObjects(EntityManager& em);
 	void LoadLevel(EntityManager& em);

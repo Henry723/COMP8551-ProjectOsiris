@@ -42,6 +42,14 @@ struct LoadedModelData {
 
 		// indices = i;
 	}
+
+	~LoadedModelData() {
+		attribs->clear();
+		indices->clear();
+
+		delete attribs;
+		delete indices;
+	}
 };
 
 struct LoadedTextureData {
@@ -49,8 +57,12 @@ struct LoadedTextureData {
 	int imgWidth, imgHeight, nrChannels;
 
 	LoadedTextureData(const char* texSource) {
-
 		textureData = stbi_load(texSource, &imgWidth, &imgHeight, &nrChannels, 0);
+	}
+
+	~LoadedTextureData() {
+		//stbi_image_free(textureData);
+		delete textureData;
 	}
 };
 
