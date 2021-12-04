@@ -100,7 +100,13 @@ void ModelImporter::populate_maps() {
     // Player Poses
     const char* model_playerSwingPose1 = "./src/Renderer3D/Models/wayfarer_swingPose1.obj";
     const char* model_playerSwingPose2 = "./src/Renderer3D/Models/wayfarer_swingPose2.obj";
+    const char* model_playerSwingPose2p2 = "./src/Renderer3D/Models/wayfarer_swingPose2p2.obj";
+    const char* model_playerSwingPose2p3 = "./src/Renderer3D/Models/wayfarer_swingPose2p3.obj";
     const char* model_playerSwingPose3 = "./src/Renderer3D/Models/wayfarer_swingPose3.obj";
+
+    const char* model_playerDashPose1 = "./src/Renderer3D/Models/wayfarer_dashPose1.obj";
+    const char* model_playerDashPose2 = "./src/Renderer3D/Models/wayfarer_dashPose2.obj";
+    const char* model_playerDashPose3 = "./src/Renderer3D/Models/wayfarer_dashPose3.obj";
 
     // Enemy
     const char* model_enemy = "./src/Renderer3D/Models/scarab.obj";
@@ -143,7 +149,12 @@ void ModelImporter::populate_maps() {
     add_model_to_map(model_door);
     add_model_to_map(model_playerSwingPose1);
     add_model_to_map(model_playerSwingPose2);
+    add_model_to_map(model_playerSwingPose2p2);
+    add_model_to_map(model_playerSwingPose2p3);
     add_model_to_map(model_playerSwingPose3);
+    add_model_to_map(model_playerDashPose1);
+    add_model_to_map(model_playerDashPose2);
+    add_model_to_map(model_playerDashPose3);
 
     // Load all textures, add them to the map
     add_texture_to_map(tex_def);
