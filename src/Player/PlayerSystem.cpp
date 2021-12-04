@@ -71,24 +71,29 @@ void PlayerSystem::AttackChecks(ComponentHandle<Transform> transform, EventManag
 	//Arrays of attack flags and enemy pointers
 	bool attackFlags[4] = { attackLeft, attackRight, attackDown, attackUp };
 	Entity* enemyPointers[4] = { leftEntity, rightEntity, downEntity, upEntity };
+	PlayerAttack::Dir attkDir = PlayerAttack::CENTER;
 	for (int i = 0; i < 4; i++)
 	{
 		if (attackFlags[0]) {
 			transform->rotation = glm::vec4(0, -1, 0, 90);
+			attkDir = PlayerAttack::LEFT;
 		}
 		else if (attackFlags[1]) {
 			transform->rotation = glm::vec4(0, 1, 0, 90);
+			attkDir = PlayerAttack::RIGHT;
 		}
 		else if (attackFlags[2]) {
 			transform->rotation = glm::vec4(0, 1, 0, 0);
+			attkDir = PlayerAttack::DOWN;
 		}
 		else if (attackFlags[3]) {
 			transform->rotation = glm::vec4(0, 1, 0, 110);
+			attkDir = PlayerAttack::UP;
 		}
 		//If the flag and pointer are set...
 		if (attackFlags[i] && enemyPointers[i] && enemyPointers[i]->valid()) 
 		{
-			events.emit<PlayerAttack>(); //Event for attack SFX
+			events.emit<PlayerAttack>(attkDir); //Event for attack SFX
 			//Grab the health component.
 			ComponentHandle<Health> targetH = enemyPointers[i]->component<Health>();
 			if (!--targetH->curHealth) //Decrement and check for 0

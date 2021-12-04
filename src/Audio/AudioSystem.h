@@ -15,6 +15,7 @@
 using namespace std;
 
 struct Vector3 {
+	Vector3(float x = 0, float y = 0, float z = 0) : x(x), y(y), z(z) {}
   float x;
   float y;
   float z;
@@ -85,4 +86,5 @@ public:
 private:
 	static AudExec* instAudExec;
 	int bgMusicChannelID;
+	Vector3 EnemyPos;
 };
