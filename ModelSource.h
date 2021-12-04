@@ -3,6 +3,10 @@
 const char* src_playerModel = "./src/Renderer3D/Models/wayfarer.obj";
 const char* src_playerTexture = "./src/Renderer3D/Textures/tex_wayfarer.jpg";
 
+const char* src_playerSwingPose1 = "./src/Renderer3D/Models/wayfarer_swingPose1.obj";
+const char* src_playerSwingPose2 = "./src/Renderer3D/Models/wayfarer_swingPose2.obj";
+const char* src_playerSwingPose3 = "./src/Renderer3D/Models/wayfarer_swingPose3.obj";
+
 const char* src_enemyModel = "./src/Renderer3D/Models/scarab.obj";
 const char* src_enemyTexture = "./src/Renderer3D/Textures/tex_scarab.jpg";
 

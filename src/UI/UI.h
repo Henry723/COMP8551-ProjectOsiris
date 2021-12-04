@@ -3,13 +3,12 @@
 #pragma once
 
 #include "../components.hpp"
-#include "../SceneManager.hpp"
+#include "../SceneManager/SceneManager.h"
 #include "TextShader.h"
 #include "../Renderer3D/Shader.h"
 #include "../Renderer3D/stb_image.h"
 #include <map>
 #include <string>
-#include "../SceneManager.hpp"
 
 
 #include "../Events/EventSystem.h"
@@ -31,7 +30,7 @@ struct TextElement {
 
 // UISystem is a singleton class
 //class UISystem : public System<UISystem>
-struct UISystem : public System<UISystem>, public Receiver<UISystem>, EntityX
+struct UISystem : public System<UISystem>, EntityX
 {
     static UISystem& instance()
     {
@@ -78,6 +77,15 @@ struct UISystem : public System<UISystem>, public Receiver<UISystem>, EntityX
         //};
     };
     Shape2D StartMenu;
+    const int width = 800; //Screen width
+    const int height = 600; //Screen height
+    //Values for the timer element.
+    Shape2D Timer; //Timer object containing vertices
+    int TimerPivot = (width/2) - 10; //Element pivot relative to width
+    float TimerWidth = 340; //Current timer width
+    float MaxTimerWidth = 340; //Max timer width
+
+
 public:
     static UISystem& getInstance()
     {
@@ -86,19 +94,21 @@ public:
     }
     void update(EntityManager&, EventManager&, TimeDelta) override; // unused as rendering is done within RenderSystem.cpp
     void configure(EventManager& em) override; // Subscribes to each input event
-    void receive(const ControlInput& event); // Toggles movement bools to be picked up by update
     void setup(); // Can be called to begin doing all steps to setup the system (LoadFreeType, CreateVAOVBO)
     void ShaderSetup(); // Returns a shader that is used for text rendering
     int LoadFreeType(); // Initializes FreeType by loading a font and configuring glyphs / bitmaps for the specified font
     int LoadStartMenu(); // Initializes FreeType by loading a font and configuring glyphs / bitmaps for the specified font
+    int LoadTimer();
     void CreateVAOVBO(); // Sets up the VAO and VBOs which will be used by the RenderText function
     void RenderText(TextShader& shader, std::string text, float x, float y, float scale, glm::vec3 color); // Used within the render loop to render 2D text
     void RenderShape2d(Shader& shader, Shape2D& shape); // render 2D shape 
     void RenderStartMenu();
     void RenderAll(); // Loops through all elements in textElements and renders them if they are set to active
+    void RenderTimer();
     int NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active); // Adds a new text element and returns the ID used to access it from textElements
     std::vector<TextElement> textElements; // Container for all textElements
     void generateMenuText();
+    void SetTimer(float t) { this->TimerWidth = MaxTimerWidth * t; }
     void RenderMenuText();
     std::vector<TextElement> textMenuElements; // Container for all textElements
     bool configured = false; // Set to false and indicates to the UI system that setup should be performed

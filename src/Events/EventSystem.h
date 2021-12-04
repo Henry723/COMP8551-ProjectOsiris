@@ -60,16 +60,97 @@ struct ControlInput {
 	Cmd cmd;
 };
 
-//Custom event for keeping track of the score
-struct ScoreUpdate {
-	explicit ScoreUpdate(int score) : score(score) {}
-	int score;
+
+
+//Collision struct to be created for collision events
+struct Collision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	Collision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	Collision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+//Collision struct to be created for collision events
+struct EndCollision
+{
+	Entity* a; //Left colliding element
+	Entity* b; //Right colliding element
+
+	string fA = ""; //Fixture name for left element
+	string fB = ""; //Fixture name for right element
+
+	//Regular collider, no fixture data
+	EndCollision(Entity* _a, Entity* _b) : a(_a), b(_b) {}
+
+	//Collider including fixture names
+	EndCollision(Entity* _a, Entity* _b, string _fA, string _fB) : a(_a), b(_b), fA(_fA), fB(_fB) {}
+};
+
+struct PlayerTurnEnd {}; // Empty event to signal player end turn.
+struct PlayerAttack {
+	enum Dir {
+		CENTER,
+		LEFT,
+		UP,
+		DOWN,
+		RIGHT,
+	};
+	Dir dir = CENTER;
+	explicit PlayerAttack(Dir dir) : dir(dir) {};
+}; //Event to signal player attack connecting with enemy and direction.
+struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
+struct EnemyAttack {
+	enum Dir {
+		CENTER,
+		LEFT,
+		UP,
+		DOWN,
+		RIGHT,
+	};
+	Dir dir = CENTER;
+	explicit EnemyAttack(Dir dir) : dir(dir) {};
+}; //Event to signal enemy attack with postion.
+struct GameOver {}; //Empty game over event to listen for.
+struct GameWon {}; //Empty game won event to listen for.
+
+//Event sending the ration of remaining time to update UI elements.
+struct TimerUpdate
+{
+	float ratio;
+	TimerUpdate(float _ratio) :ratio(_ratio) {};
+};
+
+//Custom event for keeping track of key capture
+struct KeyCaptureUpdate {
+	explicit KeyCaptureUpdate(bool captured) : captured(captured) {}
+	bool captured;
+};
+
+//Custom event for keeping track of the player health
+struct PlayerHealthUpdate {
+	explicit PlayerHealthUpdate(int health) : health(health) {}
+	int health;
 };
 
 //Create the custom events as such
 struct ExampleEvent {
 	explicit ExampleEvent(int a, int b) : a(a), b(b) {}
 	int a, b;
+};
+
+//Animation event to update model index
+struct ModelSwapEvent {
+	explicit ModelSwapEvent(int index) :index(index) {}
+	int index;
+
 };
 
 //The emitter will be called using .emit<custom events>
@@ -100,6 +181,5 @@ struct ExampleListenerSystem : public System<ExampleListenerSystem>, public Rece
 
 	void receive(const ExampleEvent& event) {
 		total += event.a * event.b;
-		cout << "Event system :" << total << endl;
 	}
 };

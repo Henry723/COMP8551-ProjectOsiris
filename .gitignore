@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,c++
 
+# Highscore changes while playing
+src/Stats.txt
+
 ### C++ ###
 # Prerequisites
 *.d
@@ -27,6 +30,8 @@
 # .dll Rule Exclusions
 !assimp-vc142-mtd.dll
 !freetype.dll
+!fmod.dll
+!fmodstudio.dll
 
 # Fortran module files
 *.mod

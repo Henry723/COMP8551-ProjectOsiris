@@ -103,12 +103,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;opengl32.lib;entityx-d.lib;box2d.lib;freetype.lib;fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\AIEnemy\EnemySystem.cpp" />
+    <ClCompile Include="src\Audio\AudioSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrAppTester.cpp" />
     <ClCompile Include="src\Events\EventSystem.cpp" />
     <ClCompile Include="src\Configuration\CfgMgrApplication.cpp" />
@@ -120,29 +121,34 @@
     <ClCompile Include="src\Input\InputSystem.cpp" />
     <ClCompile Include="src\MemoryManager\CMemMgrPool.cpp" />
     <ClCompile Include="src\MemoryManager\CMMPoolTester.cpp" />
-    <ClCompile Include="src\Physics\PhysicsTest.cpp" />
     <ClCompile Include="src\Physics\ScoreTest.cpp" />
+    <ClCompile Include="src\Renderer3D\Animation.cpp" />
+    <ClCompile Include="src\Renderer3D\AnimationSystem.cpp" />
+    <ClCompile Include="src\Renderer3D\Animator.cpp" />
+    <ClCompile Include="src\Player\PlayerSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Camera.cpp" />
+    <ClCompile Include="src\Renderer3D\KeyFrame.cpp" />
     <ClCompile Include="src\Renderer3D\Model3D.cpp" />
     <ClCompile Include="src\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="src\Renderer3D\ModelImporter.cpp" />
+    <ClCompile Include="src\Renderer3D\Models3D.cpp" />
     <ClCompile Include="src\Renderer3D\RenderSystem.cpp" />
     <ClCompile Include="src\Renderer3D\Shader.cpp" />
     <ClCompile Include="src\Renderer3D\stb_image.cpp" />
+    <ClCompile Include="src\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="src\SceneManager\SceneMgrSys.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="_dependencies\sources\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelSource.h" />
     <ClInclude Include="src\AIEnemy\EnemySystem.h" />
+    <ClInclude Include="src\Audio\AudioSource.h" />
+    <ClInclude Include="src\Audio\AudioSystem.h" />
     <ClInclude Include="src\components.hpp" />
     <ClInclude Include="src\Configuration\CfgMgrAppTester.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\Events\EventSystem.h" />
     <ClInclude Include="src\Configuration\CfgMgrApplication.h" />
-    <ClInclude Include="src\Configuration\CfgMgrData.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPresentation.h" />
-    <ClInclude Include="src\Configuration\CfgMgrPhysical.h" />
     <ClInclude Include="src\Events\TurnEvents.h" />
     <ClInclude Include="src\GameControl.h" />
     <ClInclude Include="src\gamestate.h" />
@@ -151,14 +157,21 @@
     <ClInclude Include="src\Input\InputSystem.h" />
     <ClInclude Include="src\MemoryManager\CMemMgrPool.h" />
     <ClInclude Include="src\MemoryManager\CMMPoolTester.h" />
-    <ClInclude Include="src\Physics\PhysicsTest.h" />
     <ClInclude Include="src\Physics\ScoreTest.h" />
+    <ClInclude Include="src\Renderer3D\Animation.h" />
+    <ClInclude Include="src\Renderer3D\AnimationSystem.h" />
+    <ClInclude Include="src\Renderer3D\Animator.h" />
+    <ClInclude Include="src\Player\PlayerSystem.h" />
     <ClInclude Include="src\Renderer3D\Camera.h" />
+    <ClInclude Include="src\Renderer3D\Keyframe.h" />
     <ClInclude Include="src\Renderer3D\Model3D.h" />
     <ClInclude Include="src\Renderer3D\ModelImporter.h" />
+    <ClInclude Include="src\Renderer3D\Models3D.h" />
     <ClInclude Include="src\Renderer3D\RenderSystem.h" />
     <ClInclude Include="src\Renderer3D\Shader.h" />
     <ClInclude Include="src\Renderer3D\stb_image.h" />
+    <ClInclude Include="src\SceneManager\SceneManager.h" />
+    <ClInclude Include="src\SceneManager\SceneMgrSys.h" />
     <ClInclude Include="src\UI\TextShader.h" />
     <ClInclude Include="src\UI\UI.h" />
   </ItemGroup>
@@ -172,7 +185,6 @@
   <ItemGroup>
     <Image Include="src\Renderer3D\Textures\container.jpg" />
     <ClInclude Include="src\Physics\PhysicsEngine.h" />
-    <ClInclude Include="src\SceneManager.hpp" />
     <Image Include="src\UI\textures\brickwall.jpg" />
     <Image Include="src\UI\textures\startmenu.jpg" />
   </ItemGroup>
@@ -190,6 +202,7 @@
   <ItemGroup>
     <Xml Include="src\Game.xml" />
     <Xml Include="src\Level01.xml" />
+    <Xml Include="src\Level02.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

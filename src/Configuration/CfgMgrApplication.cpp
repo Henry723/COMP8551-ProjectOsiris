@@ -58,13 +58,26 @@ bool CCfgMgrApplication::loadLevel(const char* fileName, EntityManager& em)
 int CCfgMgrApplication::loadCustomData(std::string fileName)
 {
     int newHndl = -1;
-    ifstream cfgFile;
+    fstream cfgFile;
 
     // Open the file
     cfgFile.open(fileName, fstream::in);
 
+    // Did the file exist?
+    if (!cfgFile.is_open())
+    {
+        // Didn't exist so create
+        cfgFile.open(fileName, fstream::out);
+        if (cfgFile.is_open())
+        {
+            cfgFile.close();
+            // Open the file in correct mode
+            cfgFile.open(fileName, fstream::in);
+        }
+    }
+
     // If success add the file info to filehandles
-    if (cfgFile)
+    if (cfgFile.is_open())
     {
         handleData_t fileData;
         string rawLnData;

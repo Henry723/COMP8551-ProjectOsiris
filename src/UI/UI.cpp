@@ -1,5 +1,6 @@
 // Created using code from https://learnopengl.com/In-Practice/Text-Rendering
 #include "UI.h"
+#include "../Physics/ScoreTest.h"
 
 int UISystem::LoadFreeType() {
     // --------
@@ -92,6 +93,45 @@ int UISystem::LoadStartMenu() {
             format = GL_RGBA;
 
         glBindTexture(GL_TEXTURE_2D, StartMenu.TextureID);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Set texture image 4byte-alignment
+
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return 1;
+}
+
+int UISystem::LoadTimer() {
+    glGenTextures(1, &Timer.TextureID);
+
+    int width, height, nrComponents;
+    const char* path = "./src/UI/textures/timer.jpg";
+    unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+
+    if (data) {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, Timer.TextureID);
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -210,6 +250,23 @@ void UISystem::RenderAll()
             RenderText(shader, curElement.value, curElement.posX, curElement.posY, curElement.scale, curElement.color);
         }
     }
+    if(gameState == GameState::RUNNING)RenderTimer();
+}
+
+void UISystem::RenderTimer()
+{
+    glm::vec4 TimerVertices[6] = {
+
+            glm::vec4(TimerPivot - TimerWidth / 2, 595.0f, 0.0f, 0.0f),
+            glm::vec4(TimerPivot - TimerWidth / 2, 565.0f,   0.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 595.0f, 1.0f, 0.0f),
+
+            glm::vec4(TimerPivot - TimerWidth / 2, 565.0f, 0.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 565.0f,   1.0f, 1.0f),
+            glm::vec4(TimerPivot + TimerWidth / 2, 595.0f, 1.0f, 0.0f)
+    };
+    std::copy(TimerVertices, TimerVertices + 6, Timer.Vertices);
+    RenderShape2d(shapeShader, Timer);
 }
 
 int UISystem::NewTextElement(std::string value, float posX, float posY, float scale, glm::vec3 color, bool active)
@@ -222,17 +279,20 @@ int UISystem::NewTextElement(std::string value, float posX, float posY, float sc
 }
 
 void UISystem::generateMenuText() {
-    TextElement textHiScore = { "Hi-Score: 0000", 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    string HSText = "Hi-Score: " + std::to_string(ScoreTest::getInstance().getHighScore());
+    string ScoreText = "Score: " + std::to_string(ScoreTest::getInstance().getScore());
+
+    TextElement textHiScore = { HSText.c_str(), 300.f, 560.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textHiScore);
 
     TextElement textGameOver = { "Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textGameOver);
 
-    TextElement textScore = { "Score: 0000", 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
-    textMenuElements.push_back(textScore);
+    //TextElement textScore = { ScoreText.c_str(), 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    //textMenuElements.push_back(textScore);
 
-    TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
-    textMenuElements.push_back(textTime);
+    //TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    //textMenuElements.push_back(textTime);
 
     TextElement textReset = { "Press space to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textReset);
@@ -257,8 +317,11 @@ void UISystem::RenderMenuText() {
 void UISystem::setup() {
     // Currently only calls the LoadFreeType function and sets up the shader. Other setup steps can also be added here
     LoadFreeType();
-    LoadStartMenu();
     ShaderSetup();
+
+    // TODO : REMOVE ONCE LoadStartMenu() can run outside of the setup method
+    LoadStartMenu();
+    LoadTimer();
     generateMenuText();
     numElements = 0;
 }
@@ -288,7 +351,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
         configured = true;
     }
 
-    if (gameState != PREPARING) return;
+    if (gameState != GameState::MENU) return;
 
     ////ComponentHandle<Color> hcolor;
     ComponentHandle<Window> hwindow;
@@ -300,6 +363,7 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
     {
         ////Color* col = (*entity).component<Color>().get();
         // rendering commands
+
         // ...
         //glClearColor(col->red, col->green, col->blue, col->alpha); // state-setting function of OpenGL
         //glClear(GL_COLOR_BUFFER_BIT); // state-using function. Uses the current state defined to retrieve the clearing color.
@@ -338,26 +402,6 @@ void UISystem::update(EntityManager& es, EventManager& ev, TimeDelta dt)
 
 
 void UISystem::configure(EventManager& em) {
-    em.subscribe<ControlInput>(*this);
     //em.subscribe<Collision>(*this);
 }
 
-
-void UISystem::receive(const ControlInput& event) {
-    ControlInput::Cmd cmd = event.cmd;
-    switch (cmd) {
-    case ControlInput::X:
-        if (gameState == PREPARING) gameState = RUNNING;
-        break;
-    case ControlInput::Y:
-        if (gameState == RUNNING) gameState = MENU;
-        break;
-    case ControlInput::SPACE:
-        if (gameState == MENU) {
-            SceneManager::getInstance().setScene("filename");
-            gameState = PREPARING;
-            //gameState = RUNNING;
-        }
-        break;
-    }
-}

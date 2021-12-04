@@ -1,41 +1,25 @@
 #pragma once
-#include "../Physics/PhysicsEngine.h"
+#include "../gamestate.h"
 #include "../Events/EventSystem.h"
 #include <entityx/Event.h>
 #include "../components.hpp"
-
+#include <thread>
 using entityx::EventManager;
 using entityx::Event;
 using entityx::Receiver;
 
-enum EnemyCommand {
-	MOVE_UP,
-	MOVE_DOWN,
-	MOVE_LEFT,
-	MOVE_RIGHT
-};
+
 
 struct EnemySystem : public System<EnemySystem>, public Receiver<EnemySystem>, EntityX {
 	void configure(EventManager& em) override; // Subscribes to each input event
 	void update(EntityManager& es, EventManager& events, TimeDelta dt) override;
-	void receive(const Collision& event); // Gets collisions, toggles canMove bools based on sensors
-	void receive(const EndCollision& event);
-	void receive(const EnemyDebugInput& event);
-	void ResetCommandFlags(CommandFlags* flags);
-	void ResetCollisionEntities(); //Convenience function for resetting detected entities
+	void CheckForPlayer(Rigidbody* rigidbody, CommandFlags* commands); //Checks for a player/sensor collision
+	void AttackPlayer(EventManager& events, Entity* player, EnemyAttack::Dir dir); //Convenience function for logic to attack player
+	vector<CommandFlags::EnemyCommand> AvailableMoves(Rigidbody* rigidbody, CommandFlags* commands); //Gets list of available moves
+	void receive(const PlayerTurnEnd& event); //Listens for player turn end.
 
-	bool enemyTurn = false;
-	int currentTurnCounter = 0;
-
-	//Attack input flags
-	bool attackLeft = true;
-	bool attackRight = true;
-	bool attackUp = true;
-	bool attackDown = true;
-
-	//Directional entities relative to body
-	Entity* leftEntity = nullptr;
-	Entity* rightEntity = nullptr;
-	Entity* upEntity = nullptr;
-	Entity* downEntity = nullptr;
+	bool enemyTurn = false; //Flag for enemy turn update.
+	bool enemiesFinished = false; //Check if enemies are finished acting.
+	int movingEnemies = 0; //Keep track of moving enemies so as not to end turn early.
+	float enemySpeed = 0.5; //Enemy movement speed
 };

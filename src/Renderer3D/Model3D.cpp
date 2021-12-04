@@ -2,19 +2,21 @@
 #define TEST_MODEL3D       false
 
 // Member functions definitions including constructor
-Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath) {
-	
+
+Model3D::Model3D(const char* modelSource, const char* vertPath, const char* fragPath, const char* texPath, ModelImporter* importer) {
+
 #if TEST_MODEL3D
 	cout << endl << "<<<<<<<<<<<<<<<<<<< RENDER SYSTEM TEST START >>>>>>>>>>>>>>>>>>>>>" << endl;
 	cout << endl << "Model3D is being created." << endl;
-	
+
 	cout << "In Model3D: Assigning Attribs of " << modelSource << " to vector ID #0x" << &attributes << endl;
 	cout << "In Model3D: Assigning Indices of " << modelSource << " to vector ID #0x" << &indices << endl;
 	cout << "=====================================" << endl;
 #endif
+	
+	importer->get_model(modelSource, attributes, indices);
 
-	ModelImporter importer = ModelImporter();
-	importer.loadModel(modelSource, attributes, indices);
+	//cout << "Model returned from importer" << endl;
 
 	//cout << "In Model3D: AFTER index load: " << indices.size() << endl;
 	numIndices = indices.size();
@@ -60,8 +62,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 
 	// Fill the data by passing references into the stbi_load functions.
 	int imgWidth, imgHeight, nrChannels;
-	stbi_set_flip_vertically_on_load(false); // accounts for conversion between 1.0y and 0.0y to prevent upside-down textures.
-	unsigned char* textureData = stbi_load(texPath, &imgWidth, &imgHeight, &nrChannels, 0);
+	unsigned char* textureData = importer->get_texture(texPath, imgWidth, imgHeight, nrChannels);
 
 	if (textureData)
 	{
@@ -76,7 +77,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	}
 
 	// Once we've generated the texture and mipmaps, we free the image memory
-	stbi_image_free(textureData);
+	//stbi_image_free(textureData);
 
 	// 2. OpenGL does not yet know how it should interpret the vertex data in memory.
 	//		Now we define how it should connect the vertex data to the vertex shader's attributes
@@ -119,7 +120,7 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 	vao = VAO;
 	vbo = VBO;
 	ebo = EBO;
-	transformation_matrix = glm::mat4(1.0);
+	//transformation_matrix = glm::mat4(1.0);
 	shader_program = Shader(vertPath, fragPath);
 
 #if TEST_MODEL3D
@@ -127,23 +128,36 @@ Model3D::Model3D(const char* modelSource, const char* vertPath, const char* frag
 #endif
 }
 
-void Model3D::translate(glm::vec3 translation) {
-	transformation_matrix = glm::translate(transformation_matrix, translation);
+Model3D::~Model3D() { }
+
+void Model3D::clear_buffers() {
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+
+	attributes.clear();
+	indices.clear();
 }
 
-void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
-	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
-}
 
-void Model3D::scale(glm::vec3 scale) {
-	transformation_matrix = glm::scale(transformation_matrix, scale);
-}
 
-void Model3D::resetModelMatrix() {
-	transformation_matrix = glm::mat4(1.0f);
-}
-
-glm::mat4 Model3D::getModelMatrix()
-{
-	return transformation_matrix;
-}
+//void Model3D::translate(glm::vec3 translation) {
+//	transformation_matrix = glm::translate(transformation_matrix, translation);
+//}
+//
+//void Model3D::rotate(glm::vec3 rotationAxis, float degrees) {
+//	transformation_matrix = glm::rotate(transformation_matrix, degrees, rotationAxis);
+//}
+//
+//void Model3D::scale(glm::vec3 scale) {
+//	transformation_matrix = glm::scale(transformation_matrix, scale);
+//}
+//
+//void Model3D::resetModelMatrix() {
+//	transformation_matrix = glm::mat4(1.0f);
+//}
+//
+//glm::mat4 Model3D::getModelMatrix()
+//{
+//	return transformation_matrix;
+//}
