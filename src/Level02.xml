@@ -41,14 +41,14 @@
 				</colliders>
 			</rigidbody>
 			<animator>
-				<animation name="attack" length="3.5">
+				<animation name="attack" length="3.2">
 					<keyframe timestamp="0.1" index="1"></keyframe>
-					<keyframe timestamp="1.1" index="2"></keyframe>
-					<keyframe timestamp="2.6" index="3"></keyframe>
-					<keyframe timestamp="2.9" index="4"></keyframe>
-					<keyframe timestamp="3.1" index="5"></keyframe>
+					<keyframe timestamp="0.9" index="2"></keyframe>
+					<keyframe timestamp="2.4" index="3"></keyframe>
+					<keyframe timestamp="2.7" index="4"></keyframe>
+					<keyframe timestamp="2.9" index="5"></keyframe>
 				</animation>
-				<animation name="move" length="3.3">
+				<animation name="move" length="3.0">
 					<keyframe timestamp="0.1" index="6"></keyframe>
 					<keyframe timestamp="1.1" index="7"></keyframe>
 					<keyframe timestamp="2.7" index="8"></keyframe>
