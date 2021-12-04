@@ -19,7 +19,7 @@
 	</level>
 		<!--PLAYER ENTITY DATA-->
 		<gameobject name="player">
-			<model3D modelCount="1" poseCount="5">
+			<model3D modelCount="1" poseCount="8">
 				<model_src>./src/Renderer3D/Models/wayfarer.obj</model_src>
 				<text_src>./src/Renderer3D/Textures/tex_wayfarer.jpg</text_src>
 				<vert_src>./src/Renderer3D/Shaders/Default.vert</vert_src>
