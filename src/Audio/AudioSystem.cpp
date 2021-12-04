@@ -9,7 +9,7 @@ AudExec::AudExec() {
 
 	mpSystem = NULL;
 	AudioSystem::ErrorCheck(FMOD::System_Create(&mpSystem));
-	AudioSystem::ErrorCheck(mpSystem->init(512, FMOD_INIT_NORMAL, nullptr));
+	AudioSystem::ErrorCheck(mpSystem->init(64, FMOD_INIT_NORMAL, nullptr));
 
 	mnNextChannelId = NULL;
 	
