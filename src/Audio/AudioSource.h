@@ -13,5 +13,6 @@ static const char* src_aud_enemyAttack = "./src/Audio/audio_files/buzz.wav"; // 
 static const char* src_aud_enemyHit = "./src/Audio/audio_files/bloodyimpact.wav"; // bloody sword impact
 static const char* src_aud_enemyDeath = "./src/Audio/audio_files/insect_bug_scream_01.mp3"; // Bug Scream
 
-static const char* src_aud_treasurePickup = "./src/Audio/audio_files/retro_coin.wav"; // Coin Ding
-static const char* src_aud_keyPickup = "./src/Audio/audio_files/retro_coin.wav"; // Coin Ding
+static const char* src_aud_treasurePickup = "./src/Audio/audio_files/coin_bag.wav"; // Coin Bag
+static const char* src_aud_keyPickup = "./src/Audio/audio_files/keys-pickup.wav"; // Keychain
+static const char* src_aud_scoreDing = "./src/Audio/audio_files/retro_coin.wav"; // Keychain

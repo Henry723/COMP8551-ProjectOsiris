@@ -323,20 +323,24 @@ void AudioSystem::receive(const EnemyAttack& event)
 		EnemyPos.z = -offset;
 		break;
 	}
-	PlaySound(src_aud_enemyAttack, EnemyPos, VolumeTodB(3));
-	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.4));
+	PlaySound(src_aud_enemyAttack, EnemyPos, VolumeTodB(1));
+	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.2));
 }
 
 void AudioSystem::receive(const EntityDestroyedEvent& event)
 {
 	Entity e = event.entity;
 	ComponentHandle<GameObject> object = e.component<GameObject>();
-	if (object->name == "treasure")
-		PlaySound(src_aud_treasurePickup, Vector3(), VolumeTodB(0.5));
+	if (object->name == "treasure") {
+		PlaySound(src_aud_treasurePickup, Vector3(), VolumeTodB(0.8));
+		PlaySound(src_aud_scoreDing, Vector3(), VolumeTodB(0.2));
+	}
 	else if (object->name == "enemy")
 		PlaySound(src_aud_enemyDeath, EnemyPos, VolumeTodB(0.3));
-	else if (object->name == "key")
-		PlaySound(src_aud_keyPickup, Vector3(), VolumeTodB(0.5));
+	else if (object->name == "key") {
+		PlaySound(src_aud_keyPickup, Vector3(), VolumeTodB(1));
+		PlaySound(src_aud_scoreDing, Vector3(), VolumeTodB(0.2));
+	}
 }
 
 int AudioSystem::ErrorCheck(FMOD_RESULT result) {
