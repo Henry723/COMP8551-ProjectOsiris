@@ -95,9 +95,29 @@ struct EndCollision
 };
 
 struct PlayerTurnEnd {}; // Empty event to signal player end turn.
-struct PlayerAttack {}; //Empty event to signal player attack.
+struct PlayerAttack {
+	enum Dir {
+		CENTER,
+		LEFT,
+		UP,
+		DOWN,
+		RIGHT,
+	};
+	Dir dir = CENTER;
+	explicit PlayerAttack(Dir dir) : dir(dir) {};
+}; //Event to signal player attack connecting with enemy and direction.
 struct EnemyTurnEnd {}; //Empty event to signal enemy end turn.
-struct EnemyAttack {}; //Empty event to signal enemy attack.
+struct EnemyAttack {
+	enum Dir {
+		CENTER,
+		LEFT,
+		UP,
+		DOWN,
+		RIGHT,
+	};
+	Dir dir = CENTER;
+	explicit EnemyAttack(Dir dir) : dir(dir) {};
+}; //Event to signal enemy attack with postion.
 struct GameOver {}; //Empty game over event to listen for.
 struct GameWon {}; //Empty game won event to listen for.
 
