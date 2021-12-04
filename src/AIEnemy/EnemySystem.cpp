@@ -33,7 +33,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 20.5)
-							AttackPlayer(events, commands->playerEntity);
+							AttackPlayer(events, commands->playerEntity, EnemyAttack::RIGHT);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 20.5f);
 					}
@@ -41,7 +41,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 0)
-							AttackPlayer(events, commands->playerEntity);
+							AttackPlayer(events, commands->playerEntity, EnemyAttack::DOWN);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 0);
 					}
@@ -49,7 +49,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == -1 && transform->rotation.w == 20.5)
-							AttackPlayer(events, commands->playerEntity);
+							AttackPlayer(events, commands->playerEntity, EnemyAttack::LEFT);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, -1, 0, 20.5f);
 					}
@@ -57,7 +57,7 @@ void EnemySystem::update(EntityManager& es, EventManager& events, TimeDelta dt)
 					{
 						//If we're facing the enemy, attack.
 						if (transform->rotation.y == 1 && transform->rotation.w == 9.5)
-							AttackPlayer(events, commands->playerEntity);
+							AttackPlayer(events, commands->playerEntity, EnemyAttack::UP);
 						//If not, rotate towards them
 						else transform->rotation = glm::vec4(0, 1, 0, 9.5f);
 					}
@@ -242,12 +242,12 @@ vector<CommandFlags::EnemyCommand> EnemySystem::AvailableMoves(Rigidbody* rigidb
 	return possibleMoves;
 }
 
-void EnemySystem::AttackPlayer(EventManager& events, Entity* player)
+void EnemySystem::AttackPlayer(EventManager& events, Entity* player, EnemyAttack::Dir dir)
 {
 	//Get the player's health component
 	ComponentHandle<Health> playerHealth = player->component<Health>();
 	//Decrement and check for 0, Game Over event thrown here.
-	events.emit<EnemyAttack>();
+	events.emit<EnemyAttack>(dir);
 	if (--playerHealth->curHealth <= 0) 
 		events.emit<GameOver>();
 }
