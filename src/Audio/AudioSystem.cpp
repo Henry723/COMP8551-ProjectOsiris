@@ -268,7 +268,23 @@ void AudioSystem::receive(const AttackInput& event)
 
 void AudioSystem::receive(const PlayerAttack& event)
 {
-	PlaySound(src_aud_enemyHit, Vector3(), VolumeTodB(0.25));
+	int offset = 1;
+	EnemyPos = Vector3();
+	switch (event.dir) {
+	case EnemyAttack::RIGHT:
+		EnemyPos.x = offset;
+		break;
+	case EnemyAttack::UP:
+		EnemyPos.z = offset;
+		break;
+	case EnemyAttack::LEFT:
+		EnemyPos.x = -offset;
+		break;
+	case EnemyAttack::DOWN:
+		EnemyPos.z = -offset;
+		break;
+	}
+	PlaySound(src_aud_enemyHit, EnemyPos, VolumeTodB(0.25));
 }
 
 void AudioSystem::receive(const MoveInput& event)
@@ -291,7 +307,23 @@ void AudioSystem::receive(const GameOver& event)
 
 void AudioSystem::receive(const EnemyAttack& event)
 {
-	PlaySound(src_aud_enemyAttack, Vector3(), VolumeTodB(1));
+	int offset = 1;
+	EnemyPos = Vector3();
+	switch (event.dir) {
+	case EnemyAttack::RIGHT:
+		EnemyPos.x = offset;
+		break;
+	case EnemyAttack::UP:
+		EnemyPos.z = offset;
+		break;
+	case EnemyAttack::LEFT:
+		EnemyPos.x = -offset;
+		break;
+	case EnemyAttack::DOWN:
+		EnemyPos.z = -offset;
+		break;
+	}
+	PlaySound(src_aud_enemyAttack, EnemyPos, VolumeTodB(3));
 	PlaySound(src_aud_playerHit, Vector3(), VolumeTodB(0.4));
 }
 
@@ -302,7 +334,7 @@ void AudioSystem::receive(const EntityDestroyedEvent& event)
 	if (object->name == "treasure")
 		PlaySound(src_aud_treasurePickup, Vector3(), VolumeTodB(0.5));
 	else if (object->name == "enemy")
-		PlaySound(src_aud_enemyDeath, Vector3(), VolumeTodB(0.3));
+		PlaySound(src_aud_enemyDeath, EnemyPos, VolumeTodB(0.3));
 	else if (object->name == "key")
 		PlaySound(src_aud_keyPickup, Vector3(), VolumeTodB(0.5));
 }
