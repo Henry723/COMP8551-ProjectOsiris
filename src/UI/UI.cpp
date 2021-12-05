@@ -288,11 +288,11 @@ void UISystem::generateMenuText() {
     TextElement textGameOver = { "Game Over", 250.f, 460.f, 1.3f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textGameOver);
 
-    TextElement textScore = { ScoreText.c_str(), 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
-    textMenuElements.push_back(textScore);
+    //TextElement textScore = { ScoreText.c_str(), 320.f, 400.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    //textMenuElements.push_back(textScore);
 
-    TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
-    textMenuElements.push_back(textTime);
+    //TextElement textTime = { "Time Elapsed: 00:00:00", 215.f, 350.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
+    //textMenuElements.push_back(textTime);
 
     TextElement textReset = { "Press space to reset", 275.f, 180.f, 0.75f, glm::vec3(1.0, 1.0, 1.0), true };
     textMenuElements.push_back(textReset);
