@@ -1,6 +1,9 @@
 # COMP8551-ProjectOsiris
 A custom Hybrid ECS engine to facilitate a simple Dungeon Crawler, written in C++
 
+## Game Build
+https://henry723.itch.io/the-temple-of-osiris?secret=xj6SDNoS9hzmwZ1KrnDW9dNgsU
+
 <h3>Importing Libraries</h3>
 <p>
   For this project, we'll be keeping our external libraries within the <i>"_dependencies"</i> directory. A relative path has been configured in Osiris.vcxproj, or <i>Osiris Properties</i>, which is an XML config file for Visual Studio (VS) environments. This config can be accessed and edited by right clicking the "Osiris" dropdown in the VS Solution Explorer and selecting "Properties".
